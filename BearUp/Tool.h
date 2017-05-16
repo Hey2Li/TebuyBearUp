@@ -1,0 +1,19 @@
+//
+//  Tool.h
+//  BearUp
+//
+//  Created by Tebuy on 2017/5/9.
+//  Copyright © 2017年 Tebuy. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+@interface Tool : NSObject
+
+void SVProgressShow();
+void SVProgressShowText(NSString *text);
+void SVProgressShowStuteText(NSString *text, BOOL isSucceed);//成功或失败用 0->失败
+void SVProgressHiden();
+
+NSAttributedString *returnNumAttr(NSString *str,NSInteger fontSize);
+@end
