@@ -11,18 +11,55 @@
 #import "DataInfo.h"
 #import "ImageInfo.h"
 
-@interface CDetailViewController ()<WKNavigationDelegate,WKUIDelegate,WKScriptMessageHandler>
+@interface CDetailViewController ()<WKNavigationDelegate,WKUIDelegate,WKScriptMessageHandler, UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) WKWebView *wkWebView;
 @property (nonatomic, strong) NSDictionary *htmlDict;
 @property (strong, nonatomic) NSMutableArray *imagesArr;
+@property (nonatomic, strong) UITableView *myTableView;
 @end
 
 @implementation CDetailViewController
 static NSString * const picMethodName = @"openBigPicture:";
 static NSString * const videoMethodName = @"openVideoPlayer:";
-
+- (void)cleanCache{
+    if ([[UIDevice currentDevice].systemVersion floatValue] >= 9.0) {
+        NSSet *type = [NSSet setWithArray:@[
+                                            WKWebsiteDataTypeDiskCache,
+                                            WKWebsiteDataTypeMemoryCache
+                                            ]];
+        NSDate *dateFrom = [NSDate date];
+        [[WKWebsiteDataStore defaultDataStore]removeDataOfTypes:type modifiedSince:dateFrom completionHandler:^{
+            NSLog(@"清理WKWebView缓存");
+        }];
+    }else{
+        NSString *libraryPath = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES).firstObject;
+        NSString *cookiesFolderPath = [libraryPath stringByAppendingString:@"/Cookies"];
+        [[NSFileManager defaultManager]removeItemAtPath:cookiesFolderPath error:nil];
+    }
+}
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.tabBarController.tabBar setHidden:YES];
+}
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [self.tabBarController.tabBar setHidden:NO];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self initWithView];
+    [self initWKWebView];
+    [self getContentHtml];
+}
+- (void)initWithView{
+    self.myTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 44) style:UITableViewStyleGrouped];
+    [self.view addSubview:self.myTableView];
+    self.myTableView.delegate = self;
+    self.myTableView.dataSource = self;
+    self.myTableView.showsVerticalScrollIndicator = NO;
+    self.wkWebView.scrollView.showsVerticalScrollIndicator = NO;
+}
+- (void)initWKWebView{
     //创建一个WKWebView的配置对象
     WKWebViewConfiguration *configur = [[WKWebViewConfiguration alloc]init];
     
@@ -57,18 +94,25 @@ static NSString * const videoMethodName = @"openVideoPlayer:";
     
     WKWebView *wkWebView = [[WKWebView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) configuration:configur];
     
-    [self.view addSubview:wkWebView];
-    self.wkWebView = wkWebView;
+//    [self.view addSubview:wkWebView];
+//    self.wkWebView = wkWebView;
     //设置内边距底部，主要是为了让网页最后的内容不被底部的toolBar挡着
-    wkWebView.scrollView.contentInset = UIEdgeInsetsMake(0, 0, 104, 0);
+//    wkWebView.scrollView.contentInset = UIEdgeInsetsMake(0, 0, 104, 0);
+    
     //这句代码是让竖直方向的滚动条显示在正确的位置
     wkWebView.scrollView.scrollIndicatorInsets = wkWebView.scrollView.contentInset;
     
     wkWebView.UIDelegate = self;
     
-    self.wkWebView.navigationDelegate = self;
+    wkWebView.navigationDelegate = self;
     
-    [self getContentHtml];
+    wkWebView.scrollView.bounces = NO;
+    
+    wkWebView.bounds = self.view.bounds;
+    
+    self.wkWebView = wkWebView;
+    
+    self.myTableView.tableHeaderView = self.wkWebView;
 }
 - (void)getContentHtml{
     NSString * detailID = @"AQ4RPLHG00964LQ9";//多张图片
@@ -77,7 +121,7 @@ static NSString * const videoMethodName = @"openVideoPlayer:";
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     
-    __weak typeof(self)weakSelf = self;
+    WeakSelf
     [manager GET:urlStr parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
 //        weakSelf.htmlDict = responseObject[detailID];
         
@@ -87,7 +131,7 @@ static NSString * const videoMethodName = @"openVideoPlayer:";
         }];
         DataInfo *model = [DataInfo mj_objectWithKeyValues:[responseObject objectForKey:detailID]];
 
-        [self loadingHtmlNews:model];
+        [weakSelf loadingHtmlNews:model];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull   error) {
         NSLog(@"%@",error);  //这里打印错误信息
     }];
@@ -201,6 +245,53 @@ static NSString * const videoMethodName = @"openVideoPlayer:";
     //这里需要说明一下，(loadHTMLString:baseURL:)这个方法的第二个参数，之前用UIWebview写的时候只需要传递nil即可正常加载本地css以及js文件，但是换成WKWebview之后你再传递nil，那么css以及js的代码就不会起任何作用，当时写的时候遇到了这个问题，谷歌了发现也有朋友遇到这个问题，但是还没有找到比较好的解决答案，后来自己又搜索了一下，从一个朋友的一句话中有了发现，就修改成了现在的正确代码，然后效果就可以正常显示了
     //使用现在这种写法之后，baseURL就指向了程序的资源路径，这样Html代码就和css以及js是一个路径的。不然WKWebview是无法加载的。当然baseURL也可以写一个网络路径，这样就可以用网络上的CSS了
     [self.wkWebView loadHTMLString:html baseURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] resourcePath]]];
+}
+#pragma mark scrollview delegate (计算contentOffset的值，根据上下距离来决定bounces)
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    CGFloat top = scrollView.contentOffset.y;
+    
+    NSLog(@"top = %f,height = %f",top,self.myTableView.contentSize.height - SCREEN_HEIGHT - 100);
+
+    if ([scrollView isKindOfClass:[UITableView class]]) {
+        if (top > (self.myTableView.contentSize.height - SCREEN_HEIGHT - 100)) {
+            self.myTableView.bounces = YES;
+        }else{
+            self.myTableView.bounces = NO;
+        }
+    }else if(scrollView == self.wkWebView.scrollView){
+        if (top > 30) {
+            self.myTableView.bounces = NO;
+        }else{
+            self.myTableView.bounces = YES;
+        }
+    }
+    if (self.myTableView.contentOffset.y > 0) {
+        self.wkWebView.scrollView.scrollEnabled = NO;
+    }else {
+        self.wkWebView.scrollView.scrollEnabled = YES;
+    }
+}
+
+#pragma mark - TableViewDelegate
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return 3;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+    cell.textLabel.text = @"HHHHHHHHHHH";
+    return cell;
+}
+#pragma mark - WKWebViewDelegate
+- (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation{
+    SVProgressShowText(@"正在加载");
+}
+- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation{
+//    CGFloat height = self.wkWebView.scrollView.contentSize.height;
+//    [self.wkWebView setFrame:CGRectMake(0, 0, SCREEN_WIDTH, height)];
+//    NSLog(@"%f",height);
+//    [self.myTableView reloadData];
+    SVProgressHiden();
 }
 #pragma mark - WKScriptMessageHandler
 
