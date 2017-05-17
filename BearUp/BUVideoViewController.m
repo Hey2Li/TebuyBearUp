@@ -11,6 +11,9 @@
 #import "BUTopTitleBar.h"
 
 @interface BUVideoViewController ()<UIScrollViewDelegate, BUTopTitleBarDelegate>
+{
+    NSInteger _currentIndex;
+}
 @property (nonatomic, strong) UIScrollView *contentScrollView;
 @property (nonatomic, strong) NSArray *titleArray;
 @property (nonatomic, strong) HomeContentTableViewController *needScrollToTopPage;
@@ -24,6 +27,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     _titleArray = @[@"推荐",@"漫画",@"八卦",@"育儿",@"时尚",@"搞笑",@"涨知识",@"精品集"];
+    _currentIndex = 1;
     [self setupViewControllers];
     [self setupContentView];
     [self initWithTopBar];
@@ -66,17 +70,25 @@
 - (void)itemDidSelectedWithIndex:(NSInteger)index withCurrentIndex:(NSInteger)currentIndex{
     NSLog(@"%ld,%ld",(long)index,(long)currentIndex);
 
-      [self.contentScrollView setContentOffset:CGPointMake(index * SCREEN_WIDTH, 0) animated:YES];
+    if (currentIndex-index>=2 || currentIndex-index<=-2) {
+        [self.contentScrollView setContentOffset:CGPointMake(index * SCREEN_WIDTH, 0) animated:NO];
+        [self scrollViewDidEndScrollingAnimation:self.contentScrollView];
+    }else{
+        [self.contentScrollView setContentOffset:CGPointMake(index * SCREEN_WIDTH, 0) animated:YES];
+        [self scrollViewDidEndScrollingAnimation:self.contentScrollView];
+    }
 }
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView{
     //获得索引
     NSUInteger index = scrollView.contentOffset.x / scrollView.frame.size.width;
-    self.topTitleBar.currentItemIndex = index;
-    UIViewController *vc = self.childViewControllers[index];
+    _currentIndex = index;
+    self.topTitleBar.currentItemIndex = _currentIndex;
+    HomeContentTableViewController *vc = self.childViewControllers[index];
     if (vc.view.superview) {
         return;
     }
     vc.view.frame = scrollView.bounds;
+    vc.index = index;
     [self.contentScrollView addSubview:vc.view];
 }
 //停止滚动时

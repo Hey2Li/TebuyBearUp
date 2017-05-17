@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface HomeContentTableViewController : UITableViewController
-
+@property (nonatomic, assign) NSInteger index;
 @end

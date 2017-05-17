@@ -82,6 +82,7 @@ static NSString *homepageCell = @"HOMEPAGECELL";
     if (!cell) {
         cell = [[HomePageTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:homepageCell];
     }
+    cell.titleLabel.text = [NSString stringWithFormat:@"这是第%ld个页面",(long)self.index];
     return cell;
 }
 
