@@ -38,7 +38,7 @@
     self.myTableView = tableView;
     
     UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT/3)];
-    headerView.backgroundColor = [UIColor lightGrayColor];
+    headerView.backgroundColor = DRGBCOLOR;
     UIButton *headerBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [headerView addSubview:headerBtn];
     headerBtn.backgroundColor = [UIColor blueColor];
@@ -83,9 +83,14 @@
             make.width.equalTo(@(SCREEN_WIDTH/4));
             make.top.equalTo(headerBtn.mas_bottom).offset(10);
         }];
+        button.tag = i;
+        [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
     }
     
     self.myTableView.tableHeaderView = headerView;
+}
+- (void)buttonClick:(UIButton *)btn{
+    NSLog(@"%ld,%@",btn.tag,btn.titleLabel.text);
 }
 #pragma mark - TableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
