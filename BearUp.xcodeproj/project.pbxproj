@@ -49,6 +49,7 @@
 		1C1EDE1B1ECC217E0099D115 /* NSString+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C1EDE1A1ECC217E0099D115 /* NSString+Extension.m */; };
 		1C1EDE2E1ECD92F00099D115 /* DataInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C1EDE2B1ECD92F00099D115 /* DataInfo.m */; };
 		1C1EDE2F1ECD92F00099D115 /* ImageInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C1EDE2D1ECD92F00099D115 /* ImageInfo.m */; };
+		1C1EDE321ECDA8C90099D115 /* HorizontalCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C1EDE311ECDA8C90099D115 /* HorizontalCollectionViewCell.m */; };
 		A4642D9C705BB581661F8BF1 /* libPods-BearUp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1701B53EBC2CD6FCE70EFC7E /* libPods-BearUp.a */; };
 /* End PBXBuildFile section */
 
@@ -146,6 +147,8 @@
 		1C1EDE2B1ECD92F00099D115 /* DataInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataInfo.m; sourceTree = "<group>"; };
 		1C1EDE2C1ECD92F00099D115 /* ImageInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageInfo.h; sourceTree = "<group>"; };
 		1C1EDE2D1ECD92F00099D115 /* ImageInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageInfo.m; sourceTree = "<group>"; };
+		1C1EDE301ECDA8C90099D115 /* HorizontalCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HorizontalCollectionViewCell.h; sourceTree = "<group>"; };
+		1C1EDE311ECDA8C90099D115 /* HorizontalCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HorizontalCollectionViewCell.m; sourceTree = "<group>"; };
 		6BF61575B082E4169D6B8293 /* Pods-BearUp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BearUp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BearUp/Pods-BearUp.debug.xcconfig"; sourceTree = "<group>"; };
 		B51AF650A1AC20A003F12B9A /* Pods-BearUp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BearUp.release.xcconfig"; path = "Pods/Target Support Files/Pods-BearUp/Pods-BearUp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -477,6 +480,8 @@
 		1C1EDE1C1ECD81150099D115 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				1C1EDE301ECDA8C90099D115 /* HorizontalCollectionViewCell.h */,
+				1C1EDE311ECDA8C90099D115 /* HorizontalCollectionViewCell.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -741,6 +746,7 @@
 				1C1EDDC51EC9A8650099D115 /* DetailViewController.m in Sources */,
 				1C1EDC071EBC46200099D115 /* BUHomeViewController.m in Sources */,
 				1C1EDC231EC1635F0099D115 /* UIView+Toast.m in Sources */,
+				1C1EDE321ECDA8C90099D115 /* HorizontalCollectionViewCell.m in Sources */,
 				1C1EDC0D1EBC46430099D115 /* BUFoundViewController.m in Sources */,
 				1C1EDC001EBC45570099D115 /* BaseTabBarViewController.m in Sources */,
 				1C1EDBC91EBC43BE0099D115 /* main.m in Sources */,

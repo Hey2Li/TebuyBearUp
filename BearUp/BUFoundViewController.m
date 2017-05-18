@@ -7,7 +7,8 @@
 //
 
 #import "BUFoundViewController.h"
-
+#import "HorizontalCollectionViewCell.h"
+static NSString *HORCELL = @"HorizontalCell";
 @interface BUFoundViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) UICollectionViewFlowLayout *layout;
@@ -29,6 +30,7 @@
     collection.dataSource = self;
     collection.backgroundColor = [UIColor whiteColor];
     [collection registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"CollectionViewCell"];
+    [collection registerClass:[HorizontalCollectionViewCell class] forCellWithReuseIdentifier:HORCELL];
     self.collectionView = collection;
     [self.view addSubview:self.collectionView];
 }
@@ -42,7 +44,7 @@
     }else if (section == 1){
         return 1;
     }else if (section == 2){
-        return 3;
+        return 1;
     }else if (section == 3){
         return 4;
     }else{
@@ -53,7 +55,7 @@
     if (indexPath.section == 0 || indexPath.section == 1) {
         return CGSizeMake(SCREEN_WIDTH - 20, 200);
     }else if (indexPath.section == 2){
-        return CGSizeMake(SCREEN_WIDTH/3 + 50, SCREEN_WIDTH/3+50);
+        return CGSizeMake(SCREEN_WIDTH - 30, 200);
     }else{
         return CGSizeMake((SCREEN_WIDTH - 20)/2, 200);
     }
@@ -65,12 +67,14 @@
     return CGSizeMake(SCREEN_WIDTH, 10);
 }
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CollectionViewCell" forIndexPath:indexPath];
-    if (!cell) {
-        cell = [[UICollectionViewCell alloc]init];
+    if (indexPath.section == 2) {
+        HorizontalCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:HORCELL forIndexPath:indexPath];
+        return cell;
+    }else{
+        UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CollectionViewCell" forIndexPath:indexPath];
+        cell.backgroundColor  = [UIColor redColor];
+        return cell;
     }
-    cell.backgroundColor = [UIColor redColor];
-    return cell;
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
