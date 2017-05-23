@@ -22,18 +22,28 @@
     return self;
 }
 - (void)initWithCell{
+    
     self.contentImageView = [[UIImageView alloc]init];
-    self.contentImageView.backgroundColor = [UIColor purpleColor];
+    self.contentImageView.image = [UIImage imageNamed:@"index_news_1.jpg"];
     [self.contentView addSubview:self.contentImageView];
     [self.contentImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.contentView).with.insets(UIEdgeInsetsMake(0, 0, 0, 0));
     }];
     
+    UIView *grayView = [[UIView alloc]init];
+    grayView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.4];
+    [self.contentImageView addSubview:grayView];
+    [grayView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.contentImageView).with.insets(UIEdgeInsetsMake(0, 0, 0, 0));
+    }];
+    
     self.titleLabel = [UILabel new];
     self.titleLabel.text = @"这是标题";
     self.titleLabel.textAlignment = NSTextAlignmentCenter;
+    self.titleLabel.textColor = [UIColor whiteColor];
+    self.titleLabel.font = [UIFont systemFontOfSize:18];
     self.titleLabel.numberOfLines = 2;
-    [self.contentImageView addSubview:self.titleLabel];
+    [grayView addSubview:self.titleLabel];
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.contentImageView.mas_left).offset(50);
         make.right.equalTo(self.contentImageView.mas_right).offset(-50);
@@ -42,26 +52,32 @@
     }];
     
     self.hotNumLabel = [UILabel new];
-    self.hotNumLabel.text = @"999";
-    self.hotNumLabel.textColor = [UIColor redColor];
-    self.hotNumLabel.font = [UIFont systemFontOfSize:14];
-    [self.contentImageView addSubview:self.hotNumLabel];
+    self.hotNumLabel.text = @"121235";
+    CGFloat count =  [self.hotNumLabel.text intValue];
+    if (count > 10000) {
+        self.hotNumLabel.text = [NSString stringWithFormat:@"%.1f万",count/10000];
+    }else{
+        self.hotNumLabel.text = [NSString stringWithFormat:@"%.0f",count];
+    }
+
+    self.hotNumLabel.textColor = UIColorFromRGB(0xffffff);
+    self.hotNumLabel.font = [UIFont systemFontOfSize:16];
+    [grayView addSubview:self.hotNumLabel];
     [self.hotNumLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.contentImageView.mas_right).offset(-10);
-        make.width.equalTo(@30);
+        make.right.equalTo(self.contentImageView.mas_right).offset(-5);
+        make.width.equalTo(@50);
         make.height.equalTo(@20);
-        make.bottom.equalTo(self.contentImageView.mas_bottom);
+        make.bottom.equalTo(self.contentImageView.mas_bottom).offset(-5);
     }];
     
-    self.hotLabel = [UILabel new];
-    self.hotLabel.text = @"热度";
-    self.hotLabel.font = [UIFont systemFontOfSize:14];
-    [self.contentImageView addSubview:self.hotLabel];
-    [self.hotLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.hotNumLabel.mas_top).offset(-10);
-        make.left.equalTo(self.hotNumLabel.mas_left);
+    self.hotImageView = [UIImageView new];
+    [grayView addSubview:self.hotImageView];
+    self.hotImageView.image = [UIImage imageNamed:@"火"];
+    [self.hotImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.hotNumLabel.mas_bottom);
+        make.right.equalTo(self.hotNumLabel.mas_left).offset(-5);
         make.width.equalTo(@30);
-        make.height.equalTo(@20);
+        make.height.equalTo(@30);
     }];
     
 }

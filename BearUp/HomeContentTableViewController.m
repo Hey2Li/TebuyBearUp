@@ -10,8 +10,11 @@
 #import "HomePageTableViewCell.h"
 #import "DetailViewController.h"
 #import "CDetailViewController.h"
+#import "ScrollBannerTableViewCell.h"
+#import "VideoTableViewCell.h"
 
 static NSString *homepageCell = @"HOMEPAGECELL";
+static NSString *scrollBannerCell = @"SCROLLBANNERCELL";
 @interface HomeContentTableViewController ()
 
 @end
@@ -19,12 +22,7 @@ static NSString *homepageCell = @"HOMEPAGECELL";
 @implementation HomeContentTableViewController
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.tableView.separatorStyle = NO;
     self.view.backgroundColor = [UIColor whiteColor];
     [self footerLoadData];
 }
@@ -66,24 +64,42 @@ static NSString *homepageCell = @"HOMEPAGECELL";
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return 10;
 }
 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 1;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 5;
+}
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+    if (section == 4) {
+        return @"工作这么辛苦";
+    }else{
+        return 0;
+    }
+}
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 200;
 }
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    HomePageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:homepageCell];
-    if (!cell) {
-        cell = [[HomePageTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:homepageCell];
+    if (indexPath.section == 0 && self.index == 0) {
+        ScrollBannerTableViewCell *cell = [[ScrollBannerTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        return cell;
+    }else if (indexPath.section == 4){
+        VideoTableViewCell *cell  =[[VideoTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        return cell;
+    }else{
+        HomePageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:homepageCell];
+        if (!cell) {
+            cell = [[HomePageTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:homepageCell];
+        }
+        cell.titleLabel.text = [NSString stringWithFormat:@"这是第%ld个页面",(long)self.index];
+        cell.titleLabel.text = @"一组婚纱照火遍了网络，照片的重庆小伙";
+        return cell;
     }
-    cell.titleLabel.text = [NSString stringWithFormat:@"这是第%ld个页面",(long)self.index];
-    return cell;
+
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{

@@ -11,6 +11,6 @@
 @interface HomePageTableViewCell : UITableViewCell
 @property (nonatomic, strong) UIImageView *contentImageView;
 @property (nonatomic, strong) UILabel *titleLabel;
-@property (nonatomic, strong) UILabel *hotLabel;
+@property (nonatomic, strong) UIImageView *hotImageView;
 @property (nonatomic, strong) UILabel *hotNumLabel;
 @end

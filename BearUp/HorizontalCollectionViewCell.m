@@ -17,17 +17,16 @@
     if (self = [super initWithFrame:frame]) {
         [self initWithCell];
         self.backgroundColor = [UIColor greenColor];
-        self.contentView.transform = CGAffineTransformMakeRotation(-M_PI_2);
     }
     return self;
 }
 
 - (void)initWithCell{
-    UITableView *tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, self.contentView.frame.size.width, self.contentView.frame.size.height) style:UITableViewStylePlain];
+    UITableView *tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 200, self.contentView.frame.size.width, self.contentView.frame.size.height) style:UITableViewStylePlain];
     tableView.delegate = self;
     tableView.dataSource = self;
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-//    tableView.transform = CGAffineTransformMakeRotation(-M_PI_2);
+    tableView.transform = CGAffineTransformMakeRotation(-M_PI_2);
     [self.contentView addSubview:tableView];
     self.tableView.backgroundColor = [UIColor yellowColor];
     self.tableView = tableView;

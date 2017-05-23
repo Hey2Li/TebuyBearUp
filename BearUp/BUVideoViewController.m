@@ -59,7 +59,7 @@
 - (void)setupContentView{
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.contentScrollView.backgroundColor = [UIColor whiteColor];
-    self.contentScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 44)];
+    self.contentScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 44 - 64)];
     self.contentScrollView.contentSize = CGSizeMake(self.contentScrollView.frame.size.width * self.childViewControllers.count, self.contentScrollView.frame.size.height);
     self.contentScrollView.delegate = self;
     self.contentScrollView.pagingEnabled = YES;

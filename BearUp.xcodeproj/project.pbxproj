@@ -50,6 +50,8 @@
 		1C1EDE2E1ECD92F00099D115 /* DataInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C1EDE2B1ECD92F00099D115 /* DataInfo.m */; };
 		1C1EDE2F1ECD92F00099D115 /* ImageInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C1EDE2D1ECD92F00099D115 /* ImageInfo.m */; };
 		1C1EDE321ECDA8C90099D115 /* HorizontalCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C1EDE311ECDA8C90099D115 /* HorizontalCollectionViewCell.m */; };
+		1C1EDE351ED3C06E0099D115 /* ScrollBannerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C1EDE341ED3C06E0099D115 /* ScrollBannerTableViewCell.m */; };
+		1C1EDE381ED3E18A0099D115 /* VideoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C1EDE371ED3E18A0099D115 /* VideoTableViewCell.m */; };
 		A4642D9C705BB581661F8BF1 /* libPods-BearUp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1701B53EBC2CD6FCE70EFC7E /* libPods-BearUp.a */; };
 /* End PBXBuildFile section */
 
@@ -149,6 +151,10 @@
 		1C1EDE2D1ECD92F00099D115 /* ImageInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageInfo.m; sourceTree = "<group>"; };
 		1C1EDE301ECDA8C90099D115 /* HorizontalCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HorizontalCollectionViewCell.h; sourceTree = "<group>"; };
 		1C1EDE311ECDA8C90099D115 /* HorizontalCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HorizontalCollectionViewCell.m; sourceTree = "<group>"; };
+		1C1EDE331ED3C06E0099D115 /* ScrollBannerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollBannerTableViewCell.h; sourceTree = "<group>"; };
+		1C1EDE341ED3C06E0099D115 /* ScrollBannerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrollBannerTableViewCell.m; sourceTree = "<group>"; };
+		1C1EDE361ED3E18A0099D115 /* VideoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoTableViewCell.h; sourceTree = "<group>"; };
+		1C1EDE371ED3E18A0099D115 /* VideoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoTableViewCell.m; sourceTree = "<group>"; };
 		6BF61575B082E4169D6B8293 /* Pods-BearUp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BearUp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BearUp/Pods-BearUp.debug.xcconfig"; sourceTree = "<group>"; };
 		B51AF650A1AC20A003F12B9A /* Pods-BearUp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BearUp.release.xcconfig"; path = "Pods/Target Support Files/Pods-BearUp/Pods-BearUp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -367,6 +373,10 @@
 				1C1EDC321EC29FCC0099D115 /* HomePageTableViewCell.m */,
 				1C1EDE161ECBF4100099D115 /* BUTopTitleBar.h */,
 				1C1EDE171ECBF4100099D115 /* BUTopTitleBar.m */,
+				1C1EDE331ED3C06E0099D115 /* ScrollBannerTableViewCell.h */,
+				1C1EDE341ED3C06E0099D115 /* ScrollBannerTableViewCell.m */,
+				1C1EDE361ED3E18A0099D115 /* VideoTableViewCell.h */,
+				1C1EDE371ED3E18A0099D115 /* VideoTableViewCell.m */,
 			);
 			name = VIew;
 			sourceTree = "<group>";
@@ -734,6 +744,7 @@
 				1C1EDC171EC00F650099D115 /* LTHTTPSessionManager.m in Sources */,
 				1C1EDC0A1EBC462D0099D115 /* BUVideoViewController.m in Sources */,
 				1C1EDE1B1ECC217E0099D115 /* NSString+Extension.m in Sources */,
+				1C1EDE351ED3C06E0099D115 /* ScrollBannerTableViewCell.m in Sources */,
 				1C1EDC201EC15BF50099D115 /* Tool.m in Sources */,
 				1C1EDC271EC191220099D115 /* LoginViewController.m in Sources */,
 				1C1EDBCF1EBC43BE0099D115 /* ViewController.m in Sources */,
@@ -742,6 +753,7 @@
 				1C1EDE101ECAD6500099D115 /* CDetailViewController.m in Sources */,
 				1C1EDC331EC29FCC0099D115 /* HomePageTableViewCell.m in Sources */,
 				1C1EDE2E1ECD92F00099D115 /* DataInfo.m in Sources */,
+				1C1EDE381ED3E18A0099D115 /* VideoTableViewCell.m in Sources */,
 				1C1EDE2F1ECD92F00099D115 /* ImageInfo.m in Sources */,
 				1C1EDDC51EC9A8650099D115 /* DetailViewController.m in Sources */,
 				1C1EDC071EBC46200099D115 /* BUHomeViewController.m in Sources */,
@@ -916,6 +928,7 @@
 				OTHER_LIBTOOLFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tebuy.BearUp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};
 			name = Debug;
 		};
@@ -945,6 +958,7 @@
 				OTHER_LIBTOOLFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tebuy.BearUp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};
 			name = Release;
 		};

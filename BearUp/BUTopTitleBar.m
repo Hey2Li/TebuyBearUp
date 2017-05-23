@@ -24,7 +24,6 @@
     if (self) {
         _itemTitles = items;
         _nagationNavBar = [[UIScrollView alloc]initWithFrame:self.bounds];
-        _nagationNavBar.backgroundColor = [UIColor whiteColor];
         _nagationNavBar.showsHorizontalScrollIndicator = NO;
         _nagationNavBar.delegate = self;
         _currentItemIndex = 1;
@@ -59,7 +58,7 @@
         button.frame = CGRectMake(lblX, lblY,lblW, lblH);
         
         //字体颜色
-        [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         
         [button addTarget:self action:@selector(itemPressed:type:) forControlEvents:UIControlEventTouchUpInside];
         [_nagationNavBar addSubview:button];
@@ -75,8 +74,8 @@
 - (void)showLineWithButtonWidth:(CGFloat)width
 {
     //第一个线的位置
-    _line = [[UIView alloc] initWithFrame:CGRectMake(0, 64 - 3.0f, 70, 2.0f)];
-    _line.backgroundColor = [UIColor redColor];
+    _line = [[UIView alloc] initWithFrame:CGRectMake(21, 64 - 5.0f, 28, 3.0f)];
+    _line.backgroundColor = [UIColor whiteColor];
     [_nagationNavBar addSubview:_line];
     
     UIButton *btn = _items[0];
@@ -122,7 +121,7 @@
     [_nagationNavBar setContentOffset:offset animated:YES];
     //下划线的偏移量
     [UIView animateWithDuration:0.1f animations:^{
-        _line.frame = CGRectMake(button.frame.origin.x, _line.frame.origin.y, 70, _line.frame.size.height);
+        _line.frame = CGRectMake(button.frame.origin.x + 21, _line.frame.origin.y, 28, _line.frame.size.height);
     }];
 }
 

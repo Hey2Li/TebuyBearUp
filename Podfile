@@ -7,7 +7,8 @@ pod 'SDWebImage', '~> 3.8.1'
 pod 'MJRefresh', '~> 3.1.1'
 pod 'MJExtension', '~> 3.0.7'
 pod 'SVProgressHUD' ,'~>2.1.2'
-pod 'MWPhotoBrowser', '~> 2.1.2'
-pod 'GRMustache', '~> 7.3.2'
+pod 'SDCycleScrollView','~> 1.64'
+pod 'ZFPlayer'
+
 
 end

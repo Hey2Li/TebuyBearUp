@@ -35,18 +35,18 @@
     self.viewControllers = @[_homeTab, _videoTab, _foundTab, _mineTab];
     self.selectedIndex = 0;
     
-    NSArray *titleArray = @[@"首页", @"视频", @"发现", @"我的"];
-    NSArray *normalImgArray = @[];
-    NSArray *selectedImgArray = @[];
+    NSArray *titleArray = @[@"首页", @"视频", @"发现", @"熊窝"];
+    NSArray *normalImgArray = @[@"首页灰",@"视频灰",@"发现灰",@"熊窝灰"];
+    NSArray *selectedImgArray = @[@"首页红",@"视频红",@"发现红",@"熊窝红"];
     
     //设置分栏元素项
     for (int i = 0; i < titleArray.count; i++) {
         UIViewController *vc =  self.viewControllers[i];
-//        vc.tabBarItem = [[UITabBarItem alloc]initWithTitle:titleArray[i] image:[UIImage imageNamed:normalImgArray[i]] selectedImage:[UIImage imageNamed:selectedImgArray[i]]];
+        vc.tabBarItem = [[UITabBarItem alloc] initWithTitle:titleArray[i] image:[[UIImage imageNamed:normalImgArray[i]] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] selectedImage:[[UIImage imageNamed:selectedImgArray[i]] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
         vc.tabBarItem.title = titleArray[i];
     }
-    
     [self.tabBar setBarTintColor:[UIColor whiteColor]];
+    self.tabBar.tintColor = RGBCOLOR(241, 73, 104);
 }
 #pragma mark tabBarDelegate
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item{

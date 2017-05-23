@@ -12,7 +12,7 @@
 
 
 
-@interface DetailViewController ()<UIWebViewDelegate, UITableViewDelegate, UITableViewDataSource, MWPhotoBrowserDelegate>
+@interface DetailViewController ()<UIWebViewDelegate, UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UITableView *myTableView;
 @property (nonatomic, strong) UIWebView *webView;
 @property (strong, nonatomic) NSString *detailID;
@@ -77,7 +77,7 @@
 //处理title的拼接显示
 - (NSMutableString *)handleNewsTitle:(DataInfo *)data {
     NSString *htmlTitleStr = @"<style type='text/css'> p.thicker{font-weight: 900}p.light{font-weight: 0}p{font-size: 108%}h2 {font-size: 120%}h3 {font-size: 80%}</style> <h2 class = 'thicker'>{{title}}</h2><h3>{{source}} {{ptime}}</h3>";
-    return [[GRMustacheTemplate renderObject:@{@"title" : data.title, @"source" : data.source, @"ptime" : data.ptime} fromString:htmlTitleStr error:NULL] mutableCopy];
+    return 0;
 }
 
 - (void)viewWillAppear:(BOOL)animated{
