@@ -15,11 +15,35 @@
 
 static NSString *homepageCell = @"HOMEPAGECELL";
 static NSString *scrollBannerCell = @"SCROLLBANNERCELL";
-@interface HomeContentTableViewController ()
-
+@interface HomeContentTableViewController ()<ZFPlayerDelegate, ZFPlayerControlViewDelagate>
+@property (nonatomic, strong) ZFPlayerView        *playerView;
+@property (nonatomic, strong) ZFPlayerControlView *controlView;
 @end
 
 @implementation HomeContentTableViewController
+- (ZFPlayerView *)playerView {
+    if (!_playerView) {
+        _playerView = [ZFPlayerView sharedPlayerView];
+        _playerView.delegate = self;
+        // 当cell播放视频由全屏变为小屏时候，不回到中间位置
+//        _playerView.cellPlayerOnCenter = NO;
+        
+        // 当cell划出屏幕的时候停止播放
+        // _playerView.stopPlayWhileCellNotVisable = YES;
+        //（可选设置）可以设置视频的填充模式，默认为（等比例填充，直到一个维度到达区域边界）
+        // _playerView.playerLayerGravity = ZFPlayerLayerGravityResizeAspect;
+        // 静音
+        // _playerView.mute = YES;
+    }
+    return _playerView;
+}
+
+- (ZFPlayerControlView *)controlView {
+    if (!_controlView) {
+        _controlView = [[ZFPlayerControlView alloc] init];
+    }
+    return _controlView;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.tableView.separatorStyle = NO;
@@ -30,6 +54,10 @@ static NSString *scrollBannerCell = @"SCROLLBANNERCELL";
     [super viewWillAppear:animated];
     NSLog(@"viewWillAppear");
     [self headerLoadData];
+}
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [self.playerView resetPlayer];
 }
 //下拉刷新
 - (void)headerLoadData{
@@ -89,6 +117,29 @@ static NSString *scrollBannerCell = @"SCROLLBANNERCELL";
         return cell;
     }else if (indexPath.section == 4){
         VideoTableViewCell *cell  =[[VideoTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        // 赋值model
+        __block NSIndexPath *weakIndexPath = indexPath;
+        __block VideoTableViewCell *weakCell     = cell;
+        __weak typeof(self)  weakSelf      = self;
+        // 点击播放的回调
+        cell.playBlock = ^(UIButton *btn){
+                [weakCell.contentView addSubview:self.playerView];
+                [self.playerView mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.left.equalTo(weakCell.contentView.mas_left);
+                    make.right.equalTo(weakCell.contentView.mas_right);
+                    make.top.equalTo(weakCell.contentView.mas_top);
+                    make.bottom.equalTo(weakCell.contentView.mas_bottom);
+                }];
+            
+                ZFPlayerModel *playerModel = [[ZFPlayerModel alloc]init];
+                playerModel.fatherView = weakCell.contentView;
+                playerModel.videoURL = [NSURL URLWithString:@"http://baobab.wdjcdn.com/1458625865688ONE.mp4"];
+                playerModel.tableView = weakSelf.tableView;
+                playerModel.indexPath = weakIndexPath;
+                [self.playerView playerControlView:self.controlView playerModel:playerModel];
+                [self.playerView autoPlayTheVideo];
+        };
+
         return cell;
     }else{
         HomePageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:homepageCell];
@@ -103,7 +154,7 @@ static NSString *scrollBannerCell = @"SCROLLBANNERCELL";
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [self.navigationController pushViewController:[CDetailViewController new] animated:YES];
+    indexPath.section == 4 ? : [self.navigationController pushViewController:[CDetailViewController new] animated:YES];
 }
 
 /*
