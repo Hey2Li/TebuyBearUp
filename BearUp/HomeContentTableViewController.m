@@ -12,12 +12,17 @@
 #import "CDetailViewController.h"
 #import "ScrollBannerTableViewCell.h"
 #import "VideoTableViewCell.h"
+#import "ZFVideoModel.h"
+#import "ZFVideoResolution.h"
+#import <CommonCrypto/CommonDigest.h>
 
 static NSString *homepageCell = @"HOMEPAGECELL";
 static NSString *scrollBannerCell = @"SCROLLBANNERCELL";
 @interface HomeContentTableViewController ()<ZFPlayerDelegate, ZFPlayerControlViewDelagate>
 @property (nonatomic, strong) ZFPlayerView        *playerView;
 @property (nonatomic, strong) ZFPlayerControlView *controlView;
+@property (nonatomic, strong) NSMutableArray      *dataSource;
+
 @end
 
 @implementation HomeContentTableViewController
@@ -49,6 +54,24 @@ static NSString *scrollBannerCell = @"SCROLLBANNERCELL";
     self.tableView.separatorStyle = NO;
     self.view.backgroundColor = [UIColor whiteColor];
     [self footerLoadData];
+    [self requestData];
+    [self.tableView registerClass:[VideoTableViewCell class] forCellReuseIdentifier:@"playerCell"];
+//    [LTHttpManager testApi:^(LTHttpResult result, NSString *message, id data) {
+//              
+//    }];
+}
+- (void)requestData {
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"videoData" ofType:@"json"];
+    NSData *data = [NSData dataWithContentsOfFile:path];
+    NSDictionary *rootDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+    
+    self.dataSource = @[].mutableCopy;
+    NSArray *videoList = [rootDict objectForKey:@"videoList"];
+    for (NSDictionary *dataDic in videoList) {
+        ZFVideoModel *model = [[ZFVideoModel alloc] init];
+        [model setValuesForKeysWithDictionary:dataDic];
+        [self.dataSource addObject:model];
+    }
 }
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -92,7 +115,7 @@ static NSString *scrollBannerCell = @"SCROLLBANNERCELL";
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 10;
+    return self.dataSource.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -112,34 +135,37 @@ static NSString *scrollBannerCell = @"SCROLLBANNERCELL";
     return 200;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+
     if (indexPath.section == 0 && self.index == 0) {
         ScrollBannerTableViewCell *cell = [[ScrollBannerTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
         return cell;
     }else if (indexPath.section == 4){
-        VideoTableViewCell *cell  =[[VideoTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-        // 赋值model
+        static NSString *identifier        = @"playerCell";
+        //取到对应cell的model
+        VideoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        __block ZFVideoModel *model = self.dataSource[indexPath.row];
+        //赋值model
+        cell.model = model;
         __block NSIndexPath *weakIndexPath = indexPath;
-        __block VideoTableViewCell *weakCell     = cell;
-        __weak typeof(self)  weakSelf      = self;
-        // 点击播放的回调
+        __block VideoTableViewCell *weakCell = cell;
+        __weak typeof(self)  weakSelf = self;
+        //点击播放的回调
         cell.playBlock = ^(UIButton *btn){
-                [weakCell.contentView addSubview:self.playerView];
-                [self.playerView mas_makeConstraints:^(MASConstraintMaker *make) {
-                    make.left.equalTo(weakCell.contentView.mas_left);
-                    make.right.equalTo(weakCell.contentView.mas_right);
-                    make.top.equalTo(weakCell.contentView.mas_top);
-                    make.bottom.equalTo(weakCell.contentView.mas_bottom);
-                }];
-            
-                ZFPlayerModel *playerModel = [[ZFPlayerModel alloc]init];
-                playerModel.fatherView = weakCell.contentView;
-                playerModel.videoURL = [NSURL URLWithString:@"http://baobab.wdjcdn.com/1458625865688ONE.mp4"];
-                playerModel.tableView = weakSelf.tableView;
-                playerModel.indexPath = weakIndexPath;
-                [self.playerView playerControlView:self.controlView playerModel:playerModel];
-                [self.playerView autoPlayTheVideo];
+            //分辨率字典（key:分辨率名称，value：分辨率url)
+            NSMutableDictionary *dic = @{}.mutableCopy;
+            for (ZFVideoResolution * resolution in model.playInfo) {
+                [dic setValue:resolution.url forKey:resolution.name];
+            }
+            //取出字典中的第一视频URL
+            NSURL *videoURL = [NSURL URLWithString:dic.allValues.firstObject];
+            ZFPlayerModel *playerModel = [[ZFPlayerModel alloc]init];
+            playerModel.fatherView = weakCell.picView;
+            playerModel.videoURL = videoURL;
+            playerModel.tableView = weakSelf.tableView;
+            playerModel.indexPath = weakIndexPath;
+            [self.playerView playerControlView:self.controlView playerModel:playerModel];
+            [self.playerView autoPlayTheVideo];
         };
-
         return cell;
     }else{
         HomePageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:homepageCell];
@@ -150,10 +176,10 @@ static NSString *scrollBannerCell = @"SCROLLBANNERCELL";
         cell.titleLabel.text = @"一组婚纱照火遍了网络，照片的重庆小伙";
         return cell;
     }
-
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    NSLog(@"点击了--%ld",(long)indexPath.section);
     indexPath.section == 4 ? : [self.navigationController pushViewController:[CDetailViewController new] animated:YES];
 }
 

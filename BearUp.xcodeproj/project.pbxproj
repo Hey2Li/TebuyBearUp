@@ -52,6 +52,9 @@
 		1C1EDE321ECDA8C90099D115 /* HorizontalCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C1EDE311ECDA8C90099D115 /* HorizontalCollectionViewCell.m */; };
 		1C1EDE351ED3C06E0099D115 /* ScrollBannerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C1EDE341ED3C06E0099D115 /* ScrollBannerTableViewCell.m */; };
 		1C1EDE381ED3E18A0099D115 /* VideoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C1EDE371ED3E18A0099D115 /* VideoTableViewCell.m */; };
+		1C1EDE3F1ED561430099D115 /* videoData.json in Resources */ = {isa = PBXBuildFile; fileRef = 1C1EDE3C1ED561420099D115 /* videoData.json */; };
+		1C1EDE401ED561430099D115 /* ZFVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C1EDE3E1ED561420099D115 /* ZFVideoModel.m */; };
+		1C1EDE431ED562E30099D115 /* ZFPVideoResolution.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C1EDE421ED562E30099D115 /* ZFPVideoResolution.m */; };
 		A4642D9C705BB581661F8BF1 /* libPods-BearUp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1701B53EBC2CD6FCE70EFC7E /* libPods-BearUp.a */; };
 /* End PBXBuildFile section */
 
@@ -155,6 +158,11 @@
 		1C1EDE341ED3C06E0099D115 /* ScrollBannerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrollBannerTableViewCell.m; sourceTree = "<group>"; };
 		1C1EDE361ED3E18A0099D115 /* VideoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoTableViewCell.h; sourceTree = "<group>"; };
 		1C1EDE371ED3E18A0099D115 /* VideoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoTableViewCell.m; sourceTree = "<group>"; };
+		1C1EDE3C1ED561420099D115 /* videoData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = videoData.json; sourceTree = "<group>"; };
+		1C1EDE3D1ED561420099D115 /* ZFVideoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFVideoModel.h; sourceTree = "<group>"; };
+		1C1EDE3E1ED561420099D115 /* ZFVideoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFVideoModel.m; sourceTree = "<group>"; };
+		1C1EDE411ED562E30099D115 /* ZFVideoResolution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFVideoResolution.h; sourceTree = "<group>"; };
+		1C1EDE421ED562E30099D115 /* ZFPVideoResolution.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFPVideoResolution.m; sourceTree = "<group>"; };
 		6BF61575B082E4169D6B8293 /* Pods-BearUp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BearUp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BearUp/Pods-BearUp.debug.xcconfig"; sourceTree = "<group>"; };
 		B51AF650A1AC20A003F12B9A /* Pods-BearUp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BearUp.release.xcconfig"; path = "Pods/Target Support Files/Pods-BearUp/Pods-BearUp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -283,6 +291,7 @@
 		1C1EDC011EBC457B0099D115 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				1C1EDE3A1ED561180099D115 /* Model */,
 				1C1EDE201ECD81920099D115 /* ViewController */,
 				1C1EDC2D1EC1B7310099D115 /* VIew */,
 				1C1EDC291EC1AFE70099D115 /* HomeContent */,
@@ -530,6 +539,18 @@
 			name = ViewController;
 			sourceTree = "<group>";
 		};
+		1C1EDE3A1ED561180099D115 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				1C1EDE3C1ED561420099D115 /* videoData.json */,
+				1C1EDE3D1ED561420099D115 /* ZFVideoModel.h */,
+				1C1EDE3E1ED561420099D115 /* ZFVideoModel.m */,
+				1C1EDE411ED562E30099D115 /* ZFVideoResolution.h */,
+				1C1EDE421ED562E30099D115 /* ZFPVideoResolution.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 		9D0A52BC4CFB11F8BA2EDED9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -666,6 +687,7 @@
 				1C1EDC541EC2EA960099D115 /* UMSocialSDKResources.bundle in Resources */,
 				1C1EDE151ECADD250099D115 /* newDetail.js in Resources */,
 				1C1EDC5B1EC3FDF20099D115 /* BearUp.storyboard in Resources */,
+				1C1EDE3F1ED561430099D115 /* videoData.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -744,6 +766,7 @@
 				1C1EDC171EC00F650099D115 /* LTHTTPSessionManager.m in Sources */,
 				1C1EDC0A1EBC462D0099D115 /* BUVideoViewController.m in Sources */,
 				1C1EDE1B1ECC217E0099D115 /* NSString+Extension.m in Sources */,
+				1C1EDE431ED562E30099D115 /* ZFPVideoResolution.m in Sources */,
 				1C1EDE351ED3C06E0099D115 /* ScrollBannerTableViewCell.m in Sources */,
 				1C1EDC201EC15BF50099D115 /* Tool.m in Sources */,
 				1C1EDC271EC191220099D115 /* LoginViewController.m in Sources */,
@@ -752,6 +775,7 @@
 				1C1EDBCC1EBC43BE0099D115 /* AppDelegate.m in Sources */,
 				1C1EDE101ECAD6500099D115 /* CDetailViewController.m in Sources */,
 				1C1EDC331EC29FCC0099D115 /* HomePageTableViewCell.m in Sources */,
+				1C1EDE401ED561430099D115 /* ZFVideoModel.m in Sources */,
 				1C1EDE2E1ECD92F00099D115 /* DataInfo.m in Sources */,
 				1C1EDE381ED3E18A0099D115 /* VideoTableViewCell.m in Sources */,
 				1C1EDE2F1ECD92F00099D115 /* ImageInfo.m in Sources */,
