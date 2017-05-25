@@ -16,4 +16,6 @@ void SVProgressShowStuteText(NSString *text, BOOL isSucceed);//成功或失败�
 void SVProgressHiden();
 
 NSAttributedString *returnNumAttr(NSString *str,NSInteger fontSize);
++ (NSDictionary *)MD5Dictionary;
++ (NSString *)MD5:(NSString *)str;
 @end

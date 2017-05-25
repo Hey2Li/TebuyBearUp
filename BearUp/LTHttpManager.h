@@ -44,4 +44,8 @@
  *  首页分类
  */
 + (void)GetSecondBanners:(completeBlock)complete;
+
+//http://bearup.51tht.cn/api
+
++ (void)testApi:(completeBlock)complete;
 @end

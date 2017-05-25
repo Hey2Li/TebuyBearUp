@@ -8,6 +8,7 @@
 
 #import "LTHttpManager.h"
 #import <MJExtension.h>
+#import <CommonCrypto/CommonDigest.h>
 
 @implementation LTHttpManager
 
@@ -50,4 +51,9 @@
     [manager GETWithParameters:[NSString stringWithFormat:@"http://api.maimenghuo.com/v2/secondary_banners"] parameters:nil complete:complete];
 
 }
++ (void)testApi:(completeBlock)complete{
+    LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
+    [manager POSTWithParameters:[NSString stringWithFormat:@"http://bearup.51tht.cn/api"] parameters:[Tool MD5Dictionary] complete:complete];
+}
+
 @end
