@@ -14,7 +14,6 @@
 #import "VideoTableViewCell.h"
 #import "ZFVideoModel.h"
 #import "ZFVideoResolution.h"
-#import <CommonCrypto/CommonDigest.h>
 
 static NSString *homepageCell = @"HOMEPAGECELL";
 static NSString *scrollBannerCell = @"SCROLLBANNERCELL";

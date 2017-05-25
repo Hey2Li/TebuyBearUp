@@ -8,7 +8,6 @@
 
 #import "LTHttpManager.h"
 #import <MJExtension.h>
-#import <CommonCrypto/CommonDigest.h>
 
 @implementation LTHttpManager
 
