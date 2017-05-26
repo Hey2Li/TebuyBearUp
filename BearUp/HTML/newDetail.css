@@ -3,6 +3,7 @@
     width:90%;
     font-family:Helvetica;
     margin-left:5%;
+    color:#6b6b6b;
 }
 /*<style type='text/css'>*/
 /*html { font-family:Helvetica; color:#222; }*/
@@ -14,9 +15,10 @@
 /*</style>*/
 #mainTitle{
     text-align:center;
-    font-size: 40px;
+    font-size: 50px;
     bolder:dashed 10px;
     margin-top:30px;
+    color:#000000;
 }
 
 #sourceTitle{
@@ -24,6 +26,7 @@
     font-size:29px;
     color:gray;
     margin-bottom:30px;
+    color:#aeaeae;
 }
 
 .source{

@@ -17,6 +17,7 @@
 
 static NSString *homepageCell = @"HOMEPAGECELL";
 static NSString *scrollBannerCell = @"SCROLLBANNERCELL";
+static NSString *videoCell = @"playerCell";
 @interface HomeContentTableViewController ()<ZFPlayerDelegate, ZFPlayerControlViewDelagate>
 @property (nonatomic, strong) ZFPlayerView        *playerView;
 @property (nonatomic, strong) ZFPlayerControlView *controlView;
@@ -49,12 +50,14 @@ static NSString *scrollBannerCell = @"SCROLLBANNERCELL";
     return _controlView;
 }
 - (void)viewDidLoad {
+    //防止pop返回页面下移
+    self.automaticallyAdjustsScrollViewInsets = NO;
     [super viewDidLoad];
     self.tableView.separatorStyle = NO;
     self.view.backgroundColor = [UIColor whiteColor];
     [self footerLoadData];
     [self requestData];
-    [self.tableView registerClass:[VideoTableViewCell class] forCellReuseIdentifier:@"playerCell"];
+    [self.tableView registerClass:[VideoTableViewCell class] forCellReuseIdentifier:videoCell];
 //    [LTHttpManager testApi:^(LTHttpResult result, NSString *message, id data) {
 //              
 //    }];
@@ -139,9 +142,8 @@ static NSString *scrollBannerCell = @"SCROLLBANNERCELL";
         ScrollBannerTableViewCell *cell = [[ScrollBannerTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
         return cell;
     }else if (indexPath.section == 4){
-        static NSString *identifier        = @"playerCell";
         //取到对应cell的model
-        VideoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        VideoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:videoCell];
         __block ZFVideoModel *model = self.dataSource[indexPath.row];
         //赋值model
         cell.model = model;

@@ -55,6 +55,8 @@
 		1C1EDE3F1ED561430099D115 /* videoData.json in Resources */ = {isa = PBXBuildFile; fileRef = 1C1EDE3C1ED561420099D115 /* videoData.json */; };
 		1C1EDE401ED561430099D115 /* ZFVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C1EDE3E1ED561420099D115 /* ZFVideoModel.m */; };
 		1C1EDE431ED562E30099D115 /* ZFPVideoResolution.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C1EDE421ED562E30099D115 /* ZFPVideoResolution.m */; };
+		1C1EDE471ED7B5B80099D115 /* CommentsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C1EDE451ED7B5B80099D115 /* CommentsTableViewCell.m */; };
+		1C1EDE481ED7B5B80099D115 /* CommentsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1C1EDE461ED7B5B80099D115 /* CommentsTableViewCell.xib */; };
 		A4642D9C705BB581661F8BF1 /* libPods-BearUp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1701B53EBC2CD6FCE70EFC7E /* libPods-BearUp.a */; };
 /* End PBXBuildFile section */
 
@@ -163,6 +165,9 @@
 		1C1EDE3E1ED561420099D115 /* ZFVideoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFVideoModel.m; sourceTree = "<group>"; };
 		1C1EDE411ED562E30099D115 /* ZFVideoResolution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFVideoResolution.h; sourceTree = "<group>"; };
 		1C1EDE421ED562E30099D115 /* ZFPVideoResolution.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFPVideoResolution.m; sourceTree = "<group>"; };
+		1C1EDE441ED7B5B80099D115 /* CommentsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentsTableViewCell.h; sourceTree = "<group>"; };
+		1C1EDE451ED7B5B80099D115 /* CommentsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentsTableViewCell.m; sourceTree = "<group>"; };
+		1C1EDE461ED7B5B80099D115 /* CommentsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommentsTableViewCell.xib; sourceTree = "<group>"; };
 		6BF61575B082E4169D6B8293 /* Pods-BearUp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BearUp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BearUp/Pods-BearUp.debug.xcconfig"; sourceTree = "<group>"; };
 		B51AF650A1AC20A003F12B9A /* Pods-BearUp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BearUp.release.xcconfig"; path = "Pods/Target Support Files/Pods-BearUp/Pods-BearUp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -363,12 +368,6 @@
 			isa = PBXGroup;
 			children = (
 				1C1EDE111ECADD250099D115 /* HTML */,
-				1C1EDC2A1EC1B0250099D115 /* HomeContentTableViewController.h */,
-				1C1EDC2B1EC1B0250099D115 /* HomeContentTableViewController.m */,
-				1C1EDDC31EC9A8650099D115 /* DetailViewController.h */,
-				1C1EDDC41EC9A8650099D115 /* DetailViewController.m */,
-				1C1EDE0E1ECAD6500099D115 /* CDetailViewController.h */,
-				1C1EDE0F1ECAD6500099D115 /* CDetailViewController.m */,
 			);
 			name = HomeContent;
 			sourceTree = "<group>";
@@ -386,6 +385,9 @@
 				1C1EDE341ED3C06E0099D115 /* ScrollBannerTableViewCell.m */,
 				1C1EDE361ED3E18A0099D115 /* VideoTableViewCell.h */,
 				1C1EDE371ED3E18A0099D115 /* VideoTableViewCell.m */,
+				1C1EDE441ED7B5B80099D115 /* CommentsTableViewCell.h */,
+				1C1EDE451ED7B5B80099D115 /* CommentsTableViewCell.m */,
+				1C1EDE461ED7B5B80099D115 /* CommentsTableViewCell.xib */,
 			);
 			name = VIew;
 			sourceTree = "<group>";
@@ -535,6 +537,12 @@
 			children = (
 				1C1EDC051EBC46200099D115 /* BUHomeViewController.h */,
 				1C1EDC061EBC46200099D115 /* BUHomeViewController.m */,
+				1C1EDC2A1EC1B0250099D115 /* HomeContentTableViewController.h */,
+				1C1EDC2B1EC1B0250099D115 /* HomeContentTableViewController.m */,
+				1C1EDDC31EC9A8650099D115 /* DetailViewController.h */,
+				1C1EDDC41EC9A8650099D115 /* DetailViewController.m */,
+				1C1EDE0E1ECAD6500099D115 /* CDetailViewController.h */,
+				1C1EDE0F1ECAD6500099D115 /* CDetailViewController.m */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -682,6 +690,7 @@
 			files = (
 				1C1EDC521EC2EA960099D115 /* UMSocialSDKPromptResources.bundle in Resources */,
 				1C1EDE141ECADD250099D115 /* newDetail.css in Resources */,
+				1C1EDE481ED7B5B80099D115 /* CommentsTableViewCell.xib in Resources */,
 				1C1EDBD71EBC43BE0099D115 /* LaunchScreen.storyboard in Resources */,
 				1C1EDBD41EBC43BE0099D115 /* Assets.xcassets in Resources */,
 				1C1EDC541EC2EA960099D115 /* UMSocialSDKResources.bundle in Resources */,
@@ -769,6 +778,7 @@
 				1C1EDE431ED562E30099D115 /* ZFPVideoResolution.m in Sources */,
 				1C1EDE351ED3C06E0099D115 /* ScrollBannerTableViewCell.m in Sources */,
 				1C1EDC201EC15BF50099D115 /* Tool.m in Sources */,
+				1C1EDE471ED7B5B80099D115 /* CommentsTableViewCell.m in Sources */,
 				1C1EDC271EC191220099D115 /* LoginViewController.m in Sources */,
 				1C1EDBCF1EBC43BE0099D115 /* ViewController.m in Sources */,
 				1C1EDC101EBC46500099D115 /* BUMineViewController.m in Sources */,
