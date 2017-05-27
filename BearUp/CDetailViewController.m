@@ -11,86 +11,31 @@
 #import "DataInfo.h"
 #import "ImageInfo.h"
 #import "CommentsTableViewCell.h"
+#import "BottomCommentView.h"
+#import <UShareUI/UShareUI.h>
 
-@interface CDetailViewController ()<WKNavigationDelegate,WKUIDelegate,WKScriptMessageHandler, UITableViewDelegate, UITableViewDataSource>
+@interface CDetailViewController ()<WKNavigationDelegate,WKUIDelegate,WKScriptMessageHandler, UITableViewDelegate, UITableViewDataSource,BottomCommentDelegate>
 @property (nonatomic, strong) WKWebView *wkWebView;
 @property (nonatomic, strong) NSDictionary *htmlDict;
 @property (strong, nonatomic) NSMutableArray *imagesArr;
 @property (nonatomic, strong) UITableView *myTableView;
-@property (nonatomic, strong) UIView *bottomView;
+@property (nonatomic, strong) BottomCommentView *bottomView;
 @end
 static NSString *commentCell = @"commentCell";
 @implementation CDetailViewController
 static NSString * const picMethodName = @"openBigPicture:";
 static NSString * const videoMethodName = @"openVideoPlayer:";
-
-- (UIView *)bottomView{
+- (BottomCommentView *)bottomView{
     if (!_bottomView) {
-        UIView *bottomView = [UIView new];
-        bottomView.backgroundColor = [UIColor whiteColor];
-        [self.view addSubview:bottomView];
-        [bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+        _bottomView = [[BottomCommentView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+        [self.view addSubview:_bottomView];
+        [_bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.view.mas_left);
             make.right.equalTo(self.view.mas_right);
-            make.bottom.equalTo(self.view.mas_bottom);
             make.height.equalTo(@44);
+            make.bottom.equalTo(self.view.mas_bottom);
         }];
-        CALayer *topLayer = [CALayer layer];
-        topLayer.backgroundColor = [UIColor lightGrayColor].CGColor;
-        topLayer.frame = CGRectMake(CGRectGetMinX(bottomView.frame)+1, 0, SCREEN_WIDTH, 1.0);
-        [bottomView.layer addSublayer:topLayer];
-        
-        UIButton *bulletScreenBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [bulletScreenBtn setImage:[UIImage imageNamed:@"弹幕红"] forState:UIControlStateNormal];
-        [bottomView addSubview:bulletScreenBtn];
-        [bulletScreenBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(bottomView.mas_left).offset(10);
-            make.centerY.equalTo(bottomView.mas_centerY);
-            make.width.equalTo(@26);
-            make.height.equalTo(@26);
-        }];
-        
-        UITextField *commentTextField = [UITextField new];
-        [bottomView addSubview:commentTextField];
-        [commentTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(bulletScreenBtn.mas_right).offset(15);
-            make.height.equalTo(bulletScreenBtn.mas_height);
-            make.centerY.equalTo(bottomView.mas_centerY);
-            make.width.equalTo(@(SCREEN_WIDTH/2));
-        }];
-        commentTextField.placeholder = @"我也来一弹!";
-        commentTextField.borderStyle = UITextBorderStyleRoundedRect;
-        
-        UIButton *lookForCommendBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [lookForCommendBtn setImage:[UIImage imageNamed:@"看评论灰"] forState:UIControlStateNormal];
-        [bottomView addSubview:lookForCommendBtn];
-        [lookForCommendBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(commentTextField.mas_right).offset(15);
-            make.width.equalTo(@26);
-            make.height.equalTo(@26);
-            make.centerY.equalTo(bottomView.mas_centerY);
-        }];
-        
-        UIButton *collectBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [collectBtn setImage:[UIImage imageNamed:@"收藏灰"] forState:UIControlStateNormal];
-        [bottomView addSubview:collectBtn];
-        [collectBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(lookForCommendBtn.mas_right).offset(15);
-            make.centerY.equalTo(bottomView.mas_centerY);
-            make.height.equalTo(@26);
-            make.width.equalTo(@26);
-        }];
-        
-        UIButton *shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [shareBtn setImage:[UIImage imageNamed:@"分享灰"] forState:UIControlStateNormal];
-        [bottomView addSubview:shareBtn];
-        [shareBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(bottomView.mas_right).offset(-15);
-            make.width.equalTo(@26);
-            make.height.equalTo(@26);
-            make.centerY.equalTo(bottomView.mas_centerY);
-        }];
-        _bottomView = bottomView;
+        _bottomView.delegate = self;
     }
     return _bottomView;
 }
@@ -127,8 +72,22 @@ static NSString * const videoMethodName = @"openVideoPlayer:";
     self.myTableView.rowHeight = UITableViewAutomaticDimension;
     self.myTableView.estimatedRowHeight = 130.5f;
     self.title = @"详情";
+    [self footerLoadData];
 }
+- (void)footerLoadData{
+    self.myTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
+        WeakSelf
+        NSTimer *timer  =[NSTimer scheduledTimerWithTimeInterval:1.0 repeats:NO block:^(NSTimer * _Nonnull timer) {
+            [weakSelf.myTableView.mj_footer endRefreshing];
+            [timer invalidate];
+            timer = nil;
+        }];
+        [[NSRunLoop mainRunLoop]addTimer:timer forMode:NSDefaultRunLoopMode];
+    }];
+}
+
 - (void)initWithView{
+    self.automaticallyAdjustsScrollViewInsets = NO;// 默认是YES
     self.myTableView = [UITableView new];
     [self.view addSubview:self.myTableView];
     [self.myTableView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -333,9 +292,6 @@ static NSString * const videoMethodName = @"openVideoPlayer:";
 #pragma mark scrollview delegate (计算contentOffset的值，根据上下距离来决定bounces)
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     CGFloat top = scrollView.contentOffset.y;
-    
-    NSLog(@"top = %f,height = %f",top,self.myTableView.contentSize.height - SCREEN_HEIGHT - 100);
-
     if ([scrollView isKindOfClass:[UITableView class]]) {
         if (top  > (self.myTableView.contentSize.height - SCREEN_HEIGHT - 100)) {
             self.myTableView.bounces = YES;
@@ -355,7 +311,72 @@ static NSString * const videoMethodName = @"openVideoPlayer:";
         self.wkWebView.scrollView.scrollEnabled = YES;
     }
 }
+#pragma mark - bottomComment delegate
+- (void)danmuWithBtnClick:(UIButton *)btn{
+    
+}
+- (void)lookForCommentWithBtnClick:(UIButton *)btn{
 
+}
+- (void)collectWithBtnClick:(UIButton *)btn{
+
+}
+- (void)shareWithBtnClick:(UIButton *)btn{
+    [UMSocialShareUIConfig shareInstance].sharePageGroupViewConfig.sharePageGroupViewPostionType = UMSocialSharePageGroupViewPositionType_Bottom;
+    [UMSocialShareUIConfig shareInstance].sharePageScrollViewConfig.shareScrollViewPageItemStyleType = UMSocialPlatformItemViewBackgroudType_None;
+    [UMSocialUIManager showShareMenuViewInWindowWithPlatformSelectionBlock:^(UMSocialPlatformType platformType, NSDictionary *userInfo) {
+        // 根据获取的platformType确定所选平台进行下一步操作
+        NSLog(@"%ld---%@",(long)platformType, userInfo);
+        [self shareImageAndTextToPlatformType:platformType];
+    }];
+//    [self shareWithUI];
+}
+- (void)shareWithUI {
+    //显示分享面板
+    [UMSocialUIManager showShareMenuViewInWindowWithPlatformSelectionBlock:^(UMSocialPlatformType platformType, NSDictionary *userInfo) {
+        // 根据获取的platformType确定所选平台进行下一步操作
+        
+        //创建分享消息对象
+        UMSocialMessageObject *messageObject = [UMSocialMessageObject messageObject];
+        //设置文本
+        messageObject.text = @"社会化组件UShare将各大社交平台接入您的应用，快速武装App。";
+        
+        //调用分享接口
+        [[UMSocialManager defaultManager] shareToPlatform:platformType messageObject:messageObject currentViewController:self completion:^(id data, NSError *error) {
+            if (error) {
+                NSLog(@"************Share fail with error %@*********",error);
+            }else{
+                NSLog(@"response data is %@",data);
+            }
+        }];
+    }];
+}
+- (void)shareImageAndTextToPlatformType:(UMSocialPlatformType)platformType
+{
+    //创建分享消息对象
+    UMSocialMessageObject *messageObject = [UMSocialMessageObject messageObject];
+    
+    //设置文本
+    messageObject.text = @"社会化组件UShare将各大社交平台接入您的应用，快速武装App。";
+    
+    //创建图片内容对象
+    UMShareImageObject *shareObject = [[UMShareImageObject alloc] init];
+    //如果有缩略图，则设置缩略图
+    shareObject.thumbImage = [UIImage imageNamed:@"icon"];
+    [shareObject setShareImage:@"https://www.umeng.com/img/index/demo/1104.4b2f7dfe614bea70eea4c6071c72d7f5.jpg"];
+    
+    //分享消息对象设置分享内容对象
+    messageObject.shareObject = shareObject;
+    
+    //调用分享接口
+    [[UMSocialManager defaultManager] shareToPlatform:platformType messageObject:messageObject currentViewController:self completion:^(id data, NSError *error) {
+        if (error) {
+            NSLog(@"************Share fail with error %@*********",error);
+        }else{
+            NSLog(@"response data is %@",data);
+        }
+    }];
+}
 #pragma mark - TableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 3;

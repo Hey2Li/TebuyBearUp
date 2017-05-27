@@ -57,6 +57,7 @@
 		1C1EDE431ED562E30099D115 /* ZFPVideoResolution.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C1EDE421ED562E30099D115 /* ZFPVideoResolution.m */; };
 		1C1EDE471ED7B5B80099D115 /* CommentsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C1EDE451ED7B5B80099D115 /* CommentsTableViewCell.m */; };
 		1C1EDE481ED7B5B80099D115 /* CommentsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1C1EDE461ED7B5B80099D115 /* CommentsTableViewCell.xib */; };
+		1CEBC8711ED926EA00760301 /* BottomCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CEBC8701ED926EA00760301 /* BottomCommentView.m */; };
 		A4642D9C705BB581661F8BF1 /* libPods-BearUp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1701B53EBC2CD6FCE70EFC7E /* libPods-BearUp.a */; };
 /* End PBXBuildFile section */
 
@@ -168,6 +169,8 @@
 		1C1EDE441ED7B5B80099D115 /* CommentsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentsTableViewCell.h; sourceTree = "<group>"; };
 		1C1EDE451ED7B5B80099D115 /* CommentsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentsTableViewCell.m; sourceTree = "<group>"; };
 		1C1EDE461ED7B5B80099D115 /* CommentsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommentsTableViewCell.xib; sourceTree = "<group>"; };
+		1CEBC86F1ED926EA00760301 /* BottomCommentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BottomCommentView.h; sourceTree = "<group>"; };
+		1CEBC8701ED926EA00760301 /* BottomCommentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BottomCommentView.m; sourceTree = "<group>"; };
 		6BF61575B082E4169D6B8293 /* Pods-BearUp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BearUp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BearUp/Pods-BearUp.debug.xcconfig"; sourceTree = "<group>"; };
 		B51AF650A1AC20A003F12B9A /* Pods-BearUp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BearUp.release.xcconfig"; path = "Pods/Target Support Files/Pods-BearUp/Pods-BearUp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -388,6 +391,8 @@
 				1C1EDE441ED7B5B80099D115 /* CommentsTableViewCell.h */,
 				1C1EDE451ED7B5B80099D115 /* CommentsTableViewCell.m */,
 				1C1EDE461ED7B5B80099D115 /* CommentsTableViewCell.xib */,
+				1CEBC86F1ED926EA00760301 /* BottomCommentView.h */,
+				1CEBC8701ED926EA00760301 /* BottomCommentView.m */,
 			);
 			name = VIew;
 			sourceTree = "<group>";
@@ -788,6 +793,7 @@
 				1C1EDE401ED561430099D115 /* ZFVideoModel.m in Sources */,
 				1C1EDE2E1ECD92F00099D115 /* DataInfo.m in Sources */,
 				1C1EDE381ED3E18A0099D115 /* VideoTableViewCell.m in Sources */,
+				1CEBC8711ED926EA00760301 /* BottomCommentView.m in Sources */,
 				1C1EDE2F1ECD92F00099D115 /* ImageInfo.m in Sources */,
 				1C1EDDC51EC9A8650099D115 /* DetailViewController.m in Sources */,
 				1C1EDC071EBC46200099D115 /* BUHomeViewController.m in Sources */,

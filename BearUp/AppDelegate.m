@@ -23,9 +23,6 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    _window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
-    _window.backgroundColor = [UIColor blackColor];
-//    self.window.rootViewController = [BaseTabBarViewController new];
     UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"BearUp" bundle:nil];
     UIViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"loginViewController"];
     self.window.rootViewController = [[UINavigationController alloc]initWithRootViewController:vc];
