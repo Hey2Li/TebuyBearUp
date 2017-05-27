@@ -9,6 +9,6 @@ pod 'MJExtension', '~> 3.0.7'
 pod 'SVProgressHUD' ,'~>2.1.2'
 pod 'SDCycleScrollView','~> 1.64'
 pod 'ZFPlayer'
-
+pod 'IQKeyboardManager', '~> 3.3.4'
 
 end

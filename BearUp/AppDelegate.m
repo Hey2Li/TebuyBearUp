@@ -10,6 +10,8 @@
 #import "BaseTabBarViewController.h"
 #import "LoginViewController.h"
 #import <UMSocialCore/UMSocialCore.h>
+#import <KeyboardManager.h>
+
 
 #define USHARE_DEMO_APPKEY @"5861e5daf5ade41326001eab"
 
@@ -29,6 +31,12 @@
     self.window.rootViewController = [[UINavigationController alloc]initWithRootViewController:vc];
     [self.window makeKeyAndVisible];
     
+    IQKeyboardManager *manager = [IQKeyboardManager sharedManager];
+    manager.enable = YES;
+    manager.shouldResignOnTouchOutside = YES;
+    manager.shouldToolbarUsesTextFieldTintColor = YES;
+    manager.enableAutoToolbar = NO;
+
     /* 打开调试日志 */
     [[UMSocialManager defaultManager] openLog:YES];
     

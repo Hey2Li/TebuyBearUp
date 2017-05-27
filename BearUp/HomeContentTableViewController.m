@@ -56,6 +56,7 @@ static NSString *videoCell = @"playerCell";
     self.tableView.separatorStyle = NO;
     self.view.backgroundColor = [UIColor whiteColor];
     [self footerLoadData];
+    [self headerLoadData];
     [self requestData];
     [self.tableView registerClass:[VideoTableViewCell class] forCellReuseIdentifier:videoCell];
 //    [LTHttpManager testApi:^(LTHttpResult result, NSString *message, id data) {
@@ -78,7 +79,6 @@ static NSString *videoCell = @"playerCell";
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     NSLog(@"viewWillAppear");
-    [self headerLoadData];
 }
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];

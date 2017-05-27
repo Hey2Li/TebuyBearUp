@@ -45,7 +45,7 @@
     self.topTitleBar.itemTitles = self.titleArray;
     self.topTitleBar.delegate = self;
     self.topTitleBar.backgroundColor = RGBCOLOR(241, 73, 104);
-    [self.view addSubview:self.topTitleBar];
+    [self.navigationController.view addSubview:self.topTitleBar];
 }
 - (void)setupViewControllers{
     for (int i = 0; i < _titleArray.count; i ++) {

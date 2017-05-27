@@ -17,11 +17,83 @@
 @property (nonatomic, strong) NSDictionary *htmlDict;
 @property (strong, nonatomic) NSMutableArray *imagesArr;
 @property (nonatomic, strong) UITableView *myTableView;
+@property (nonatomic, strong) UIView *bottomView;
 @end
 static NSString *commentCell = @"commentCell";
 @implementation CDetailViewController
 static NSString * const picMethodName = @"openBigPicture:";
 static NSString * const videoMethodName = @"openVideoPlayer:";
+
+- (UIView *)bottomView{
+    if (!_bottomView) {
+        UIView *bottomView = [UIView new];
+        bottomView.backgroundColor = [UIColor whiteColor];
+        [self.view addSubview:bottomView];
+        [bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.view.mas_left);
+            make.right.equalTo(self.view.mas_right);
+            make.bottom.equalTo(self.view.mas_bottom);
+            make.height.equalTo(@44);
+        }];
+        CALayer *topLayer = [CALayer layer];
+        topLayer.backgroundColor = [UIColor lightGrayColor].CGColor;
+        topLayer.frame = CGRectMake(CGRectGetMinX(bottomView.frame)+1, 0, SCREEN_WIDTH, 1.0);
+        [bottomView.layer addSublayer:topLayer];
+        
+        UIButton *bulletScreenBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [bulletScreenBtn setImage:[UIImage imageNamed:@"弹幕红"] forState:UIControlStateNormal];
+        [bottomView addSubview:bulletScreenBtn];
+        [bulletScreenBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(bottomView.mas_left).offset(10);
+            make.centerY.equalTo(bottomView.mas_centerY);
+            make.width.equalTo(@26);
+            make.height.equalTo(@26);
+        }];
+        
+        UITextField *commentTextField = [UITextField new];
+        [bottomView addSubview:commentTextField];
+        [commentTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(bulletScreenBtn.mas_right).offset(15);
+            make.height.equalTo(bulletScreenBtn.mas_height);
+            make.centerY.equalTo(bottomView.mas_centerY);
+            make.width.equalTo(@(SCREEN_WIDTH/2));
+        }];
+        commentTextField.placeholder = @"我也来一弹!";
+        commentTextField.borderStyle = UITextBorderStyleRoundedRect;
+        
+        UIButton *lookForCommendBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [lookForCommendBtn setImage:[UIImage imageNamed:@"看评论灰"] forState:UIControlStateNormal];
+        [bottomView addSubview:lookForCommendBtn];
+        [lookForCommendBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(commentTextField.mas_right).offset(15);
+            make.width.equalTo(@26);
+            make.height.equalTo(@26);
+            make.centerY.equalTo(bottomView.mas_centerY);
+        }];
+        
+        UIButton *collectBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [collectBtn setImage:[UIImage imageNamed:@"收藏灰"] forState:UIControlStateNormal];
+        [bottomView addSubview:collectBtn];
+        [collectBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(lookForCommendBtn.mas_right).offset(15);
+            make.centerY.equalTo(bottomView.mas_centerY);
+            make.height.equalTo(@26);
+            make.width.equalTo(@26);
+        }];
+        
+        UIButton *shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [shareBtn setImage:[UIImage imageNamed:@"分享灰"] forState:UIControlStateNormal];
+        [bottomView addSubview:shareBtn];
+        [shareBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(bottomView.mas_right).offset(-15);
+            make.width.equalTo(@26);
+            make.height.equalTo(@26);
+            make.centerY.equalTo(bottomView.mas_centerY);
+        }];
+        _bottomView = bottomView;
+    }
+    return _bottomView;
+}
 - (void)cleanCache{
     if ([[UIDevice currentDevice].systemVersion floatValue] >= 9.0) {
         NSSet *type = [NSSet setWithArray:@[
@@ -57,79 +129,19 @@ static NSString * const videoMethodName = @"openVideoPlayer:";
     self.title = @"详情";
 }
 - (void)initWithView{
-    self.myTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 44) style:UITableViewStyleGrouped];
+    self.myTableView = [UITableView new];
     [self.view addSubview:self.myTableView];
+    [self.myTableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view.mas_left);
+        make.right.equalTo(self.view.mas_right);
+        make.top.equalTo(self.view.mas_top);
+        make.bottom.equalTo(self.bottomView.mas_top);
+    }];
     self.myTableView.delegate = self;
     self.myTableView.dataSource = self;
     self.myTableView.showsVerticalScrollIndicator = NO;
     self.wkWebView.scrollView.showsVerticalScrollIndicator = NO;
     [self.myTableView registerNib:[UINib nibWithNibName:@"CommentsTableViewCell" bundle:nil] forCellReuseIdentifier:commentCell];
-    
-    UIView *bottomView = [UIView new];
-    bottomView.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:bottomView];
-    [bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.view.mas_left);
-        make.right.equalTo(self.view.mas_right);
-        make.bottom.equalTo(self.view.mas_bottom);
-        make.height.equalTo(@44);
-    }];
-    CALayer *topLayer = [CALayer layer];
-    topLayer.backgroundColor = [UIColor lightGrayColor].CGColor;
-    topLayer.frame = CGRectMake(CGRectGetMinX(bottomView.frame)+1, 0, SCREEN_WIDTH, 1.0);
-    [bottomView.layer addSublayer:topLayer];
-    
-    UIButton *bulletScreenBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [bulletScreenBtn setImage:[UIImage imageNamed:@"弹幕红"] forState:UIControlStateNormal];
-    [bottomView addSubview:bulletScreenBtn];
-    [bulletScreenBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(bottomView.mas_left).offset(10);
-        make.centerY.equalTo(bottomView.mas_centerY);
-        make.width.equalTo(@26);
-        make.height.equalTo(@26);
-    }];
-    
-    UITextField *commentTextField = [UITextField new];
-    [bottomView addSubview:commentTextField];
-    [commentTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(bulletScreenBtn.mas_right).offset(15);
-        make.height.equalTo(bulletScreenBtn.mas_height);
-        make.centerY.equalTo(bottomView.mas_centerY);
-        make.width.equalTo(@(SCREEN_WIDTH/2));
-    }];
-    commentTextField.placeholder = @"我也来一弹!";
-    commentTextField.borderStyle = UITextBorderStyleRoundedRect;
-    
-    UIButton *lookForCommendBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [lookForCommendBtn setImage:[UIImage imageNamed:@"看评论灰"] forState:UIControlStateNormal];
-    [bottomView addSubview:lookForCommendBtn];
-    [lookForCommendBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(commentTextField.mas_right).offset(15);
-        make.width.equalTo(@26);
-        make.height.equalTo(@26);
-        make.centerY.equalTo(bottomView.mas_centerY);
-    }];
-    
-    UIButton *collectBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [collectBtn setImage:[UIImage imageNamed:@"收藏灰"] forState:UIControlStateNormal];
-    [bottomView addSubview:collectBtn];
-    [collectBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(lookForCommendBtn.mas_right).offset(15);
-        make.centerY.equalTo(bottomView.mas_centerY);
-        make.height.equalTo(@26);
-        make.width.equalTo(@26);
-    }];
-    
-    UIButton *shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [shareBtn setImage:[UIImage imageNamed:@"分享灰"] forState:UIControlStateNormal];
-    [bottomView addSubview:shareBtn];
-    [shareBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(bottomView.mas_right).offset(-15);
-        make.width.equalTo(@26);
-        make.height.equalTo(@26);
-        make.centerY.equalTo(bottomView.mas_centerY);
-    }];
-    
 }
 - (void)initWKWebView{
     //创建一个WKWebView的配置对象
@@ -164,7 +176,7 @@ static NSString * const videoMethodName = @"openVideoPlayer:";
     [userContentController addScriptMessageHandler:self name:@"openVideoPlayer"];
     configur.userContentController = userContentController;
     
-    WKWebView *wkWebView = [[WKWebView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) configuration:configur];
+    WKWebView *wkWebView = [[WKWebView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 104) configuration:configur];
     
 //    [self.view addSubview:wkWebView];
 //    self.wkWebView = wkWebView;
@@ -179,16 +191,16 @@ static NSString * const videoMethodName = @"openVideoPlayer:";
     wkWebView.navigationDelegate = self;
     
     wkWebView.scrollView.bounces = NO;
-    
-    wkWebView.bounds = self.view.bounds;
-    
+ 
     self.wkWebView = wkWebView;
     
     self.myTableView.tableHeaderView = self.wkWebView;
 }
 - (void)getContentHtml{
-    NSString * detailID = @"AQ4RPLHG00964LQ9";//多张图片
-    NSMutableString *urlStr = [NSMutableString stringWithString:@"http://c.m.163.com/nc/article/nil/full.html"];
+    //AQ76LHPS00963VRO AQ4RPLHG00964LQ9轻松一刻
+    NSString * detailID = @"AQ76LHPS00963VRO";//多张图片
+    NSMutableString *urlStr = [NSMutableString stringWithString:@"http://c.3g.163.com/nc/article/nil/full.html"];
+    //http://c.m.163.com/nc/article/nil/full.html
     [urlStr replaceOccurrencesOfString:@"nil" withString:detailID options:NSCaseInsensitiveSearch range:[urlStr rangeOfString:@"nil"]];
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
@@ -198,9 +210,9 @@ static NSString * const videoMethodName = @"openVideoPlayer:";
 //        weakSelf.htmlDict = responseObject[detailID];
         
         //回到主线程刷新UI
-        [[NSOperationQueue mainQueue]addOperationWithBlock:^{
-            self.navigationItem.title = self.htmlDict[@"title"];
-        }];
+//        [[NSOperationQueue mainQueue]addOperationWithBlock:^{
+//            self.navigationItem.title = self.htmlDict[@"title"];
+//        }];
         DataInfo *model = [DataInfo mj_objectWithKeyValues:[responseObject objectForKey:detailID]];
 
         [weakSelf loadingHtmlNews:model];
@@ -325,7 +337,7 @@ static NSString * const videoMethodName = @"openVideoPlayer:";
     NSLog(@"top = %f,height = %f",top,self.myTableView.contentSize.height - SCREEN_HEIGHT - 100);
 
     if ([scrollView isKindOfClass:[UITableView class]]) {
-        if (top > (self.myTableView.contentSize.height - SCREEN_HEIGHT - 100)) {
+        if (top  > (self.myTableView.contentSize.height - SCREEN_HEIGHT - 100)) {
             self.myTableView.bounces = YES;
         }else{
             self.myTableView.bounces = NO;
@@ -348,7 +360,18 @@ static NSString * const videoMethodName = @"openVideoPlayer:";
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 3;
 }
-
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 44;
+}
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    UILabel *label = [UILabel new];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.text = @"全部评论";
+    label.textColor = UIColorFromRGB(0x000000);
+    label.font = [UIFont systemFontOfSize:16];
+    label.backgroundColor = UIColorFromRGB(0xf5f5f5);
+    return label;
+}
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     CommentsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:commentCell];
     cell.commentLabel.text = @"一个不会动脑筋的人，他的成就必然有限，不要说写字这种精细的活儿，就是举重、百米跑这种看似只需要有肌肉有力量的项目，你不动脑筋去想办法提高，你不用心去体会动作技巧，你也很难达到相应的高度。";

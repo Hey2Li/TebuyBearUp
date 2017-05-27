@@ -32,7 +32,7 @@
                             <constraint firstAttribute="width" constant="181" id="GcW-FG-t53"/>
                             <constraint firstAttribute="height" constant="21" id="Xap-Er-Tek"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -55,7 +55,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="呦呵，满满的青春回忆啊，就是以前上学时我们做过的事情，好害羞~" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="quj-gx-aI7">
-                        <rect key="frame" x="8" y="62" width="371" height="72.5"/>
+                        <rect key="frame" x="15" y="70" width="357" height="59.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -64,18 +64,18 @@
                 <constraints>
                     <constraint firstItem="A9e-SQ-wwf" firstAttribute="trailing" secondItem="WKE-Gh-EAW" secondAttribute="trailing" id="1qa-PS-Azl"/>
                     <constraint firstAttribute="trailing" secondItem="fbo-Rx-W7l" secondAttribute="trailing" constant="8" id="8Yd-JH-fK5"/>
-                    <constraint firstItem="quj-gx-aI7" firstAttribute="leading" secondItem="N5r-Mx-LBf" secondAttribute="leading" id="JOj-PG-f54"/>
                     <constraint firstItem="WKE-Gh-EAW" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="2" id="MmD-EH-8Nj"/>
                     <constraint firstItem="A9e-SQ-wwf" firstAttribute="bottom" secondItem="N5r-Mx-LBf" secondAttribute="bottom" id="NpS-Ix-93q"/>
-                    <constraint firstItem="fbo-Rx-W7l" firstAttribute="trailing" secondItem="quj-gx-aI7" secondAttribute="trailing" id="Pzd-WP-Wuu"/>
                     <constraint firstItem="A9e-SQ-wwf" firstAttribute="leading" secondItem="WKE-Gh-EAW" secondAttribute="leading" id="RB3-P5-gBj"/>
                     <constraint firstItem="WKE-Gh-EAW" firstAttribute="leading" secondItem="N5r-Mx-LBf" secondAttribute="trailing" constant="15" id="Rti-n6-4ig"/>
                     <constraint firstItem="fbo-Rx-W7l" firstAttribute="leading" secondItem="WKE-Gh-EAW" secondAttribute="trailing" constant="2" id="V1k-nq-QXy"/>
-                    <constraint firstAttribute="bottom" secondItem="quj-gx-aI7" secondAttribute="bottom" constant="5" id="an4-oj-kPJ"/>
+                    <constraint firstAttribute="bottom" secondItem="quj-gx-aI7" secondAttribute="bottom" constant="10" id="VsL-Wv-Xtd"/>
+                    <constraint firstItem="quj-gx-aI7" firstAttribute="top" secondItem="N5r-Mx-LBf" secondAttribute="bottom" constant="10" id="Zon-18-s4n"/>
                     <constraint firstItem="N5r-Mx-LBf" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="2" id="cOh-O0-0HW"/>
                     <constraint firstItem="fbo-Rx-W7l" firstAttribute="centerY" secondItem="WKE-Gh-EAW" secondAttribute="centerY" id="fvp-Rd-r2c"/>
                     <constraint firstItem="N5r-Mx-LBf" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="iyO-Eo-BCf"/>
-                    <constraint firstItem="quj-gx-aI7" firstAttribute="top" secondItem="A9e-SQ-wwf" secondAttribute="bottom" constant="2" id="ppX-48-muH"/>
+                    <constraint firstItem="quj-gx-aI7" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="nuQ-3v-WZS"/>
+                    <constraint firstAttribute="trailing" secondItem="quj-gx-aI7" secondAttribute="trailing" constant="15" id="pij-rY-bGd"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

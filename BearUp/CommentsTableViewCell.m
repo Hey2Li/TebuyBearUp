@@ -15,14 +15,20 @@
     // Initialization code
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     [self layoutIfNeeded];
+    self.backgroundColor = UIColorFromRGB(0xf5f5f5);
     [self.headerImageView setImage:[UIImage imageNamed:@"defaultUserIcon"]];
     [self cutRoundView:self.headerImageView];
     [self.praiseBtn setImage:[UIImage imageNamed:@"点赞灰"] forState:UIControlStateNormal];
     [self.praiseBtn setImage:[UIImage imageNamed:@"点赞红"] forState:UIControlStateSelected];
     [self.praiseBtn setTitle:@"12221" forState:UIControlStateNormal];
     self.praiseBtn.titleLabel.font = [UIFont systemFontOfSize:14];
-    self.praiseBtn.titleLabel.textColor = UIColorFromRGB(0x6b6b6b);
+    [self.praiseBtn setTitleColor:UIColorFromRGB(0x6b6b6b) forState:UIControlStateNormal];
     [self.praiseBtn addTarget:self action:@selector(praiseClick:) forControlEvents:UIControlEventTouchUpInside];
+//    [self.commentLabel setValue:@(30) forKey:@"lineSpacing"];
+    self.commentLabel.textColor = UIColorFromRGB(0x6b6b6b);
+    self.commentLabel.font = [UIFont systemFontOfSize:15];
+    self.dateLabel.textColor = UIColorFromRGB(0xaeaeae);
+    self.userName.textColor = UIColorFromRGB(0x6b6b6b);
     
 }
 - (void)praiseClick:(UIButton *)sender{
