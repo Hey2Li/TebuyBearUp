@@ -92,6 +92,8 @@
     [_delegate shareWithBtnClick:btn];
 }
 - (void)danmuWithBtnClick:(UIButton *)btn{
+    btn.selected  = !btn.selected;
+    
     [_delegate danmuWithBtnClick:btn];
 }
 - (void)lookForCommentWithBtnClick:(UIButton *)btn{

@@ -13,18 +13,25 @@
 #import "CommentsTableViewCell.h"
 #import "BottomCommentView.h"
 #import <UShareUI/UShareUI.h>
+#import "BarrageRenderer/BarrageRenderer.h"
 
 @interface CDetailViewController ()<WKNavigationDelegate,WKUIDelegate,WKScriptMessageHandler, UITableViewDelegate, UITableViewDataSource,BottomCommentDelegate>
+{
+    NSInteger _index;
+}
 @property (nonatomic, strong) WKWebView *wkWebView;
 @property (nonatomic, strong) NSDictionary *htmlDict;
 @property (strong, nonatomic) NSMutableArray *imagesArr;
 @property (nonatomic, strong) UITableView *myTableView;
 @property (nonatomic, strong) BottomCommentView *bottomView;
+@property (nonatomic, strong) BarrageRenderer *render;
 @end
-static NSString *commentCell = @"commentCell";
+
 @implementation CDetailViewController
 static NSString * const picMethodName = @"openBigPicture:";
 static NSString * const videoMethodName = @"openVideoPlayer:";
+static NSString *commentCell = @"commentCell";
+
 - (BottomCommentView *)bottomView{
     if (!_bottomView) {
         _bottomView = [[BottomCommentView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
@@ -58,6 +65,7 @@ static NSString * const videoMethodName = @"openVideoPlayer:";
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.tabBarController.tabBar setHidden:YES];
+    
 }
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
@@ -73,6 +81,16 @@ static NSString * const videoMethodName = @"openVideoPlayer:";
     self.myTableView.estimatedRowHeight = 130.5f;
     self.title = @"详情";
     [self footerLoadData];
+    [self initBarrageRenderer];
+    [self autoSendBarrage];
+    [_render start];
+    [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(autoSendBarrage) userInfo:nil repeats:YES];
+}
+- (void)initBarrageRenderer{
+    _render = [[BarrageRenderer alloc]init];
+    [self.view addSubview:_render.view];
+    _render.canvasMargin = UIEdgeInsetsMake(0, 0, SCREEN_HEIGHT/2, 0);
+     _render.view.userInteractionEnabled = YES;
 }
 - (void)footerLoadData{
     self.myTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
@@ -311,9 +329,39 @@ static NSString * const videoMethodName = @"openVideoPlayer:";
         self.wkWebView.scrollView.scrollEnabled = YES;
     }
 }
+/// 生成精灵描述 - 过场文字弹幕
+- (BarrageDescriptor *)walkTextSpriteDescriptorWithDirection:(BarrageWalkDirection)direction side:(BarrageWalkSide)side
+{
+    BarrageDescriptor * descriptor = [[BarrageDescriptor alloc]init];
+    descriptor.spriteName = NSStringFromClass([BarrageWalkTextSprite class]);
+    descriptor.params[@"text"] = [NSString stringWithFormat:@"过场文字弹幕:%ld",(long)_index++];
+    descriptor.params[@"textColor"] = [UIColor blueColor];
+    descriptor.params[@"speed"] = @(100 * (double)random()/RAND_MAX+50);
+    descriptor.params[@"direction"] = @(direction);
+    descriptor.params[@"side"] = @(side);
+    descriptor.params[@"clickAction"] = ^{
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"弹幕被点击" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:nil];
+        [alertView show];
+    };
+    return descriptor;
+}
+- (void)autoSendBarrage
+{
+    NSInteger spriteNumber = [_render spritesNumberWithName:nil];
+       if (spriteNumber <= 100) { // 用来演示如何限制屏幕上的弹幕量
+        [_render receive:[self walkTextSpriteDescriptorWithDirection:BarrageWalkDirectionR2L side:BarrageWalkSideLeft]];
+       }
+}
+
 #pragma mark - bottomComment delegate
 - (void)danmuWithBtnClick:(UIButton *)btn{
-    
+    if (!btn.selected) {
+        [_render start];
+        [btn setImage:[UIImage imageNamed:@"弹幕红"] forState:UIControlStateNormal];
+    }else{
+        [_render stop];
+        [btn setImage:[UIImage imageNamed:@"弹幕灰"] forState:UIControlStateNormal];
+    }
 }
 - (void)lookForCommentWithBtnClick:(UIButton *)btn{
 
