@@ -89,8 +89,9 @@ static NSString *commentCell = @"commentCell";
 - (void)initBarrageRenderer{
     _render = [[BarrageRenderer alloc]init];
     [self.view addSubview:_render.view];
-    _render.canvasMargin = UIEdgeInsetsMake(0, 0, SCREEN_HEIGHT/2, 0);
+    _render.canvasMargin = UIEdgeInsetsMake(300, 0, 44, 0);
      _render.view.userInteractionEnabled = YES;
+    _render.masked = NO;
 }
 - (void)footerLoadData{
     self.myTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
