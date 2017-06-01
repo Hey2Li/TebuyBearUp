@@ -41,12 +41,16 @@
     [self.navigationController setNavigationBarHidden:NO];
 }
 - (void)initWithTopBar{
+//    self.topTitleBar = [[BUTopTitleBar alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 64) AndItems:self.titleArray];
+//    self.topTitleBar.itemTitles = self.titleArray;
+//    self.topTitleBar.backgroundColor = [UIColor redColor];
+//    self.topTitleBar.delegate = self;
+//    [self.view addSubview:self.topTitleBar];
     self.topTitleBar = [[BUTopTitleBar alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 64) AndItems:self.titleArray];
     self.topTitleBar.itemTitles = self.titleArray;
-    self.topTitleBar.backgroundColor = [UIColor redColor];
     self.topTitleBar.delegate = self;
-    [self.view addSubview:self.topTitleBar];
-    
+    self.topTitleBar.backgroundColor = RGBCOLOR(241, 73, 104);
+    [self.navigationController.view addSubview:self.topTitleBar];
 }
 
 - (void)setupViewControllers{

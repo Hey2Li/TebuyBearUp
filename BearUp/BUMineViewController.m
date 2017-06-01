@@ -10,6 +10,7 @@
 
 @interface BUMineViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UITableView *myTableView;
+@property (nonatomic, strong) UIView *headerView;
 @end
 
 @implementation BUMineViewController
@@ -18,37 +19,58 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES];
+    float tmpSize = [[SDImageCache sharedImageCache] getSize];
+    NSString *clearCacheName = tmpSize >= 1 ? [NSString stringWithFormat:@"%.1fMB",tmpSize/(1024*1024)] : [NSString stringWithFormat:@"%.1fKB",tmpSize * 1024];
+    NSLog(@"%@",clearCacheName);
 }
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [self.navigationController setNavigationBarHidden:NO];
 }
+//设置状态栏颜色
+- (void)setStatusBarBackgroundColor:(UIColor *)color {
+    
+    UIView *statusBar = [[[UIApplication sharedApplication] valueForKey:@"statusBarWindow"] valueForKey:@"statusBar"];
+    NSLog(@"statusBar.backgroundColor--->%@",statusBar.backgroundColor);
+    if ([statusBar respondsToSelector:@selector(setBackgroundColor:)]) {
+        statusBar.backgroundColor = color;
+    }
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"我的";
-    self.view.backgroundColor = [UIColor whiteColor];
     [self initWithView];
 }
+
 - (void)initWithView{
-    UITableView *tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) style:UITableViewStylePlain];
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    UITableView *tableView = [UITableView new];
     [self.view addSubview:tableView];
+    [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view.mas_left);
+        make.right.equalTo(self.view.mas_right);
+        make.top.equalTo(self.view.mas_top);
+        make.bottom.equalTo(self.view.mas_bottom);
+    }];
     tableView.delegate = self;
     tableView.dataSource = self;
     tableView.separatorStyle = NO;
+//    tableView.backgroundColor = DRGBCOLOR;
     self.myTableView = tableView;
     
     UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT/3)];
     headerView.backgroundColor = DRGBCOLOR;
+    self.headerView = headerView;
     UIButton *headerBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [headerView addSubview:headerBtn];
     headerBtn.backgroundColor = [UIColor blueColor];
     [headerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(headerView.mas_left).offset(10);
         make.top.equalTo(headerView.mas_top).offset(50);
-        make.width.equalTo(@100);
-        make.height.equalTo(@100);
+        make.width.equalTo(@80);
+        make.height.equalTo(@80);
     }];
-    [headerBtn.layer setCornerRadius:50];
+    [headerBtn.layer setCornerRadius:40];
     [headerBtn.layer setMasksToBounds:YES];
     
     UILabel *nameLabel = [UILabel new];
@@ -75,7 +97,8 @@
         UIButton *button  =[UIButton buttonWithType:UIButtonTypeCustom];
         button.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
         [button setTitle:array[i] forState:UIControlStateNormal];
-        button.backgroundColor = [UIColor blackColor];
+        [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        button.backgroundColor = [UIColor whiteColor];
         [headerView addSubview:button];
         [button mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(headerView.mas_left).offset(SCREEN_WIDTH/4*i);

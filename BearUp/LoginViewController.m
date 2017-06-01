@@ -12,6 +12,8 @@
 #import <UMSocialCore/UMSocialCore.h>
 
 @interface LoginViewController ()
+@property (weak, nonatomic) IBOutlet UITextField *userNameTF;
+@property (weak, nonatomic) IBOutlet UITextField *passwordTF;
 
 @end
 
@@ -30,7 +32,11 @@
 
 }
 - (IBAction)login:(id)sender {
-    [self presentViewController:[BaseTabBarViewController new] animated:YES completion:nil];
+    if (self.userNameTF.text.length > 0 && self.passwordTF.text.length > 0) {
+        [self presentViewController:[BaseTabBarViewController new] animated:YES completion:nil];
+    }else{
+        [self.view makeToast:@"账户名或密码错误"];
+    }
 }
 - (IBAction)loginForWechat:(id)sender {
       [self getAuthWithUserInfoFromWechat];
