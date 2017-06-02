@@ -109,9 +109,12 @@
     _currentItemIndex = currentItemIndex;
     UIButton *button = _items[currentItemIndex];
     
-        CGFloat offsetx = button.center.x - _nagationNavBar.frame.size.width * 0.5;
+    CGFloat offsetx = button.center.x - _nagationNavBar.frame.size.width * 0.5;
     
     CGFloat offsetMaxX = _nagationNavBar.contentSize.width - _nagationNavBar.frame.size.width;
+    //offsetx topscrollview的偏移量
+    //offsetMax topscrollview的最大偏移量
+    //offsetx < 0 滚动距离的小于半屏时不动 大于半屏且小于最大偏移量时topscrollview滚动 大于最大偏移量时不动
     if (offsetx < 0) {
         offsetx = 0;
     }else if (offsetx > offsetMaxX){

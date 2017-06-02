@@ -58,20 +58,32 @@
 //    tableView.backgroundColor = DRGBCOLOR;
     self.myTableView = tableView;
     
-    UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT/3)];
+    UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT/3 + 50)];
     headerView.backgroundColor = DRGBCOLOR;
     self.headerView = headerView;
-    UIButton *headerBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [headerView addSubview:headerBtn];
-    headerBtn.backgroundColor = [UIColor blueColor];
-    [headerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+    
+    UIImageView *headerImageView = [UIImageView new];
+    [headerView addSubview:headerImageView];
+    headerImageView.userInteractionEnabled = YES;
+    headerImageView.image = [UIImage imageNamed:@"defaultUserIcon"];
+    [headerImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(headerView.mas_left).offset(10);
         make.top.equalTo(headerView.mas_top).offset(50);
         make.width.equalTo(@80);
         make.height.equalTo(@80);
     }];
-    [headerBtn.layer setCornerRadius:40];
-    [headerBtn.layer setMasksToBounds:YES];
+    [headerImageView.layer setCornerRadius:40];
+    [headerImageView.layer setMasksToBounds:YES];
+    
+    UIButton *headerBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [headerImageView addSubview:headerBtn];
+    [headerBtn addTarget:self action:@selector(headerBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    [headerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(headerImageView.mas_left);
+        make.right.equalTo(headerImageView.mas_right);
+        make.top.equalTo(headerImageView.mas_top);
+        make.bottom.equalTo(headerImageView.mas_bottom);
+    }];
     
     UILabel *nameLabel = [UILabel new];
     nameLabel.text = @"昵称:快乐的小猴子";
@@ -90,7 +102,7 @@
         make.left.equalTo(nameLabel.mas_left);
         make.right.equalTo(nameLabel.mas_right);
         make.centerY.equalTo(headerBtn.mas_centerY).offset(15);
-        make.bottom.equalTo(headerView.mas_bottom);
+        make.height.equalTo(@20);
     }];
     NSArray *array = @[@"点赞\n222",@"评论\n222",@"分享\n222",@"收藏\n222"];
     for (int i = 0; i < array.count; i++) {
@@ -104,13 +116,16 @@
             make.left.equalTo(headerView.mas_left).offset(SCREEN_WIDTH/4*i);
             make.bottom.equalTo(headerView.mas_bottom);
             make.width.equalTo(@(SCREEN_WIDTH/4));
-            make.top.equalTo(headerBtn.mas_bottom).offset(10);
+            make.height.equalTo(@80);
         }];
         button.tag = i;
         [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
     }
     
     self.myTableView.tableHeaderView = headerView;
+}
+- (void)headerBtnClick:(UIButton *)btn{
+    NSLog(@"headerBtnClick");
 }
 - (void)buttonClick:(UIButton *)btn{
     NSLog(@"%ld,%@",btn.tag,btn.titleLabel.text);
