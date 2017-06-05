@@ -7,13 +7,14 @@
 //
 
 #import "BUFoundViewController.h"
-#import "HorizontalCollectionViewCell.h"
+#import "HorizontalTableViewCell.h"
+#import "HomePageTableViewCell.h"
 static NSString *HORCELL = @"HorizontalCell";
-@interface BUFoundViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
-@property (nonatomic, strong) UICollectionView *collectionView;
-@property (nonatomic, strong) UICollectionViewFlowLayout *layout;
-@end
+@interface BUFoundViewController ()<UITableViewDelegate, UITableViewDataSource>
+@property (nonatomic, strong) UITableView *myTableView;
 
+@end
+static NSString *FOUNDCELL = @"foundCell";
 @implementation BUFoundViewController
 
 - (void)viewDidLoad {
@@ -23,58 +24,55 @@ static NSString *HORCELL = @"HorizontalCell";
     [self initWithView];
 }
 - (void)initWithView{
-    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
-    self.layout = layout;
-    UICollectionView *collection = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) collectionViewLayout:self.layout];
-    collection.delegate = self;
-    collection.dataSource = self;
-    collection.backgroundColor = [UIColor whiteColor];
-    [collection registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"CollectionViewCell"];
-    [collection registerClass:[HorizontalCollectionViewCell class] forCellWithReuseIdentifier:HORCELL];
-    self.collectionView = collection;
-    [self.view addSubview:self.collectionView];
+    UITableView *tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) style:UITableViewStyleGrouped];
+    [self.view addSubview:tableView];
+    [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view.mas_left);
+        make.right.equalTo(self.view.mas_right);
+        make.top.equalTo(self.view.mas_top);
+        make.bottom.equalTo(self.view.mas_bottom);
+    }];
+    tableView.delegate = self;
+    tableView.dataSource = self;
+    tableView.separatorStyle = NO;
+    tableView.tableFooterView = [UIView new];
+    [tableView registerClass:[HomePageTableViewCell class] forCellReuseIdentifier:FOUNDCELL];
+    [tableView registerClass:[HorizontalTableViewCell class] forCellReuseIdentifier:HORCELL];
+    self.myTableView = tableView;
 }
-#pragma mark - UICollectionViewDelegate
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
-    return 4;
+
+#pragma mark tableViewDelegate
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 10;
 }
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    if (section == 0) {
-        return 1;
-    }else if (section == 1){
-        return 1;
-    }else if (section == 2){
-        return 1;
-    }else if (section == 3){
-        return 4;
-    }else{
-        return 0;
-    }
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return 1;
 }
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section == 0 || indexPath.section == 1) {
-        return CGSizeMake(SCREEN_WIDTH - 20, 200);
-    }else if (indexPath.section == 2){
-        return CGSizeMake(SCREEN_WIDTH - 30, 200);
-    }else{
-        return CGSizeMake((SCREEN_WIDTH - 20)/2, 200);
-    }
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 200;
 }
-- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
-    return UIEdgeInsetsMake(5, 10, 5, 10);
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 25;
 }
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
-    return CGSizeMake(SCREEN_WIDTH, 10);
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return CGFLOAT_MIN;
 }
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section == 2) {
-        HorizontalCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:HORCELL forIndexPath:indexPath];
-        return cell;
-    }else{
-        UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CollectionViewCell" forIndexPath:indexPath];
-        cell.backgroundColor  = [UIColor redColor];
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    UILabel *label = [UILabel new];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.text = @"全部排行";
+    label.textColor = UIColorFromRGB(0x000000);
+    label.font = [UIFont systemFontOfSize:16];
+    label.backgroundColor = UIColorFromRGB(0xf5f5f5);
+    return label;
+}
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    HomePageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:FOUNDCELL];
+    if (indexPath.section == 4) {
+        HorizontalTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:HORCELL];
         return cell;
     }
+    return cell;
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
