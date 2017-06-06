@@ -30,7 +30,7 @@
     [self.contentImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.contentView).with.insets(UIEdgeInsetsMake(0, 0, 0, 0));
     }];
-    
+
     UIView *grayView = [[UIView alloc]init];
     grayView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.4];
     [self.contentImageView addSubview:grayView];

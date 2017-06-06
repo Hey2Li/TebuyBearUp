@@ -45,7 +45,9 @@
     cell.backgroundColor = [UIColor whiteColor];
     return cell;
 }
-
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    self.HorCollectionCellClick(indexPath);
+}
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code

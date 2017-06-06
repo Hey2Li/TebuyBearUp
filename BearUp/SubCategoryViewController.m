@@ -1,39 +1,27 @@
 //
-//  BUFoundViewController.m
+//  SubCategoryViewController.m
 //  BearUp
 //
-//  Created by Tebuy on 2017/5/5.
+//  Created by Tebuy on 2017/6/6.
 //  Copyright © 2017年 Tebuy. All rights reserved.
 //
 
-#import "BUFoundViewController.h"
-#import "HorizontalTableViewCell.h"
+#import "SubCategoryViewController.h"
 #import "HomePageTableViewCell.h"
-#import "ListViewController.h"
-#import "CategoryViewController.h"
 
-static NSString *HORCELL = @"HorizontalCell";
-@interface BUFoundViewController ()<UITableViewDelegate, UITableViewDataSource>
+@interface SubCategoryViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UITableView *myTableView;
-
 @end
-static NSString *FOUNDCELL = @"foundCell";
-@implementation BUFoundViewController
+
+@implementation SubCategoryViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"发现";
-    self.view.backgroundColor = [UIColor whiteColor];
     [self initWithView];
-}
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-}
-- (void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
+    self.view.backgroundColor = [UIColor whiteColor];
 }
 - (void)initWithView{
-    UITableView *tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) style:UITableViewStyleGrouped];
+    UITableView *tableView  =[[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) style:UITableViewStyleGrouped];
     [self.view addSubview:tableView];
     [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view.mas_left);
@@ -44,13 +32,10 @@ static NSString *FOUNDCELL = @"foundCell";
     tableView.delegate = self;
     tableView.dataSource = self;
     tableView.separatorStyle = NO;
-    tableView.tableFooterView = [UIView new];
-    [tableView registerClass:[HomePageTableViewCell class] forCellReuseIdentifier:FOUNDCELL];
-    [tableView registerClass:[HorizontalTableViewCell class] forCellReuseIdentifier:HORCELL];
+    tableView.tableFooterView.backgroundColor = [UIColor whiteColor];
     self.myTableView = tableView;
 }
-
-#pragma mark tableViewDelegate
+#pragma mark TableViewDelage
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 10;
 }
@@ -69,33 +54,19 @@ static NSString *FOUNDCELL = @"foundCell";
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UILabel *label = [UILabel new];
     label.textAlignment = NSTextAlignmentCenter;
-    label.text = @"全部排行";
+    label.text = @"最近更新";
     label.textColor = UIColorFromRGB(0x000000);
     label.font = [UIFont systemFontOfSize:16];
     label.backgroundColor = UIColorFromRGB(0xf5f5f5);
     return label;
-}
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    HomePageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:FOUNDCELL];
-    if (indexPath.section == 4) {
-        HorizontalTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:HORCELL];
-        cell.HorCollectionCellClick = ^(NSIndexPath *index){
-            NSLog(@"%ld",(long)index.row);
-            CategoryViewController *vc = [CategoryViewController new];
-            [self.navigationController pushViewController:vc animated:YES];
-        };
-        return cell;
+}- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    HomePageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    if (!cell) {
+        cell = [[HomePageTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section == 4) {
-    
-    }
-    ListViewController *vc = [ListViewController new];
-    [self.navigationController pushViewController:vc animated:YES];
-}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

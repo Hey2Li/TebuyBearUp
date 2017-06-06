@@ -57,6 +57,9 @@
 		1C1EDE471ED7B5B80099D115 /* CommentsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C1EDE451ED7B5B80099D115 /* CommentsTableViewCell.m */; };
 		1C1EDE481ED7B5B80099D115 /* CommentsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1C1EDE461ED7B5B80099D115 /* CommentsTableViewCell.xib */; };
 		1C9590331EE52421001E0DF0 /* HorizontalTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C9590321EE52421001E0DF0 /* HorizontalTableViewCell.m */; };
+		1C9590361EE64879001E0DF0 /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C9590351EE64879001E0DF0 /* ListViewController.m */; };
+		1C9590391EE64891001E0DF0 /* CategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C9590381EE64891001E0DF0 /* CategoryViewController.m */; };
+		1C95903C1EE6926C001E0DF0 /* SubCategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C95903B1EE6926C001E0DF0 /* SubCategoryViewController.m */; };
 		1CEBC8711ED926EA00760301 /* BottomCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CEBC8701ED926EA00760301 /* BottomCommentView.m */; };
 		A4642D9C705BB581661F8BF1 /* libPods-BearUp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1701B53EBC2CD6FCE70EFC7E /* libPods-BearUp.a */; };
 /* End PBXBuildFile section */
@@ -169,6 +172,12 @@
 		1C1EDE461ED7B5B80099D115 /* CommentsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommentsTableViewCell.xib; sourceTree = "<group>"; };
 		1C9590311EE52421001E0DF0 /* HorizontalTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HorizontalTableViewCell.h; sourceTree = "<group>"; };
 		1C9590321EE52421001E0DF0 /* HorizontalTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HorizontalTableViewCell.m; sourceTree = "<group>"; };
+		1C9590341EE64879001E0DF0 /* ListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListViewController.h; sourceTree = "<group>"; };
+		1C9590351EE64879001E0DF0 /* ListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListViewController.m; sourceTree = "<group>"; };
+		1C9590371EE64891001E0DF0 /* CategoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryViewController.h; sourceTree = "<group>"; };
+		1C9590381EE64891001E0DF0 /* CategoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryViewController.m; sourceTree = "<group>"; };
+		1C95903A1EE6926C001E0DF0 /* SubCategoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubCategoryViewController.h; sourceTree = "<group>"; };
+		1C95903B1EE6926C001E0DF0 /* SubCategoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubCategoryViewController.m; sourceTree = "<group>"; };
 		1CEBC86F1ED926EA00760301 /* BottomCommentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BottomCommentView.h; sourceTree = "<group>"; };
 		1CEBC8701ED926EA00760301 /* BottomCommentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BottomCommentView.m; sourceTree = "<group>"; };
 		6BF61575B082E4169D6B8293 /* Pods-BearUp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BearUp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BearUp/Pods-BearUp.debug.xcconfig"; sourceTree = "<group>"; };
@@ -524,6 +533,12 @@
 			children = (
 				1C1EDC0B1EBC46430099D115 /* BUFoundViewController.h */,
 				1C1EDC0C1EBC46430099D115 /* BUFoundViewController.m */,
+				1C9590341EE64879001E0DF0 /* ListViewController.h */,
+				1C9590351EE64879001E0DF0 /* ListViewController.m */,
+				1C9590371EE64891001E0DF0 /* CategoryViewController.h */,
+				1C9590381EE64891001E0DF0 /* CategoryViewController.m */,
+				1C95903A1EE6926C001E0DF0 /* SubCategoryViewController.h */,
+				1C95903B1EE6926C001E0DF0 /* SubCategoryViewController.m */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -778,9 +793,11 @@
 				1C1EDC181EC00F650099D115 /* LTHttpManager.m in Sources */,
 				1C1EDC301EC1B7500099D115 /* BUTitleLabel.m in Sources */,
 				1C9590331EE52421001E0DF0 /* HorizontalTableViewCell.m in Sources */,
+				1C95903C1EE6926C001E0DF0 /* SubCategoryViewController.m in Sources */,
 				1C1EDC171EC00F650099D115 /* LTHTTPSessionManager.m in Sources */,
 				1C1EDC0A1EBC462D0099D115 /* BUVideoViewController.m in Sources */,
 				1C1EDE1B1ECC217E0099D115 /* NSString+Extension.m in Sources */,
+				1C9590361EE64879001E0DF0 /* ListViewController.m in Sources */,
 				1C1EDE431ED562E30099D115 /* ZFPVideoResolution.m in Sources */,
 				1C1EDE351ED3C06E0099D115 /* ScrollBannerTableViewCell.m in Sources */,
 				1C1EDC201EC15BF50099D115 /* Tool.m in Sources */,
@@ -789,6 +806,7 @@
 				1C1EDBCF1EBC43BE0099D115 /* ViewController.m in Sources */,
 				1C1EDC101EBC46500099D115 /* BUMineViewController.m in Sources */,
 				1C1EDBCC1EBC43BE0099D115 /* AppDelegate.m in Sources */,
+				1C9590391EE64891001E0DF0 /* CategoryViewController.m in Sources */,
 				1C1EDE101ECAD6500099D115 /* CDetailViewController.m in Sources */,
 				1C1EDC331EC29FCC0099D115 /* HomePageTableViewCell.m in Sources */,
 				1C1EDE401ED561430099D115 /* ZFVideoModel.m in Sources */,
