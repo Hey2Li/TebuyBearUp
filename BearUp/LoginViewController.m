@@ -257,6 +257,7 @@
     [weiBoBtn addTarget:self action:@selector(loginForSina:) forControlEvents:UIControlEventTouchUpInside];
     [qqBtn addTarget:self action:@selector(loginForQQ:) forControlEvents:UIControlEventTouchUpInside];
     [otherUserBtn addTarget:self action:@selector(visitorsToLogin:) forControlEvents:UIControlEventTouchUpInside];
+    [forgetPasswordBtn addTarget:self action:@selector(findPassword:) forControlEvents:UIControlEventTouchUpInside];
     
     self.userNameTF = userNameTF;
     self.passwordTF = passwordTF;
@@ -314,7 +315,11 @@
 - (void)visitorsToLogin:(id)sender {
     [self presentViewController:[BaseTabBarViewController new] animated:YES completion:nil];
 }
-
+- (void)findPassword:(UIButton *)sender{
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"BearUp" bundle:nil];
+    UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"FindPassword"];
+    [self.navigationController pushViewController:vc animated:YES];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

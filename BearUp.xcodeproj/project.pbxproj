@@ -57,6 +57,7 @@
 		1C1EDE471ED7B5B80099D115 /* CommentsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C1EDE451ED7B5B80099D115 /* CommentsTableViewCell.m */; };
 		1C1EDE481ED7B5B80099D115 /* CommentsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1C1EDE461ED7B5B80099D115 /* CommentsTableViewCell.xib */; };
 		1C724D041EE7FA2600528FDC /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C724D031EE7FA2600528FDC /* RegisterViewController.m */; };
+		1C724D071EE9365900528FDC /* FindPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C724D061EE9365900528FDC /* FindPasswordViewController.m */; };
 		1C9590331EE52421001E0DF0 /* HorizontalTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C9590321EE52421001E0DF0 /* HorizontalTableViewCell.m */; };
 		1C9590361EE64879001E0DF0 /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C9590351EE64879001E0DF0 /* ListViewController.m */; };
 		1C9590391EE64891001E0DF0 /* CategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C9590381EE64891001E0DF0 /* CategoryViewController.m */; };
@@ -173,6 +174,8 @@
 		1C1EDE461ED7B5B80099D115 /* CommentsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommentsTableViewCell.xib; sourceTree = "<group>"; };
 		1C724D021EE7FA2600528FDC /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
 		1C724D031EE7FA2600528FDC /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
+		1C724D051EE9365900528FDC /* FindPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindPasswordViewController.h; sourceTree = "<group>"; };
+		1C724D061EE9365900528FDC /* FindPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindPasswordViewController.m; sourceTree = "<group>"; };
 		1C9590311EE52421001E0DF0 /* HorizontalTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HorizontalTableViewCell.h; sourceTree = "<group>"; };
 		1C9590321EE52421001E0DF0 /* HorizontalTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HorizontalTableViewCell.m; sourceTree = "<group>"; };
 		1C9590341EE64879001E0DF0 /* ListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListViewController.h; sourceTree = "<group>"; };
@@ -353,6 +356,8 @@
 				1C1EDC251EC191220099D115 /* LoginViewController.m */,
 				1C724D021EE7FA2600528FDC /* RegisterViewController.h */,
 				1C724D031EE7FA2600528FDC /* RegisterViewController.m */,
+				1C724D051EE9365900528FDC /* FindPasswordViewController.h */,
+				1C724D061EE9365900528FDC /* FindPasswordViewController.m */,
 			);
 			name = Login;
 			sourceTree = "<group>";
@@ -805,6 +810,7 @@
 				1C1EDE1B1ECC217E0099D115 /* NSString+Extension.m in Sources */,
 				1C9590361EE64879001E0DF0 /* ListViewController.m in Sources */,
 				1C1EDE431ED562E30099D115 /* ZFPVideoResolution.m in Sources */,
+				1C724D071EE9365900528FDC /* FindPasswordViewController.m in Sources */,
 				1C1EDE351ED3C06E0099D115 /* ScrollBannerTableViewCell.m in Sources */,
 				1C1EDC201EC15BF50099D115 /* Tool.m in Sources */,
 				1C1EDE471ED7B5B80099D115 /* CommentsTableViewCell.m in Sources */,

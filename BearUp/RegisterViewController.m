@@ -36,7 +36,7 @@
     self.phoneTF.keyboardType = UIKeyboardTypePhonePad;
     self.codeTF.keyboardType = UIKeyboardTypePhonePad;
     self.setPasswordTF.secureTextEntry = YES;
-    [self.registerBtn.layer setCornerRadius:18];
+    [self.registerBtn.layer setCornerRadius:self.registerBtn.bounds.size.height/2];
     [self.registerBtn.layer setMasksToBounds:YES];
     [self.registerBtn setBackgroundColor:UIColorFromRGB(0xff4466)];
 }
