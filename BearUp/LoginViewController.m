@@ -292,11 +292,32 @@
 
 }
 - (void)loginClick:(UIButton *)btn{
-    if (self.userNameTF.text.length > 0 && self.passwordTF.text.length > 0) {
-        [self presentViewController:[BaseTabBarViewController new] animated:YES completion:nil];
+    if ([Tool judgePhoneNumber:self.userNameTF.text]) {
+        if (self.passwordTF.text.length > 7) {
+          [self presentViewController:[BaseTabBarViewController new] animated:YES completion:nil];
+        }else{
+            [self.view makeToast:@"密码不正确"];
+        }
     }else{
-        [self.view makeToast:@"账户名或密码错误"];
+        [self.view makeToast:@"请输入正确的手机号码"];
     }
+//    if ([Tool judgePhoneNumber:self.userNameTF.text] && self.passwordTF.text.length > 6){
+//       
+//    }else if (self.userNameTF.text.length == 0) {
+//        [self.view makeToast:@"请输入手机号码"];
+//        return;
+//    }else if (self.passwordTF.text.length == 0){
+//        [self.view makeToast:@"请输入密码"];
+//        return;
+//    }else if (self.userNameTF.text > 0){
+//        if ( ![Tool judgePhoneNumber:self.userNameTF.text]) {
+//            [self.view makeToast:@"请输入正确的手机号码"];
+//            return;
+//        }else if (self.passwordTF.text.length < 7) {
+//            [self.view makeToast:@"请输入正确的密码"];
+//            return;
+//        }
+//    }
 }
 - (void)registerClick:(UIButton *)sender{
     UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"BearUp" bundle:nil];

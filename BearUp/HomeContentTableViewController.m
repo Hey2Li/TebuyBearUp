@@ -59,9 +59,6 @@ static NSString *videoCell = @"playerCell";
     [self headerLoadData];
     [self requestData];
     [self.tableView registerClass:[VideoTableViewCell class] forCellReuseIdentifier:videoCell];
-//    [LTHttpManager testApi:^(LTHttpResult result, NSString *message, id data) {
-//              
-//    }];
 }
 - (void)requestData {
     NSString *path = [[NSBundle mainBundle] pathForResource:@"videoData" ofType:@"json"];

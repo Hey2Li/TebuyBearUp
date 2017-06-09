@@ -18,4 +18,6 @@ void SVProgressHiden();
 NSAttributedString *returnNumAttr(NSString *str,NSInteger fontSize);
 + (NSDictionary *)MD5Dictionary;
 + (NSString *)MD5:(NSString *)str;
++ (BOOL)judgePhoneNumber:(NSString *)phoneNum;
+
 @end

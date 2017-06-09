@@ -7,8 +7,9 @@
 //
 
 #import "FindPasswordViewController.h"
+#import "BaseTabBarViewController.h"
 
-@interface FindPasswordViewController ()
+@interface FindPasswordViewController ()<UIAlertViewDelegate, UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *findBtn;
 @property (weak, nonatomic) IBOutlet UIButton *hidePasswordBtn;
 @property (weak, nonatomic) IBOutlet UIButton *hidePasswordagainBtn;
@@ -26,16 +27,141 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"找回密码";
-//    self.navigationController.navigationBar.alpha = 0;
-    [self.findBtn.layer setCornerRadius:25];
+    [self initWithView];
+}
+- (void)initWithView{
+    [self.findBtn.layer setCornerRadius:18];
     [self.findBtn.layer setMasksToBounds:YES];
+    [self.findBtn addTarget:self action:@selector(findBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    self.phoneTF.delegate = self;
+    self.codeTF.delegate = self;
+    self.inputPasswordTF.delegate = self;
+    self.inputPasswordAgainTF.delegate = self;
+    self.inputPasswordAgainTF.secureTextEntry = YES;
+    self.inputPasswordTF.secureTextEntry = YES;
+}
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if (textField == self.phoneTF) {
+        NSInteger strLength = textField.text.length - range.length + string.length;
+        if (strLength > 11){
+            return NO;
+        }
+        NSString *text = nil;
+        //如果string为空，表示删除
+        if (string.length > 0) {
+            text = [NSString stringWithFormat:@"%@%@",textField.text,string];
+        }else{
+            text = [textField.text substringToIndex:range.location];
+            [self.postCodeBtn setBackgroundColor:UIColorFromRGB(0xaeaeae)];
+            [self.postCodeBtn setEnabled:NO];
+        }
+        if ([Tool judgePhoneNumber:text]) {
+            [self.postCodeBtn setEnabled:YES];
+            [self.postCodeBtn setBackgroundColor:UIColorFromRGB(0xff4466)];
+        }else{
+            [self.postCodeBtn setEnabled:NO];
+            [self.postCodeBtn setBackgroundColor:UIColorFromRGB(0xaeaeae)];
+        }
+    }
+    return YES;
 }
 
+- (void)findBtnClick:(UIButton *)sender{
+    if ([Tool judgePhoneNumber:self.phoneTF.text]) {
+        if ([self.codeTF.text isEqualToString:@"1111"]) {
+            if (self.inputPasswordTF.text.length > 7 && self.inputPasswordAgainTF.text.length > 7) {
+                if (![self.inputPasswordTF.text isEqualToString:self.inputPasswordAgainTF.text]) {
+                    [self.view makeToast:@"两次密码不一致"];
+                }else{
+                    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:nil message:@"找回密码成功，请登录" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                    [alertView show];
+                }
+            }else{
+                [self.view makeToast:@"请输入正确的密码"];
+            }
+        }else{
+            [self.view makeToast:@"请输入正确的验证码"];
+        }
+    }else{
+        [self.view makeToast:@"请输入正确的手机号码"];
+    }
+}
+- (IBAction)postCode:(UIButton *)sender {
+    if ([Tool judgePhoneNumber:self.phoneTF.text]) {
+        //
+        [self openCountdown];
+    }else{
+        [self.view makeToast:@"请输入正确的手机号码"];
+    }
+}
+
+- (IBAction)hidePassword:(UIButton *)sender {
+    sender.selected = !sender.selected;
+    [sender setImage:[UIImage imageNamed:@"查看输入的密码"] forState:UIControlStateSelected];
+    if (sender.selected) {
+        self.inputPasswordTF.secureTextEntry = NO;
+    }else{
+        self.inputPasswordTF.secureTextEntry = YES;
+    }
+
+}
+
+- (IBAction)hidePasswordAgain:(UIButton *)sender {
+    sender.selected = !sender.selected;
+    [sender setImage:[UIImage imageNamed:@"查看输入的密码"] forState:UIControlStateSelected];
+    if (sender.selected) {
+        self.inputPasswordAgainTF.secureTextEntry = NO;
+    }else{
+        self.inputPasswordAgainTF.secureTextEntry = YES;
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+// 开启倒计时效果
+-(void)openCountdown{
+    
+    __block NSInteger time = 59; //倒计时时间
+    
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_source_t _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
+    
+    dispatch_source_set_timer(_timer,dispatch_walltime(NULL, 0),1.0*NSEC_PER_SEC, 0); //每秒执行
+    
+    dispatch_source_set_event_handler(_timer, ^{
+        
+        if(time <= 0){ //倒计时结束，关闭
+            
+            dispatch_source_cancel(_timer);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                //设置按钮的样式
+                [self.postCodeBtn setTitle:@"重新发送" forState:UIControlStateNormal];
+                [self.postCodeBtn setBackgroundColor:UIColorFromRGB(0xff4466)];
+                self.postCodeBtn.userInteractionEnabled = YES;
+            });
+            
+        }else{
+            
+            int seconds = time % 60;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                //设置按钮显示读秒效果
+                [self.postCodeBtn setTitle:[NSString stringWithFormat:@"重新发送(%.2d)", seconds] forState:UIControlStateNormal];
+                [self.postCodeBtn setBackgroundColor:UIColorFromRGB(0xaeaeae)];
+                self.postCodeBtn.userInteractionEnabled = NO;
+            });
+            time--;
+        }
+    });
+    dispatch_resume(_timer);
+}
 /*
 #pragma mark - Navigation
 

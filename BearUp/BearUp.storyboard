@@ -117,7 +117,7 @@
                                     <constraint firstAttribute="height" constant="18" id="lO3-42-Q1p"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BwS-NC-o54">
+                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BwS-NC-o54">
                                 <rect key="frame" x="244" y="151" width="100" height="40"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -125,6 +125,7 @@
                                     <constraint firstAttribute="width" constant="100" id="TDg-Ar-nfJ"/>
                                     <constraint firstAttribute="height" constant="40" id="WaL-kF-hlQ"/>
                                 </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <state key="normal" title="发送验证码">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
@@ -149,13 +150,13 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QT3-me-o4X">
-                                <rect key="frame" x="36" y="273" width="220" height="25"/>
+                                <rect key="frame" x="36" y="273" width="15" height="15"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="220" id="ED6-58-jP2"/>
-                                    <constraint firstAttribute="height" constant="25" id="dJ0-EY-R1y"/>
+                                    <constraint firstAttribute="width" constant="15" id="V0d-6o-DAc"/>
+                                    <constraint firstAttribute="height" constant="15" id="l0c-kr-4JI"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <state key="normal" title="我已阅读并同意《熊起用户协议》" image="默认已读条款">
+                                <state key="normal" image="默认已读条款">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -173,14 +174,25 @@
                                     <action selector="hidePasswordBtn:" destination="PQw-eQ-piz" eventType="touchUpInside" id="JSu-BQ-QuA"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ist-rS-ICM">
+                                <rect key="frame" x="61" y="265" width="232" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="232" id="Flb-ut-Nyf"/>
+                                    <constraint firstAttribute="height" constant="30" id="IkC-Xg-WtV"/>
+                                </constraints>
+                                <state key="normal" title="我已阅读并同意《熊起用户协议》">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="readUserAgreement:" destination="PQw-eQ-piz" eventType="touchUpInside" id="kic-Up-p9W"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="EFw-zp-KYX" firstAttribute="leading" secondItem="qjZ-G6-Ijr" secondAttribute="leading" constant="-5" id="0J6-Mn-Fub"/>
                             <constraint firstItem="cvn-VF-Tpa" firstAttribute="centerY" secondItem="qjZ-G6-Ijr" secondAttribute="centerY" id="1LT-Ge-Gyp"/>
                             <constraint firstItem="EFw-zp-KYX" firstAttribute="top" secondItem="7nA-JV-DCc" secondAttribute="topMargin" constant="140" id="3eT-yN-aqL"/>
-                            <constraint firstItem="QT3-me-o4X" firstAttribute="leading" secondItem="7nA-JV-DCc" secondAttribute="leadingMargin" constant="20" id="3tM-Oh-1hY"/>
-                            <constraint firstItem="QT3-me-o4X" firstAttribute="top" secondItem="Zx5-m7-VGZ" secondAttribute="bottom" constant="30" id="3yv-zN-rCz"/>
                             <constraint firstAttribute="trailingMargin" secondItem="EFw-zp-KYX" secondAttribute="trailing" constant="15" id="4Pk-M8-2if"/>
                             <constraint firstItem="Zx5-m7-VGZ" firstAttribute="top" secondItem="gcs-Cv-UYD" secondAttribute="bottom" constant="10" id="60b-jo-6Jo"/>
                             <constraint firstItem="9eJ-JR-DV3" firstAttribute="top" secondItem="BwS-NC-o54" secondAttribute="bottom" id="8fD-Gf-Gma"/>
@@ -196,10 +208,12 @@
                             <constraint firstItem="EFw-zp-KYX" firstAttribute="trailing" secondItem="cvn-VF-Tpa" secondAttribute="trailing" id="RGD-Yk-MvO"/>
                             <constraint firstItem="MnA-EI-q96" firstAttribute="leading" secondItem="cvn-VF-Tpa" secondAttribute="leading" id="VSR-KO-mOR"/>
                             <constraint firstItem="9eJ-JR-DV3" firstAttribute="top" secondItem="EFw-zp-KYX" secondAttribute="bottom" constant="50" id="Wad-VK-3d2"/>
+                            <constraint firstItem="QT3-me-o4X" firstAttribute="centerY" secondItem="ist-rS-ICM" secondAttribute="centerY" id="YAi-xx-mkA"/>
                             <constraint firstItem="gcs-Cv-UYD" firstAttribute="centerY" secondItem="GG4-OL-Z0S" secondAttribute="centerY" id="ZAR-9i-91p"/>
                             <constraint firstItem="Zx5-m7-VGZ" firstAttribute="leading" secondItem="EFw-zp-KYX" secondAttribute="leading" id="ZTj-wL-XBz"/>
                             <constraint firstItem="uYw-vL-xuO" firstAttribute="leading" secondItem="7nA-JV-DCc" secondAttribute="leadingMargin" constant="20" id="Zo1-N7-TKy"/>
                             <constraint firstItem="Zx5-m7-VGZ" firstAttribute="top" secondItem="9eJ-JR-DV3" secondAttribute="bottom" constant="50" id="aZ4-Ua-9em"/>
+                            <constraint firstItem="QT3-me-o4X" firstAttribute="top" secondItem="Zx5-m7-VGZ" secondAttribute="bottom" constant="30" id="cYZ-to-Xfk"/>
                             <constraint firstItem="uYw-vL-xuO" firstAttribute="centerX" secondItem="7nA-JV-DCc" secondAttribute="centerX" id="eTh-9D-9lm"/>
                             <constraint firstItem="BwS-NC-o54" firstAttribute="leading" secondItem="MnA-EI-q96" secondAttribute="trailing" id="fPI-ZD-1yS"/>
                             <constraint firstItem="Zx5-m7-VGZ" firstAttribute="leading" secondItem="gcs-Cv-UYD" secondAttribute="leading" constant="-5" id="fbN-D2-zrn"/>
@@ -207,8 +221,10 @@
                             <constraint firstItem="cvn-VF-Tpa" firstAttribute="leading" secondItem="qjZ-G6-Ijr" secondAttribute="trailing" constant="10" id="kJj-LW-PFN"/>
                             <constraint firstItem="BwS-NC-o54" firstAttribute="trailing" secondItem="9eJ-JR-DV3" secondAttribute="trailing" id="oDt-5l-pJg"/>
                             <constraint firstItem="GG4-OL-Z0S" firstAttribute="leading" secondItem="gcs-Cv-UYD" secondAttribute="trailing" constant="10" id="qhu-N2-Z0B"/>
+                            <constraint firstItem="ist-rS-ICM" firstAttribute="leading" secondItem="QT3-me-o4X" secondAttribute="trailing" constant="10" id="rz1-5B-Qqx"/>
                             <constraint firstItem="uYw-vL-xuO" firstAttribute="centerY" secondItem="7nA-JV-DCc" secondAttribute="centerY" constant="50" id="sAH-Rl-Q7r"/>
                             <constraint firstItem="UQ4-57-kTp" firstAttribute="centerY" secondItem="MnA-EI-q96" secondAttribute="centerY" id="tGc-eo-yPi"/>
+                            <constraint firstItem="QT3-me-o4X" firstAttribute="leading" secondItem="gcs-Cv-UYD" secondAttribute="leading" id="ug7-uF-ISz"/>
                             <constraint firstItem="Zx5-m7-VGZ" firstAttribute="top" secondItem="vir-CC-os3" secondAttribute="bottom" constant="10" id="vFt-wc-WeO"/>
                         </constraints>
                     </view>
@@ -218,6 +234,7 @@
                         <outlet property="passwordHideBtn" destination="vir-CC-os3" id="Dad-sb-4bv"/>
                         <outlet property="phoneTF" destination="cvn-VF-Tpa" id="GNA-3j-YHy"/>
                         <outlet property="postCodeBtn" destination="BwS-NC-o54" id="QJH-ka-aLR"/>
+                        <outlet property="readerTitleBtn" destination="ist-rS-ICM" id="JWd-fS-EI6"/>
                         <outlet property="readerUserBtn" destination="QT3-me-o4X" id="mFi-hX-kyD"/>
                         <outlet property="registerBtn" destination="uYw-vL-xuO" id="4oD-Dx-0Ka"/>
                         <outlet property="setPasswordTF" destination="GG4-OL-Z0S" id="mwC-vR-02X"/>
@@ -314,18 +331,20 @@
                                     <constraint firstAttribute="height" constant="18" id="hgt-oP-K7Y"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tZp-yM-KEp">
+                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tZp-yM-KEp">
                                 <rect key="frame" x="244" y="131" width="100" height="40"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="MdA-DW-x5D"/>
                                     <constraint firstAttribute="width" constant="100" id="tas-Cv-VtP"/>
                                 </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <state key="normal" title="发送验证码">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="posetCodeBtn:" destination="PQw-eQ-piz" eventType="touchUpInside" id="03h-U6-iCb"/>
+                                    <action selector="postCode:" destination="RkI-OV-kSO" eventType="touchUpInside" id="Oc8-sg-5Wr"/>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="输入密码" translatesAutoresizingMaskIntoConstraints="NO" id="2dx-7s-e5B">
@@ -352,6 +371,7 @@
                                 </constraints>
                                 <state key="normal" image="密码默认不可见"/>
                                 <connections>
+                                    <action selector="hidePassword:" destination="RkI-OV-kSO" eventType="touchUpInside" id="NKq-uN-hPX"/>
                                     <action selector="hidePasswordBtn:" destination="PQw-eQ-piz" eventType="touchUpInside" id="qOl-ou-smF"/>
                                 </connections>
                             </button>
@@ -389,6 +409,7 @@
                                 </constraints>
                                 <state key="normal" image="密码默认不可见"/>
                                 <connections>
+                                    <action selector="hidePasswordAgain:" destination="RkI-OV-kSO" eventType="touchUpInside" id="nM4-55-51Y"/>
                                     <action selector="hidePasswordBtn:" destination="PQw-eQ-piz" eventType="touchUpInside" id="ez5-On-ZcJ"/>
                                 </connections>
                             </button>
