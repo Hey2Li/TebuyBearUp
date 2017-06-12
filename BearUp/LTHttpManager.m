@@ -54,5 +54,17 @@
     LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
     [manager POSTWithParameters:[NSString stringWithFormat:@"http://bearup.51tht.cn/api"] parameters:[Tool MD5Dictionary] complete:complete];
 }
++ (void)registerWithMobile:(NSString *)mobile andPassword:(NSString *)password Complete:(completeBlock)complete{
+    LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
+    NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:mobile,@"mobile",password,@"password", nil];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [manager POSTWithParameters:[NSString stringWithFormat:@"http://bearup.51tht.cn/api/register"] parameters:paramters complete:complete];
+}
 
++ (void)loginWithMobile:(NSString *)mobile andPassword:(NSString *) password Complete:(completeBlock)complete{
+    LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
+    NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:mobile,@"mobile",password,@"password", nil];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [manager POSTWithParameters:[NSString stringWithFormat:@"http://bearup.51tht.cn/api/login"] parameters:paramters complete:complete];
+}
 @end

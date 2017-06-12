@@ -27,8 +27,6 @@
     self.title = @"注册";
     self.view.backgroundColor = [UIColor whiteColor];
     [self initWithView];
-//    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
-
 }
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -37,12 +35,12 @@
     //去掉左边的title
     [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60) forBarMetrics:UIBarMetricsDefault];
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
-    //自定义一个NaVIgationBar
+    //自定义一个NavigationBar
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
     //消除阴影
     self.navigationController.navigationBar.shadowImage = [UIImage new];
     //PingFangSC
-    self.navigationController.navigationBar.titleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"STHeitiSC-Light" size:18],NSFontAttributeName, nil];
+    self.navigationController.navigationBar.titleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"PingFangSC-Light" size:18],NSFontAttributeName, nil];
 }
 
 - (void)initWithView{
@@ -98,8 +96,14 @@
     if ([Tool judgePhoneNumber:self.phoneTF.text]) {
         if ([self.codeTF.text isEqualToString:@"1111"]) {
             if (self.setPasswordTF.text.length > 7) {
-                UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"注册成功，请登录" message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-                [alertView show];
+                [LTHttpManager registerWithMobile:self.phoneTF.text andPassword:self.setPasswordTF.text Complete:^(LTHttpResult result, NSString *message, id data) {
+                    if (result == LTHttpResultSuccess) {
+                        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"注册成功，请登录" message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                        [alertView show];
+                    }else{
+                        [self.view makeToast:message];
+                    }
+                }];
             }else{
                 [self.view makeToast:@"请输入正确的密码"];
             }

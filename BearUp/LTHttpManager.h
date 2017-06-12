@@ -48,4 +48,24 @@
 //http://bearup.51tht.cn/api
 
 + (void)testApi:(completeBlock)complete;
+
+
+/**
+ 用户注册//http://bearup.51tht.cn/api/register
+
+ @param mobile 手机号码
+ @param password 密码
+ @param complete block回调
+ */
++ (void)registerWithMobile:(NSString *)mobile andPassword:(NSString *)password Complete:(completeBlock)complete;
+
+
+/**
+ 用户登录//http://bearup.51tht.cn/api/login
+
+ @param mobile 手机号码
+ @param password  密码
+ @param complete  block回调
+ */
++ (void)loginWithMobile:(NSString *)mobile andPassword:(NSString *) password Complete:(completeBlock)complete;
 @end

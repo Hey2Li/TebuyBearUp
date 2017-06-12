@@ -294,7 +294,13 @@
 - (void)loginClick:(UIButton *)btn{
     if ([Tool judgePhoneNumber:self.userNameTF.text]) {
         if (self.passwordTF.text.length > 7) {
-          [self presentViewController:[BaseTabBarViewController new] animated:YES completion:nil];
+          [LTHttpManager loginWithMobile:self.userNameTF.text andPassword:self.passwordTF.text Complete:^(LTHttpResult result, NSString *message, id data) {
+              if (result == LTHttpResultSuccess) {
+                  [self presentViewController:[BaseTabBarViewController new] animated:YES completion:nil];
+              }else{
+                  [self.view makeToast:message];
+              }
+          }];
         }else{
             [self.view makeToast:@"密码不正确"];
         }
