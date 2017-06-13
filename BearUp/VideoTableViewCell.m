@@ -30,11 +30,23 @@
         make.left.equalTo(self.contentView.mas_left);
         make.right.equalTo(self.contentView.mas_right);
         make.top.equalTo(self.contentView.mas_top);
-        make.bottom.equalTo(self.contentView.mas_bottom);
+        make.bottom.equalTo(self.contentView.mas_bottom).offset(-20);
     }];
     self.picView = picView;
-
+    // 设置imageView的tag，在PlayerView中取（建议设置100以上）
+    self.picView.tag = 101;
     self.picView.userInteractionEnabled = YES;
+    
+    UIView *bottomView = [UIView new];
+    bottomView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.8];
+    [self.contentView addSubview:bottomView];
+    [bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.picView);
+        make.right.equalTo(self.picView);
+        make.top.equalTo(self.picView.mas_bottom);
+        make.bottom.equalTo(self.contentView.mas_bottom);
+    }];
+    
     self.playBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.playBtn setImage:[UIImage imageNamed:@"video_list_cell_big_icon"] forState:UIControlStateNormal];
     [self.playBtn addTarget:self action:@selector(play:) forControlEvents:UIControlEventTouchUpInside];
