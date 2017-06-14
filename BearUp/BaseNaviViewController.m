@@ -24,8 +24,8 @@
     [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60) forBarMetrics:UIBarMetricsDefault];
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     
-    self.navigationBar.backIndicatorImage = [UIImage imageNamed:@"返回"];
-    self.navigationBar.backIndicatorTransitionMaskImage = [UIImage imageNamed:@"返回"];
+    self.navigationBar.backIndicatorImage = [UIImage imageNamed:@"返回白"];
+    self.navigationBar.backIndicatorTransitionMaskImage = [UIImage imageNamed:@"返回白"];
 
     //自定义一个NavigationBar
     [self.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
@@ -33,7 +33,7 @@
     self.navigationBar.shadowImage = [UIImage new];
     //PingFangSC
     self.navigationBar.titleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"PingFangSC-Light" size:18],NSFontAttributeName, nil];
-
+    self.navigationBar.titleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName, nil];
 }
 
 - (void)didReceiveMemoryWarning {

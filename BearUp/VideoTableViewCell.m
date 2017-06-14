@@ -30,7 +30,7 @@
         make.left.equalTo(self.contentView.mas_left);
         make.right.equalTo(self.contentView.mas_right);
         make.top.equalTo(self.contentView.mas_top);
-        make.bottom.equalTo(self.contentView.mas_bottom).offset(-20);
+        make.bottom.equalTo(self.contentView.mas_bottom);
     }];
     self.picView = picView;
     // 设置imageView的tag，在PlayerView中取（建议设置100以上）
@@ -38,13 +38,41 @@
     self.picView.userInteractionEnabled = YES;
     
     UIView *bottomView = [UIView new];
-    bottomView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.8];
-    [self.contentView addSubview:bottomView];
+    bottomView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.7];
+    [self.picView addSubview:bottomView];
     [bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.picView);
         make.right.equalTo(self.picView);
-        make.top.equalTo(self.picView.mas_bottom);
+        make.height.equalTo(@20);
         make.bottom.equalTo(self.contentView.mas_bottom);
+    }];
+    
+    UILabel *playAmountLabel = [UILabel new];
+    playAmountLabel.textAlignment = NSTextAlignmentLeft;
+    playAmountLabel.font = [UIFont systemFontOfSize:12];
+    playAmountLabel.backgroundColor = [UIColor clearColor];
+    playAmountLabel.textColor = [UIColor whiteColor];
+    playAmountLabel.text = @"4123播放";
+    [bottomView addSubview:playAmountLabel];
+    [playAmountLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(bottomView.mas_left).offset(10);
+        make.centerY.equalTo(bottomView.mas_centerY);
+        make.width.equalTo(@100);
+        make.height.equalTo(@15);
+    }];
+    
+    UILabel *playTimeLabel = [UILabel new];
+    playTimeLabel.textAlignment = NSTextAlignmentRight;
+    playTimeLabel.font = [UIFont systemFontOfSize:12];
+    playTimeLabel.backgroundColor = [UIColor clearColor];
+    playTimeLabel.textColor = [UIColor whiteColor];
+    playTimeLabel.text = @"3:20";
+    [bottomView addSubview:playTimeLabel];
+    [playTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(bottomView.mas_right).offset(-10);
+        make.height.equalTo(@15);
+        make.width.equalTo(@50);
+        make.centerY.equalTo(bottomView.mas_centerY);
     }];
     
     self.playBtn = [UIButton buttonWithType:UIButtonTypeCustom];

@@ -24,11 +24,11 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:YES];
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
 }
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    [self.navigationController setNavigationBarHidden:NO];
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -45,7 +45,7 @@
     self.topTitleBar.itemTitles = self.titleArray;
     self.topTitleBar.delegate = self;
     self.topTitleBar.backgroundColor = RGBCOLOR(241, 73, 104);
-    [self.navigationController.view addSubview:self.topTitleBar];
+    [self.view addSubview:self.topTitleBar];
 }
 - (void)setupViewControllers{
     for (int i = 0; i < _titleArray.count; i ++) {

@@ -74,6 +74,7 @@
 		1C75E1C11EEF7E5A00BC59B5 /* ZFPlayerControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C75E1AF1EEF7E5A00BC59B5 /* ZFPlayerControlView.m */; };
 		1C75E1C21EEF7E5A00BC59B5 /* ZFPlayerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C75E1B21EEF7E5A00BC59B5 /* ZFPlayerModel.m */; };
 		1C75E1C31EEF7E5A00BC59B5 /* ZFPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C75E1B41EEF7E5A00BC59B5 /* ZFPlayerView.m */; };
+		1C75E1C61EF0CB6F00BC59B5 /* VideoDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C75E1C51EF0CB6F00BC59B5 /* VideoDetailViewController.m */; };
 		1C9590331EE52421001E0DF0 /* HorizontalTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C9590321EE52421001E0DF0 /* HorizontalTableViewCell.m */; };
 		1C9590361EE64879001E0DF0 /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C9590351EE64879001E0DF0 /* ListViewController.m */; };
 		1C9590391EE64891001E0DF0 /* CategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C9590381EE64891001E0DF0 /* CategoryViewController.m */; };
@@ -225,6 +226,8 @@
 		1C75E1B21EEF7E5A00BC59B5 /* ZFPlayerModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFPlayerModel.m; sourceTree = "<group>"; };
 		1C75E1B31EEF7E5A00BC59B5 /* ZFPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFPlayerView.h; sourceTree = "<group>"; };
 		1C75E1B41EEF7E5A00BC59B5 /* ZFPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFPlayerView.m; sourceTree = "<group>"; };
+		1C75E1C41EF0CB6F00BC59B5 /* VideoDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoDetailViewController.h; sourceTree = "<group>"; };
+		1C75E1C51EF0CB6F00BC59B5 /* VideoDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoDetailViewController.m; sourceTree = "<group>"; };
 		1C9590311EE52421001E0DF0 /* HorizontalTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HorizontalTableViewCell.h; sourceTree = "<group>"; };
 		1C9590321EE52421001E0DF0 /* HorizontalTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HorizontalTableViewCell.m; sourceTree = "<group>"; };
 		1C9590341EE64879001E0DF0 /* ListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListViewController.h; sourceTree = "<group>"; };
@@ -647,6 +650,8 @@
 				1C1EDC091EBC462D0099D115 /* BUVideoViewController.m */,
 				1C2A11B51EEF702900B0BC45 /* VideoTableViewController.h */,
 				1C2A11B61EEF702900B0BC45 /* VideoTableViewController.m */,
+				1C75E1C41EF0CB6F00BC59B5 /* VideoDetailViewController.h */,
+				1C75E1C51EF0CB6F00BC59B5 /* VideoDetailViewController.m */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -961,6 +966,7 @@
 				1C1EDE2F1ECD92F00099D115 /* ImageInfo.m in Sources */,
 				1C1EDDC51EC9A8650099D115 /* DetailViewController.m in Sources */,
 				1C1EDC071EBC46200099D115 /* BUHomeViewController.m in Sources */,
+				1C75E1C61EF0CB6F00BC59B5 /* VideoDetailViewController.m in Sources */,
 				1C1EDC231EC1635F0099D115 /* UIView+Toast.m in Sources */,
 				1C1EDC0D1EBC46430099D115 /* BUFoundViewController.m in Sources */,
 				1C1EDC001EBC45570099D115 /* BaseTabBarViewController.m in Sources */,

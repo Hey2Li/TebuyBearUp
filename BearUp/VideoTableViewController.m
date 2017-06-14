@@ -12,6 +12,7 @@
 #import "ZFVideoModel.h"
 #import "ZFVideoResolution.h"
 #import "CDetailViewController.h"
+#import "VideoDetailViewController.h"
 
 @interface VideoTableViewController ()<ZFPlayerControlViewDelagate, ZFPlayerDelegate>
 @property (nonatomic, strong) NSArray *titleArray;
@@ -128,7 +129,7 @@ static NSString *videoCell = @"playerCell";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     //取到对应cell的model
     VideoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:videoCell forIndexPath:indexPath];
-    __block ZFVideoModel *model = self.dataSource[indexPath.row];
+    __block ZFVideoModel *model = self.dataSource[indexPath.section];
     //赋值model
     cell.model = model;
     __block NSIndexPath *weakIndexPath = indexPath;
@@ -154,7 +155,10 @@ static NSString *videoCell = @"playerCell";
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
+    ZFVideoModel *playerModel = self.dataSource[indexPath.section];
+    VideoDetailViewController *vc = [VideoDetailViewController new];
+    vc.videoURL                   = [NSURL URLWithString:playerModel.playUrl];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 /*
