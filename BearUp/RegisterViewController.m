@@ -86,8 +86,14 @@
 }
 - (IBAction)posetCodeBtn:(id)sender {
     if ([Tool judgePhoneNumber:self.phoneTF.text]) {
-        //
-        [self openCountdown];
+        [LTHttpManager registerSendCodeWithMobile:self.phoneTF.text Type:@1 Complete:^(LTHttpResult result, NSString *message, id data) {
+            if (result == LTHttpResultSuccess) {
+                [self openCountdown];
+            }else{
+                [self.view makeToast:message];
+            }
+        }];
+        
     }else{
         [self.view makeToast:@"请输入正确的手机号码"];
     }
@@ -95,7 +101,7 @@
 - (IBAction)registerBtn:(id)sender {
     if ([Tool judgePhoneNumber:self.phoneTF.text]) {
         if ([self.codeTF.text isEqualToString:@"1111"]) {
-            if (self.setPasswordTF.text.length > 7) {
+            if (self.setPasswordTF.text.length > 5) {
                 [LTHttpManager registerWithMobile:self.phoneTF.text andPassword:self.setPasswordTF.text Complete:^(LTHttpResult result, NSString *message, id data) {
                     if (result == LTHttpResultSuccess) {
                         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"注册成功，请登录" message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];

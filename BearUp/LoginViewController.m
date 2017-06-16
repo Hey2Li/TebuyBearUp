@@ -293,7 +293,7 @@
 }
 - (void)loginClick:(UIButton *)btn{
     if ([Tool judgePhoneNumber:self.userNameTF.text]) {
-        if (self.passwordTF.text.length > 7) {
+        if (self.passwordTF.text.length > 5) {
           [LTHttpManager loginWithMobile:self.userNameTF.text andPassword:self.passwordTF.text Complete:^(LTHttpResult result, NSString *message, id data) {
               if (result == LTHttpResultSuccess) {
                   [self presentViewController:[BaseTabBarViewController new] animated:YES completion:nil];

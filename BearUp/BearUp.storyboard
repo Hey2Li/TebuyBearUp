@@ -140,7 +140,7 @@
                                     <constraint firstAttribute="height" constant="18" id="spR-gy-tX1"/>
                                 </constraints>
                             </imageView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="设置密码" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GG4-OL-Z0S">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="6-16位字母、数字密码" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GG4-OL-Z0S">
                                 <rect key="frame" x="64" y="208" width="247" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="bn2-a9-H3d"/>

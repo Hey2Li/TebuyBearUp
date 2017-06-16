@@ -72,6 +72,13 @@ static NSString *videoCell = @"playerCell";
         [model setValuesForKeysWithDictionary:dataDic];
         [self.dataSource addObject:model];
     }
+    [LTHttpManager  newsListWithLimit:@1 Value:self.name Complete:^(LTHttpResult result, NSString *message, id data) {
+        if (result == LTHttpResultSuccess) {
+            //
+        }else{
+            [self.view makeToast:message];
+        }
+    }];
 }
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];

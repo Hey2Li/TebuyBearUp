@@ -71,11 +71,17 @@
     if ([Tool judgePhoneNumber:self.phoneTF.text]) {
         if ([self.codeTF.text isEqualToString:@"1111"]) {
             if (self.inputPasswordTF.text.length > 7 && self.inputPasswordAgainTF.text.length > 7) {
-                if (![self.inputPasswordTF.text isEqualToString:self.inputPasswordAgainTF.text]) {
-                    [self.view makeToast:@"两次密码不一致"];
+                if ([self.inputPasswordTF.text isEqualToString:self.inputPasswordAgainTF.text]) {
+                    [LTHttpManager submitNewPasswordWithMobile:self.phoneTF.text Code:self.codeTF.text Password:self.inputPasswordTF.text Complete:^(LTHttpResult result, NSString *message, id data) {
+                        if (result == LTHttpResultSuccess) {
+                            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:nil message:@"找回密码成功，请登录" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                            [alertView show];
+                        }else{
+                            [self.view makeToast:message];
+                        }
+                    }];
                 }else{
-                    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:nil message:@"找回密码成功，请登录" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-                    [alertView show];
+                    [self.view makeToast:@"两次密码不一致"];
                 }
             }else{
                 [self.view makeToast:@"请输入正确的密码"];
@@ -89,8 +95,13 @@
 }
 - (IBAction)postCode:(UIButton *)sender {
     if ([Tool judgePhoneNumber:self.phoneTF.text]) {
-        //
-        [self openCountdown];
+        [LTHttpManager registerSendCodeWithMobile:self.phoneTF.text Type:@2 Complete:^(LTHttpResult result, NSString *message, id data) {
+            if (result == LTHttpResultSuccess) {
+                [self openCountdown];
+            }else{
+                [self.view makeToast:message];
+            }
+        }];
     }else{
         [self.view makeToast:@"请输入正确的手机号码"];
     }
