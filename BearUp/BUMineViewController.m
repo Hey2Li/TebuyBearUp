@@ -7,14 +7,14 @@
 //
 
 #import "BUMineViewController.h"
+#import <WebKit/WebKit.h>
 
-@interface BUMineViewController ()<UITableViewDelegate, UITableViewDataSource>
+@interface BUMineViewController ()<UITableViewDelegate, UITableViewDataSource, WKNavigationDelegate,WKUIDelegate,WKScriptMessageHandler>
 @property (nonatomic, strong) UITableView *myTableView;
 @property (nonatomic, strong) UIView *headerView;
 @end
 
 @implementation BUMineViewController
-
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -22,6 +22,79 @@
     float tmpSize = [[SDImageCache sharedImageCache] getSize];
     NSString *clearCacheName = tmpSize >= 1 ? [NSString stringWithFormat:@"%.1fMB",tmpSize/(1024*1024)] : [NSString stringWithFormat:@"%.1fKB",tmpSize * 1024];
     NSLog(@"%@",clearCacheName);
+    
+    /***********************************************/
+    NSString *libraryPath = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES).firstObject;
+    NSString *cookiesFolderPath = [libraryPath stringByAppendingString:@"/Cookies"];
+    
+    NSString *libraryDir = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory,
+                                                               NSUserDomainMask, YES)[0];
+    NSString *bundleId  =  [[[NSBundle mainBundle] infoDictionary]
+                            objectForKey:@"CFBundleIdentifier"];
+    NSString *webkitFolderInLib = [NSString stringWithFormat:@"%@/WebKit",libraryDir];
+    NSString *webKitFolderInCaches = [NSString
+                                      stringWithFormat:@"%@/Caches/%@/WebKit",libraryDir,bundleId];
+    NSString *webKitFolderInCachesfs = [NSString
+                                        stringWithFormat:@"%@/Caches/%@/fsCachedData",libraryDir,bundleId];
+    NSLog(@"%fkb,%fkb",[self folderSizeAtPath:webKitFolderInCaches], [self folderSizeAtPath:webkitFolderInLib]);
+
+    NSError *error;
+    /* iOS8.0 WebView Cache的存放路径 */
+//    [[NSFileManager defaultManager] removeItemAtPath:webKitFolderInCaches error:&error];
+//    [[NSFileManager defaultManager] removeItemAtPath:webkitFolderInLib error:nil];
+//    
+//    /* iOS7.0 WebView Cache的存放路径 */
+//    [[NSFileManager defaultManager] removeItemAtPath:webKitFolderInCachesfs error:&error];
+    /**************************************/
+
+}
+- (void)cleanCache{
+    if ([[UIDevice currentDevice].systemVersion floatValue] >= 9.0) {
+        NSSet *type = [NSSet setWithArray:@[
+                                            WKWebsiteDataTypeDiskCache,
+                                            WKWebsiteDataTypeMemoryCache
+                                            ]];
+        NSDate *dateFrom = [NSDate date];
+        [[WKWebsiteDataStore defaultDataStore]removeDataOfTypes:type modifiedSince:dateFrom completionHandler:^{
+            NSLog(@"清理WKWebView缓存");
+            
+        }];
+    }else{
+        NSString *libraryPath = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES).firstObject;
+        NSString *cookiesFolderPath = [libraryPath stringByAppendingString:@"/Cookies"];
+        [[NSFileManager defaultManager]removeItemAtPath:cookiesFolderPath error:nil];
+        NSLog(@"%fkb",[self folderSizeAtPath:cookiesFolderPath]);
+    }
+}
+-(float)folderSizeAtPath:(NSString *)path{
+    NSFileManager *fileManager=[NSFileManager defaultManager];
+    NSString *cachePath=[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject];
+    cachePath=[cachePath stringByAppendingPathComponent:path];
+    long long folderSize=0;
+    if ([fileManager fileExistsAtPath:cachePath])
+    {
+        NSArray *childerFiles=[fileManager subpathsAtPath:cachePath];
+        for (NSString *fileName in childerFiles)
+        {
+            NSString *fileAbsolutePath=[cachePath stringByAppendingPathComponent:fileName];
+            long long size=[self fileSizeAtPath:fileAbsolutePath];
+            folderSize += size;
+            NSLog(@"fileAbsolutePath=%@",fileAbsolutePath);
+            
+        }
+        //SDWebImage框架自身计算缓存的实现
+        folderSize+=[[SDImageCache sharedImageCache] getSize];
+        return folderSize/1024.0/1024.0;
+    }
+    return 0;
+}
+-(long long)fileSizeAtPath:(NSString *)path{
+    NSFileManager *fileManager=[NSFileManager defaultManager];
+    if([fileManager fileExistsAtPath:path]){
+        long long size=[fileManager attributesOfItemAtPath:path error:nil].fileSize;
+        return size;
+    }
+    return 0;
 }
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
@@ -58,10 +131,17 @@
 //    tableView.backgroundColor = DRGBCOLOR;
     self.myTableView = tableView;
     
-    UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT/3 + 50)];
+    UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 272.5)];
     headerView.backgroundColor = DRGBCOLOR;
     self.headerView = headerView;
-    
+    self.myTableView.tableHeaderView = headerView;
+    [headerView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view.mas_left);
+        make.right.equalTo(self.view.mas_right);
+        make.height.equalTo(@(272.5));
+        make.width.equalTo(@(SCREEN_WIDTH));
+    }];
+
     UIImageView *headerImageView = [UIImageView new];
     [headerView addSubview:headerImageView];
     headerImageView.userInteractionEnabled = YES;
@@ -121,8 +201,6 @@
         button.tag = i;
         [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
     }
-    
-    self.myTableView.tableHeaderView = headerView;
 }
 - (void)headerBtnClick:(UIButton *)btn{
     NSLog(@"headerBtnClick");
@@ -140,9 +218,12 @@
         cell.textLabel.text = @"我的主页";
     }else if (indexPath.row == 1){
         cell.textLabel.text = @"我的消息";
+    }else if (indexPath.row == 2){
+        cell.textLabel.text = @"缓存清理";
     }
     return cell;
 }
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

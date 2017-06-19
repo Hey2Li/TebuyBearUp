@@ -9,5 +9,5 @@
 #import "ViewController.h"
 
 @interface CDetailViewController : ViewController
-
+@property (nonatomic, strong) NSString *cid;
 @end

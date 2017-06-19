@@ -76,7 +76,8 @@ static NSString *commentCell = @"commentCell";
     [super viewDidLoad];
     [self initWithView];
     [self initWKWebView];
-    [self getContentHtml];
+//    [self getContentHtml];
+    [self loadData];
     self.myTableView.rowHeight = UITableViewAutomaticDimension;
     self.myTableView.estimatedRowHeight = 130.5f;
     self.title = @"详情";
@@ -85,6 +86,20 @@ static NSString *commentCell = @"commentCell";
     [self autoSendBarrage];
     [_render start];
     [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(autoSendBarrage) userInfo:nil repeats:YES];
+}
+- (void)loadData{
+    WeakSelf
+    [LTHttpManager newsDetailWithId:@([self.cid integerValue]) Value:@"" Complete:^(LTHttpResult result, NSString *message, id data) {
+        if (LTHttpResultSuccess == result) {
+            //
+            DataInfo *model = [DataInfo mj_objectWithKeyValues:[data objectForKey:@"responseData"]];
+            
+            [weakSelf loadingHtmlNews:model];
+
+        }else{
+            [self.view makeToast:message];
+        }
+    }];
 }
 - (void)initBarrageRenderer{
     _render = [[BarrageRenderer alloc]init];
@@ -176,7 +191,7 @@ static NSString *commentCell = @"commentCell";
 }
 - (void)getContentHtml{
     //AQ76LHPS00963VRO AQ4RPLHG00964LQ9轻松一刻
-    NSString * detailID = @"AQ76LHPS00963VRO";//多张图片
+    NSString * detailID = @"CN9IEK540001875P";//多张图片
     NSMutableString *urlStr = [NSMutableString stringWithString:@"http://c.3g.163.com/nc/article/nil/full.html"];
     //http://c.m.163.com/nc/article/nil/full.html
     [urlStr replaceOccurrencesOfString:@"nil" withString:detailID options:NSCaseInsensitiveSearch range:[urlStr rangeOfString:@"nil"]];
@@ -200,7 +215,7 @@ static NSString *commentCell = @"commentCell";
 
 }
 - (void)loadingHtmlNews:(DataInfo *)data{
-    NSMutableString *body = [data.body mutableCopy];
+    NSMutableString *body = [data.content mutableCopy];
     
     //文章标题
     NSString *title = data.title;
@@ -267,7 +282,7 @@ static NSString *commentCell = @"commentCell";
         }
         
         //这一步是显示图片的关键，主要就是把body里面的图片的占位标识给替换成上一步已经生成的html语法格式的图片代码，这样WKWebview加载html之后图片就可以被加载显示出来了
-        body = [[body stringByReplacingOccurrencesOfString:imageRef withString:imageHtml] copy];
+//        body = [[body stringByReplacingOccurrencesOfString:imageRef withString:imageHtml] copy];
     }
     
     //css文件的全路径
@@ -284,6 +299,7 @@ static NSString *commentCell = @"commentCell";
     NSString *html = [NSString stringWithFormat:@"\
                       <html lang=\"en\">\
                       <head>\
+                      <meta name=\"viewport\" content=\"user-scalable=no\">\
                       <meta charset=\"UTF-8\">\
                       <link href=\"%@\" rel=\"stylesheet\">\
                       <link rel=\"stylesheet\" href=\"http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css\">\
@@ -308,6 +324,9 @@ static NSString *commentCell = @"commentCell";
     //使用现在这种写法之后，baseURL就指向了程序的资源路径，这样Html代码就和css以及js是一个路径的。不然WKWebview是无法加载的。当然baseURL也可以写一个网络路径，这样就可以用网络上的CSS了
     [self.wkWebView loadHTMLString:html baseURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] resourcePath]]];
 }
+//- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
+//    return nil;
+//}
 #pragma mark scrollview delegate (计算contentOffset的值，根据上下距离来决定bounces)
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     CGFloat top = scrollView.contentOffset.y;

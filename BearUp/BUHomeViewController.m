@@ -9,19 +9,28 @@
 #import "BUHomeViewController.h"
 #import "HomeContentTableViewController.h"
 #import "BUTopTitleBar.h"
+#import "TYTabButtonPagerController.h"
 
-@interface BUHomeViewController ()<UIScrollViewDelegate, BUTopTitleBarDelegate>
+@interface BUHomeViewController ()<UIScrollViewDelegate, BUTopTitleBarDelegate, TYPagerControllerDelegate, TYPagerControllerDataSource>
 {
     NSInteger _currentIndex;
 }
 @property (nonatomic, strong) UIScrollView *contentScrollView;
-@property (nonatomic, strong) NSArray *titleArray;
+@property (nonatomic, strong) NSMutableArray *titleArray;
 @property (nonatomic, strong) HomeContentTableViewController *needScrollToTopPage;
 @property (nonatomic, strong) BUTopTitleBar *topTitleBar;
+@property (nonatomic, strong) TYTabButtonPagerController *pagerController;
+
 @end
 
 @implementation BUHomeViewController
 
+- (NSMutableArray *)titleArray{
+    if (!_titleArray) {
+        _titleArray = [NSMutableArray array];
+    }
+    return _titleArray;
+}
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:animated];
@@ -34,11 +43,65 @@
     [super viewDidLoad];
     self.title = @"首页";
     self.view.backgroundColor = [UIColor whiteColor];
-    _titleArray = @[@"推荐",@"漫画",@"八卦",@"育儿",@"时尚",@"搞笑",@"涨知识",@"精品集"];
-    [self setupViewControllers];
-    [self setupContentView];
-    [self initWithTopBar];
+//    [self setupContentView];
+//    [self initWithTopBar];
+//    [self setupViewControllers];
+    [self loadData];
 }
+- (void)addPagerController{
+    TYTabButtonPagerController *pagerController = [[TYTabButtonPagerController alloc]init];
+    pagerController.dataSource = self;
+    pagerController.adjustStatusBarHeight = YES;
+    pagerController.pagerBarColor = DRGBCOLOR;
+    pagerController.selectedTextColor = [UIColor whiteColor];
+    pagerController.normalTextColor = [UIColor whiteColor];
+    //pagerController.cellWidth = 56;
+    pagerController.cellSpacing = 8;
+    pagerController.barStyle = TYPagerBarStyleProgressElasticView;
+    pagerController.cellEdging = 10;
+    pagerController.progressBottomEdging = 2;
+    
+    pagerController.view.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight - 50);
+    [self addChildViewController:pagerController];
+    [self.view addSubview:pagerController.view];
+    _pagerController = pagerController;
+    /*
+     self.view addsubView:pageController.view;
+     */
+}
+- (void)loadData{
+    WeakSelf
+    [LTHttpManager homeTitleWithLimit:@2 Value:@"id,name" Page:@"1" Nlimit:@"1" Complete:^(LTHttpResult result, NSString *message, id data) {
+        if (result == LTHttpResultSuccess) {
+            NSArray *array = data[@"responseData"][@"column"];
+            [weakSelf.titleArray removeAllObjects];
+            for (NSDictionary *dic in array) {
+                NSString *name = dic[@"name"];
+                [weakSelf.titleArray addObject:name];
+            }
+            [self addPagerController];
+        }else{
+            [self.view makeToast:message];
+        }
+    }];
+}
+#pragma mark - TYPagerControllerDataSource
+
+- (NSInteger)numberOfControllersInPagerController
+{
+    return self.titleArray.count;
+}
+
+- (NSString *)pagerController:(TYPagerController *)pagerController titleForIndex:(NSInteger)index{
+    return self.titleArray[index];
+}
+
+- (UIViewController *)pagerController:(TYPagerController *)pagerController controllerForIndex:(NSInteger)index{
+    HomeContentTableViewController *vc  =[HomeContentTableViewController new];
+    vc.name = self.titleArray[index];
+    return vc;
+}
+
 #pragma mark - 自定义TopTitle
 - (void)initWithTopBar{
     self.topTitleBar = [[BUTopTitleBar alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 64) AndItems:self.titleArray];
@@ -83,13 +146,16 @@
     NSUInteger index = scrollView.contentOffset.x / scrollView.frame.size.width;
     _currentIndex = index;
     self.topTitleBar.currentItemIndex = _currentIndex;
-    HomeContentTableViewController *vc = self.childViewControllers[index];
-    if (vc.view.superview) {
-        return;
+   
+    if (self.childViewControllers.count > 0) {
+         HomeContentTableViewController *vc = self.childViewControllers[index];
+        if (vc.view.superview) {
+            return;
+        }
+        vc.view.frame = scrollView.bounds;
+        vc.index = index;
+        [self.contentScrollView addSubview:vc.view];
     }
-    vc.view.frame = scrollView.bounds;
-    vc.index = index;
-    [self.contentScrollView addSubview:vc.view];
 }
 //停止滚动时
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{

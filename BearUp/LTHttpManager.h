@@ -62,7 +62,7 @@
  @param value 查询字段 格式如：id,name
  @param complete block
  */
-+ (void)homeTitleWithLimit:(NSNumber *)limit Value:(NSString *)value Complete:(completeBlock)complete;
++ (void)homeTitleWithLimit:(NSNumber *)limit Value:(NSString *)value  Page:(NSString *)page Nlimit:(NSString *)nlimit Complete:(completeBlock)complete;
 
 
 /**

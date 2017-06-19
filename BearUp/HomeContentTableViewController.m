@@ -22,7 +22,7 @@ static NSString *videoCell = @"playerCell";
 @property (nonatomic, strong) ZFPlayerView        *playerView;
 @property (nonatomic, strong) ZFPlayerControlView *controlView;
 @property (nonatomic, strong) NSMutableArray      *dataSource;
-
+@property (nonatomic, strong) NSArray *dataArray;
 @end
 
 @implementation HomeContentTableViewController
@@ -75,6 +75,8 @@ static NSString *videoCell = @"playerCell";
     [LTHttpManager  newsListWithLimit:@1 Value:self.name Complete:^(LTHttpResult result, NSString *message, id data) {
         if (result == LTHttpResultSuccess) {
             //
+            NSArray *array = data[@"responseData"][@"news"][@"data"];
+            self.dataArray = [NSArray arrayWithArray:array];
         }else{
             [self.view makeToast:message];
         }
@@ -184,8 +186,11 @@ static NSString *videoCell = @"playerCell";
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    CDetailViewController *vc = [CDetailViewController new];
     NSLog(@"点击了--%ld",(long)indexPath.section);
-    indexPath.section == 4 ? : [self.navigationController pushViewController:[CDetailViewController new] animated:YES];
+    indexPath.section == 4 ? : [self.navigationController pushViewController:vc animated:YES];
+//    vc.cid = [NSString stringWithFormat:@"%@",self.dataArray[indexPath.section][@"id"]];
+     vc.cid = @"1";
 }
 
 /*

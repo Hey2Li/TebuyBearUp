@@ -57,7 +57,7 @@
 
 //处理新闻body中的图片
 - (NSMutableString *)handleImageInNews:(DataInfo *)data {
-    NSMutableString *bodyStr = [data.body mutableCopy];
+    NSMutableString *bodyStr = [data.content mutableCopy];
     
     [data.img enumerateObjectsUsingBlock:^(ImageInfo *info, NSUInteger idx, BOOL * _Nonnull stop) {
         NSRange range = [bodyStr rangeOfString:info.ref];
