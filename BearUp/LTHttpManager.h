@@ -60,6 +60,8 @@
 
  @param limit 查询数量 要返回几个栏目
  @param value 查询字段 格式如：id,name
+ @param page 数据分页
+ @param nlimit 推荐内容查询数量
  @param complete block
  */
 + (void)homeTitleWithLimit:(NSNumber *)limit Value:(NSString *)value  Page:(NSString *)page Nlimit:(NSString *)nlimit Complete:(completeBlock)complete;
@@ -77,6 +79,18 @@
  */
 + (void)newsListWithLimit:(NSNumber *)limit Value:(NSString *)value Complete:(completeBlock)complete;
 
+
+/**
+ 下滑获取下一页数据
+ 请求地址:api/index/nextpage
+ 请求方式:POST
+ 
+
+ @param page 数据分页
+ @param limit 查询文章数量
+ @param complete block
+ */
++ (void)newListNextPageWithPage:(NSNumber *)page Limit:(NSNumber *)limit Complete:(completeBlock)complete;
 
 /**
  请求地址:api/news/show

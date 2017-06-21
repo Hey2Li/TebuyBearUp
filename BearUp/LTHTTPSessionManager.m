@@ -12,8 +12,8 @@
 NSString *const kParseResponseError = @"解析数据失败";
 NSString *const kHttpRequestFailure = @"网络连接错误";
 //返回参数key值
-NSString *const kKeyResult = @"error_code";
-NSString *const kKeyMessage = @"error_msg";
+NSString *const kKeyResult = @"errorCode";
+NSString *const kKeyMessage = @"errorMsg";
 NSString *const kKeyData = @"data";
 NSString *const kKeyModelList = @"modellist";
 
@@ -45,7 +45,7 @@ NSString *const kKeyModelList = @"modellist";
         NSLog(@"responseObject:%@",responseObject);
         if (![responseObject isKindOfClass:[NSDictionary class]]) {
             complete(LTHttpResultFailure, kParseResponseError, nil);
-        }else if([responseObject[kKeyResult] isEqualToString:@"ERROR"]){
+        }else if(![responseObject[kKeyResult] isEqualToString:@"0000"]){
             complete(LTHttpResultFailure, responseObject[kKeyMessage], nil);
         }else{
             complete(LTHttpResultSuccess, responseObject[kKeyMessage], responseObject);

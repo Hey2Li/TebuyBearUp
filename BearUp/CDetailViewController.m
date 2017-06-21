@@ -93,9 +93,7 @@ static NSString *commentCell = @"commentCell";
         if (LTHttpResultSuccess == result) {
             //
             DataInfo *model = [DataInfo mj_objectWithKeyValues:[data objectForKey:@"responseData"]];
-            
             [weakSelf loadingHtmlNews:model];
-
         }else{
             [self.view makeToast:message];
         }
@@ -240,11 +238,11 @@ static NSString *commentCell = @"commentCell";
     if (self.htmlDict[@"articleTags"]) {
         sourceName = self.htmlDict[@"articleTags"];
     }else {
-        sourceName = data.source;
+        sourceName = data.source ? data.source : @"";
     }
     
     //发布时间
-    NSString *sourceTime = data.ptime;
+    NSString *sourceTime = data.ptime ? data.ptime : @"";
     //文章里面的图片
     NSArray *imagArray = data.img;
     

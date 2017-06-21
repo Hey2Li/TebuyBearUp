@@ -22,10 +22,19 @@ static NSString *videoCell = @"playerCell";
 @property (nonatomic, strong) ZFPlayerView        *playerView;
 @property (nonatomic, strong) ZFPlayerControlView *controlView;
 @property (nonatomic, strong) NSMutableArray      *dataSource;
-@property (nonatomic, strong) NSArray *dataArray;
+@property (nonatomic, strong) NSMutableArray *dataArray;
+@property (nonatomic, assign) int pageNum;
+@property (nonatomic, strong) NSArray *scrollViewArray;
 @end
 
 @implementation HomeContentTableViewController
+
+- (NSMutableArray *)dataArray{
+    if (!_dataArray) {
+        _dataArray = [NSMutableArray array];
+    }
+    return _dataArray;
+}
 - (ZFPlayerView *)playerView {
     if (!_playerView) {
         _playerView = [ZFPlayerView sharedPlayerView];
@@ -59,6 +68,7 @@ static NSString *videoCell = @"playerCell";
     [self headerLoadData];
     [self requestData];
     [self.tableView registerClass:[VideoTableViewCell class] forCellReuseIdentifier:videoCell];
+    _pageNum = 1;
 }
 - (void)requestData {
     NSString *path = [[NSBundle mainBundle] pathForResource:@"videoData" ofType:@"json"];
@@ -72,19 +82,9 @@ static NSString *videoCell = @"playerCell";
         [model setValuesForKeysWithDictionary:dataDic];
         [self.dataSource addObject:model];
     }
-    [LTHttpManager  newsListWithLimit:@1 Value:self.name Complete:^(LTHttpResult result, NSString *message, id data) {
-        if (result == LTHttpResultSuccess) {
-            //
-            NSArray *array = data[@"responseData"][@"news"][@"data"];
-            self.dataArray = [NSArray arrayWithArray:array];
-        }else{
-            [self.view makeToast:message];
-        }
-    }];
 }
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    NSLog(@"viewWillAppear");
 }
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
@@ -95,24 +95,50 @@ static NSString *videoCell = @"playerCell";
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         NSLog(@"下拉刷新");
         WeakSelf
-        NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:1.0 repeats:NO block:^(NSTimer * _Nonnull timer) {
-            [weakSelf.tableView.mj_header endRefreshing];
-            [timer invalidate];
-            timer = nil;
+//        [LTHttpManager  newsListWithLimit:@1 Value:@"id,name" Complete:^(LTHttpResult result, NSString *message, id data) {
+//            if (result == LTHttpResultSuccess) {
+//                //
+//                NSArray *array = data[@"responseData"][@"news"][@"data"];
+//                [self.dataArray removeAllObjects];
+//                self.dataArray = [NSMutableArray arrayWithArray:array];
+//                          }else{
+//                [self.view makeToast:message];
+//                [weakSelf.tableView.mj_header endRefreshing];
+//            }
+//
+//        }];
+        [LTHttpManager homeTitleWithLimit:@2 Value:@"id,name" Page:@"1" Nlimit:@"1" Complete:^(LTHttpResult result, NSString *message, id data) {
+            if (result == LTHttpResultSuccess) {
+                NSArray *array = data[@"responseData"][@"top"];
+                self.scrollViewArray = array;
+                NSArray *arrays = data[@"responseData"][@"rows"][@"data"];
+                [self.dataArray removeAllObjects];
+                self.dataArray = [NSMutableArray arrayWithArray:arrays];
+                [weakSelf.tableView reloadData];
+                [weakSelf.tableView.mj_header endRefreshing];
+            }else{
+                [self.view makeToast:message];
+                [weakSelf.tableView.mj_header endRefreshing];
+            }
         }];
-        [[NSRunLoop mainRunLoop]addTimer:timer forMode:NSDefaultRunLoopMode];
     }];
     [self.tableView.mj_header beginRefreshing];
 }
 - (void)footerLoadData{
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
-        WeakSelf
-        NSTimer *timer  =[NSTimer scheduledTimerWithTimeInterval:1.0 repeats:NO block:^(NSTimer * _Nonnull timer) {
-            [weakSelf.tableView.mj_footer endRefreshing];
-            [timer invalidate];
-            timer = nil;
+        _pageNum++;
+        [LTHttpManager newListNextPageWithPage:[NSNumber numberWithInt:_pageNum] Limit:@10 Complete:^(LTHttpResult result, NSString *message, id data) {
+            if (LTHttpResultSuccess == result) {
+                NSArray *array = data[@"responseData"][@"news"][@"data"];
+                [self.dataArray addObjectsFromArray:array];
+                [self.tableView reloadData];
+                [self.tableView.mj_footer endRefreshing];
+            }else{
+                [self.view makeToast:message];
+                [self.tableView.mj_footer endRefreshing];
+                _pageNum--;
+            }
         }];
-        [[NSRunLoop mainRunLoop]addTimer:timer forMode:NSDefaultRunLoopMode];
     }];
 }
 - (void)didReceiveMemoryWarning {
@@ -123,7 +149,7 @@ static NSString *videoCell = @"playerCell";
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return self.dataSource.count;
+    return self.dataArray.count + 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -133,11 +159,12 @@ static NSString *videoCell = @"playerCell";
     return 5;
 }
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    if (section == 4) {
-        return @"工作这么辛苦";
-    }else{
-        return 0;
-    }
+//    if (section == 4) {
+//        return @"工作这么辛苦";
+//    }else{
+//        return 0;
+//    }
+    return 0;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 200;
@@ -146,51 +173,52 @@ static NSString *videoCell = @"playerCell";
 
     if (indexPath.section == 0 && self.index == 0) {
         ScrollBannerTableViewCell *cell = [[ScrollBannerTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-        return cell;
-    }else if (indexPath.section == 4){
-        //取到对应cell的model
-        VideoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:videoCell];
-        __block ZFVideoModel *model = self.dataSource[indexPath.row];
-        //赋值model
-        cell.model = model;
-        __block NSIndexPath *weakIndexPath = indexPath;
-        __block VideoTableViewCell *weakCell = cell;
-        __weak typeof(self)  weakSelf = self;
-        //点击播放的回调
-        cell.playBlock = ^(UIButton *btn){
-            //分辨率字典（key:分辨率名称，value：分辨率url)
-            NSMutableDictionary *dic = @{}.mutableCopy;
-            for (ZFVideoResolution * resolution in model.playInfo) {
-                [dic setValue:resolution.url forKey:resolution.name];
-            }
-            //取出字典中的第一视频URL
-            NSURL *videoURL = [NSURL URLWithString:dic.allValues.firstObject];
-            ZFPlayerModel *playerModel = [[ZFPlayerModel alloc]init];
-            playerModel.fatherViewTag = weakCell.picView.tag;
-            playerModel.videoURL = videoURL;
-            playerModel.scrollView = weakSelf.tableView;
-            playerModel.indexPath = weakIndexPath;
-            [weakSelf.playerView playerControlView:self.controlView playerModel:playerModel];
-            [weakSelf.playerView autoPlayTheVideo];
-        };
+        cell.imageURLStringsGroup = self.scrollViewArray;
         return cell;
     }else{
         HomePageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:homepageCell];
         if (!cell) {
             cell = [[HomePageTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:homepageCell];
         }
-        cell.titleLabel.text = [NSString stringWithFormat:@"这是第%ld个页面",(long)self.index];
-        cell.titleLabel.text = @"一组婚纱照火遍了网络，照片的重庆小伙";
+        cell.titleLabel.text = [NSString stringWithFormat:@"%@",self.dataArray[indexPath.section - 1][@"title"]];
+        [cell.contentImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.dataArray[indexPath.section - 1][@"photo"]]]];
         return cell;
     }
+//    else if (indexPath.section == 4){
+//        //取到对应cell的model
+//        VideoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:videoCell];
+//        __block ZFVideoModel *model = self.dataSource[indexPath.row];
+//        //赋值model
+//        cell.model = model;
+//        __block NSIndexPath *weakIndexPath = indexPath;
+//        __block VideoTableViewCell *weakCell = cell;
+//        __weak typeof(self)  weakSelf = self;
+//        //点击播放的回调
+//        cell.playBlock = ^(UIButton *btn){
+//            //分辨率字典（key:分辨率名称，value：分辨率url)
+//            NSMutableDictionary *dic = @{}.mutableCopy;
+//            for (ZFVideoResolution * resolution in model.playInfo) {
+//                [dic setValue:resolution.url forKey:resolution.name];
+//            }
+//            //取出字典中的第一视频URL
+//            NSURL *videoURL = [NSURL URLWithString:dic.allValues.firstObject];
+//            ZFPlayerModel *playerModel = [[ZFPlayerModel alloc]init];
+//            playerModel.fatherViewTag = weakCell.picView.tag;
+//            playerModel.videoURL = videoURL;
+//            playerModel.scrollView = weakSelf.tableView;
+//            playerModel.indexPath = weakIndexPath;
+//            [weakSelf.playerView playerControlView:self.controlView playerModel:playerModel];
+//            [weakSelf.playerView autoPlayTheVideo];
+//        };
+//        return cell;
+//    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     CDetailViewController *vc = [CDetailViewController new];
-    NSLog(@"点击了--%ld",(long)indexPath.section);
     indexPath.section == 4 ? : [self.navigationController pushViewController:vc animated:YES];
 //    vc.cid = [NSString stringWithFormat:@"%@",self.dataArray[indexPath.section][@"id"]];
-     vc.cid = @"1";
+     vc.cid = self.dataArray[indexPath.section-1][@"id"];
 }
 
 /*

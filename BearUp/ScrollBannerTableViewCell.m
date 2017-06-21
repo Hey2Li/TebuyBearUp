@@ -27,13 +27,20 @@
     scrollView.pageControlAliment = SDCycleScrollViewPageContolAlimentRight;
     scrollView.currentPageDotColor = DRGBCOLOR;
     scrollView.pageDotColor = [UIColor whiteColor];
-    scrollView.titlesGroup = @[@"马云乡村教师奖颁奖典礼进行中",@"马云乡村教师奖颁奖典礼进行中",@"马云乡村教师奖颁奖典礼进行中",@"马云乡村教师奖颁奖典礼进行中",@"马云乡村教师奖颁奖典礼进行中"];
     self.bannerScrollView = scrollView;
-    self.bannerScrollView.localizationImageNamesGroup = @[@"index_banner",@"index_banner",@"index_banner",@"index_banner",@"index_banner"];
-//    if (self.imageURLStringsGroup) {
-//        self.bannerScrollView.imageURLStringsGroup = self.imageURLStringsGroup;
-//    }
     [self.contentView addSubview:self.bannerScrollView];
+}
+- (void)setImageURLStringsGroup:(NSArray *)imageURLStringsGroup{
+    NSMutableArray *titleArray = [NSMutableArray array];
+    [titleArray removeAllObjects];
+    NSMutableArray *imageViewUrlArray = [NSMutableArray array];
+    [imageViewUrlArray removeAllObjects];
+    for (NSDictionary *dic in imageURLStringsGroup) {
+        [titleArray addObject:dic[@"title"]];
+        [imageViewUrlArray addObject:dic[@"photo"]];
+    }
+    self.bannerScrollView.titlesGroup = titleArray ? titleArray : @[@"ssss"];
+    self.bannerScrollView.localizationImageNamesGroup = imageViewUrlArray;
 }
 //点击图片回调
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index{

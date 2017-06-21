@@ -120,6 +120,25 @@
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/news/index",BaseURL] parameters:paramters complete:complete];
 }
 
+/**
+ 下滑获取下一页数据
+ 请求地址:api/index/nextpage
+ 请求方式:POST
+ 
+ 
+ @param page 数据分页
+ @param limit 查询文章数量
+ @param complete block
+ */
++ (void)newListNextPageWithPage:(NSNumber *)page Limit:(NSNumber *)limit Complete:(completeBlock)complete{
+    LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
+    NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:page,@"page",
+                                      limit,@"limit",
+                                      nil];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/index/nextpage",BaseURL] parameters:paramters complete:complete];
+
+}
 
 /**
  请求地址:api/news/show
