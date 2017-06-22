@@ -47,6 +47,7 @@
 //    [self initWithTopBar];
 //    [self setupViewControllers];
     [self loadData];
+    [self addPagerController];
 }
 - (void)addPagerController{
     TYTabButtonPagerController *pagerController = [[TYTabButtonPagerController alloc]init];
@@ -60,6 +61,7 @@
     pagerController.barStyle = TYPagerBarStyleProgressElasticView;
     pagerController.cellEdging = 10;
     pagerController.progressBottomEdging = 2;
+    pagerController.pagerBarImageView.image = [UIImage imageNamed:@"navi"];
     
     pagerController.view.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight - 50);
     [self addChildViewController:pagerController];
@@ -79,7 +81,7 @@
                 NSString *name = dic[@"name"];
                 [weakSelf.titleArray addObject:name];
             }
-            [self addPagerController];
+            [_pagerController reloadData];
         }else{
             [self.view makeToast:message];
         }

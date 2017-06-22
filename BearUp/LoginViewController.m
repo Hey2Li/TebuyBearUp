@@ -23,6 +23,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initWithView];
+    self.title = @"";
 }
 - (void)initWithView{
     UIImageView *topImageView = [UIImageView new];
@@ -285,11 +286,11 @@
 }
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    self.navigationController.navigationBar.hidden = YES;
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 - (void)viewWillDisappear:(BOOL)animated{
-    self.navigationController.navigationBar.hidden = NO;
-
+    [super viewWillDisappear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 - (void)loginClick:(UIButton *)btn{
     if ([Tool judgePhoneNumber:self.userNameTF.text]) {

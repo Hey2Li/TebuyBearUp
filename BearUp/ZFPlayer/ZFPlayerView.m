@@ -341,7 +341,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
 /**
  *  用于cell上播放player
  *
- *  @param tableView tableView
+ *  @param scrollView tableView
  *  @param indexPath indexPath
  */
 - (void)cellVideoWithScrollView:(UIScrollView *)scrollView

@@ -459,8 +459,6 @@
 				1C1EDE171ECBF4100099D115 /* BUTopTitleBar.m */,
 				1C1EDE331ED3C06E0099D115 /* ScrollBannerTableViewCell.h */,
 				1C1EDE341ED3C06E0099D115 /* ScrollBannerTableViewCell.m */,
-				1C1EDE361ED3E18A0099D115 /* VideoTableViewCell.h */,
-				1C1EDE371ED3E18A0099D115 /* VideoTableViewCell.m */,
 				1C1EDE441ED7B5B80099D115 /* CommentsTableViewCell.h */,
 				1C1EDE451ED7B5B80099D115 /* CommentsTableViewCell.m */,
 				1C1EDE461ED7B5B80099D115 /* CommentsTableViewCell.xib */,
@@ -634,11 +632,6 @@
 		1C1EDE3A1ED561180099D115 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				1C1EDE3C1ED561420099D115 /* videoData.json */,
-				1C1EDE3D1ED561420099D115 /* ZFVideoModel.h */,
-				1C1EDE3E1ED561420099D115 /* ZFVideoModel.m */,
-				1C1EDE411ED562E30099D115 /* ZFVideoResolution.h */,
-				1C1EDE421ED562E30099D115 /* ZFPVideoResolution.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -659,6 +652,8 @@
 		1C2A11B31EEF6FDE00B0BC45 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				1C1EDE361ED3E18A0099D115 /* VideoTableViewCell.h */,
+				1C1EDE371ED3E18A0099D115 /* VideoTableViewCell.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -666,6 +661,11 @@
 		1C2A11B41EEF6FE200B0BC45 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				1C1EDE3C1ED561420099D115 /* videoData.json */,
+				1C1EDE3D1ED561420099D115 /* ZFVideoModel.h */,
+				1C1EDE3E1ED561420099D115 /* ZFVideoModel.m */,
+				1C1EDE411ED562E30099D115 /* ZFVideoResolution.h */,
+				1C1EDE421ED562E30099D115 /* ZFPVideoResolution.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";

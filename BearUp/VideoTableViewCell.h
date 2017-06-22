@@ -16,4 +16,8 @@
 @property (nonatomic, copy  ) void(^playBlock)(UIButton *);
 @property (nonatomic, strong) ZFVideoModel                  *model;
 
+/**
+ 分享block
+ */
+@property (nonatomic, strong) void(^shareBlock)(UIButton *);
 @end

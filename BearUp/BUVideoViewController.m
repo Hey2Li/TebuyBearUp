@@ -40,6 +40,7 @@
 //    [self setupContentView];
 //    [self initWithTopBar];
     [self loadData];
+    [self addPagerController];
 }
 - (void)loadData{
     WeakSelf
@@ -51,7 +52,7 @@
                 NSString *name = dic[@"name"];
                 [weakSelf.titleArray addObject:name];
             }
-            [self addPagerController];
+            [_pagerController reloadData];
         }else{
             [self.view makeToast:message];
         }
@@ -78,6 +79,7 @@
     pagerController.barStyle = TYPagerBarStyleProgressElasticView;
     pagerController.cellEdging = 10;
     pagerController.progressBottomEdging = 2;
+    pagerController.pagerBarImageView.image = [UIImage imageNamed:@"navi"];
     
     pagerController.view.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight - 50);
     [self addChildViewController:pagerController];
