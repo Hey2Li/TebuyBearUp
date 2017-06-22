@@ -92,6 +92,15 @@
  */
 + (void)newListNextPageWithPage:(NSNumber *)page Limit:(NSNumber *)limit Complete:(completeBlock)complete;
 
+
+/**
+ 首页推荐滑动获取更多：api/index/getmore
+
+ @param page 数据分页
+ @param limit 查询文章数量
+ @param complete block
+ */
++ (void)recommendGetMoreWithPage:(NSNumber *)page Limit:(NSNumber *)limit Complete:(completeBlock)complete;
 /**
  请求地址:api/news/show
  请求方式:POST

@@ -141,6 +141,23 @@
 }
 
 /**
+ 首页推荐滑动获取更多：api/index/getmore
+ 
+ @param page 数据分页
+ @param limit 查询文章数量
+ @param complete block
+ */
++ (void)recommendGetMoreWithPage:(NSNumber *)page Limit:(NSNumber *)limit Complete:(completeBlock)complete{
+    LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
+    NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:page,@"page",
+                                      limit,@"limit",
+                                      nil];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/index/getmore",BaseURL] parameters:paramters complete:complete];
+
+}
+
+/**
  请求地址:api/news/show
  请求方式:POST
  功能描述：获得文章内容、评论

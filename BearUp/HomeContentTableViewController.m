@@ -70,6 +70,14 @@ static NSString *videoCell = @"playerCell";
     [self.tableView registerClass:[VideoTableViewCell class] forCellReuseIdentifier:videoCell];
     _pageNum = 1;
 }
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    CGFloat sectionHeaderHeight = 40;
+    if (scrollView.contentOffset.y<=sectionHeaderHeight&&scrollView.contentOffset.y>=0) {
+        scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0);
+    } else if (scrollView.contentOffset.y>=sectionHeaderHeight) {
+        scrollView.contentInset = UIEdgeInsetsMake(-sectionHeaderHeight, 0, 0, 0);
+    }
+}
 - (void)requestData {
     NSString *path = [[NSBundle mainBundle] pathForResource:@"videoData" ofType:@"json"];
     NSData *data = [NSData dataWithContentsOfFile:path];
@@ -93,52 +101,70 @@ static NSString *videoCell = @"playerCell";
 //下拉刷新
 - (void)headerLoadData{
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        NSLog(@"下拉刷新");
         WeakSelf
-//        [LTHttpManager  newsListWithLimit:@1 Value:@"id,name" Complete:^(LTHttpResult result, NSString *message, id data) {
-//            if (result == LTHttpResultSuccess) {
-//                //
-//                NSArray *array = data[@"responseData"][@"news"][@"data"];
-//                [self.dataArray removeAllObjects];
-//                self.dataArray = [NSMutableArray arrayWithArray:array];
-//                          }else{
-//                [self.view makeToast:message];
-//                [weakSelf.tableView.mj_header endRefreshing];
-//            }
-//
-//        }];
-        [LTHttpManager homeTitleWithLimit:@2 Value:@"id,name" Page:@"1" Nlimit:@"1" Complete:^(LTHttpResult result, NSString *message, id data) {
-            if (result == LTHttpResultSuccess) {
-                NSArray *array = data[@"responseData"][@"top"];
-                self.scrollViewArray = array;
-                NSArray *arrays = data[@"responseData"][@"rows"][@"data"];
-                [self.dataArray removeAllObjects];
-                self.dataArray = [NSMutableArray arrayWithArray:arrays];
-                [weakSelf.tableView reloadData];
-                [weakSelf.tableView.mj_header endRefreshing];
-            }else{
-                [self.view makeToast:message];
-                [weakSelf.tableView.mj_header endRefreshing];
-            }
-        }];
+        //首页推荐
+        if (self.index < 1) {
+            [LTHttpManager homeTitleWithLimit:@2 Value:@"id,name" Page:@"1" Nlimit:@"1" Complete:^(LTHttpResult result, NSString *message, id data) {
+                if (result == LTHttpResultSuccess) {
+                    NSArray *array = data[@"responseData"][@"top"];
+                    self.scrollViewArray = array;
+                    NSArray *arrays = data[@"responseData"][@"rows"][@"data"];
+                    [self.dataArray removeAllObjects];
+                    self.dataArray = [NSMutableArray arrayWithArray:arrays];
+                    [weakSelf.tableView reloadData];
+                    [weakSelf.tableView.mj_header endRefreshing];
+                }else{
+                    [self.view makeToast:message];
+                    [weakSelf.tableView.mj_header endRefreshing];
+                }
+            }];
+        }else{
+            [LTHttpManager  newsListWithLimit:@1 Value:self.name Complete:^(LTHttpResult result, NSString *message, id data) {
+                if (result == LTHttpResultSuccess) {
+                    NSArray *array = data[@"responseData"][@"news"][@"data"];
+                    [self.dataArray removeAllObjects];
+                    self.dataArray = [NSMutableArray arrayWithArray:array];
+                    [weakSelf.tableView.mj_header endRefreshing];
+                }else{
+                    [self.view makeToast:message];
+                    [weakSelf.tableView.mj_header endRefreshing];
+                }
+            }];
+        }
     }];
     [self.tableView.mj_header beginRefreshing];
 }
 - (void)footerLoadData{
+    WeakSelf
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
         _pageNum++;
-        [LTHttpManager newListNextPageWithPage:[NSNumber numberWithInt:_pageNum] Limit:@10 Complete:^(LTHttpResult result, NSString *message, id data) {
-            if (LTHttpResultSuccess == result) {
-                NSArray *array = data[@"responseData"][@"news"][@"data"];
-                [self.dataArray addObjectsFromArray:array];
-                [self.tableView reloadData];
-                [self.tableView.mj_footer endRefreshing];
-            }else{
-                [self.view makeToast:message];
-                [self.tableView.mj_footer endRefreshing];
-                _pageNum--;
-            }
-        }];
+        if (self.index > 0) {
+            [LTHttpManager newListNextPageWithPage:[NSNumber numberWithInt:_pageNum] Limit:@10 Complete:^(LTHttpResult result, NSString *message, id data) {
+                if (LTHttpResultSuccess == result) {
+                    NSArray *array = data[@"responseData"][@"news"][@"data"];
+                    [self.dataArray addObjectsFromArray:array];
+                    [self.tableView reloadData];
+                    [self.tableView.mj_footer endRefreshing];
+                }else{
+                    [self.view makeToast:message];
+                    [self.tableView.mj_footer endRefreshing];
+                    _pageNum--;
+                }
+            }];
+        }else{
+            [LTHttpManager recommendGetMoreWithPage:[NSNumber numberWithInt:_pageNum] Limit:@10 Complete:^(LTHttpResult result, NSString *message, id data) {
+                if (LTHttpResultSuccess == result) {
+                    NSArray *arrays = data[@"responseData"][@"data"];
+                    [self.dataArray addObjectsFromArray:arrays];
+                    [weakSelf.tableView reloadData];
+                    [weakSelf.tableView.mj_header endRefreshing];
+                }else{
+                    [self.view makeToast:message];
+                    [self.tableView.mj_footer endRefreshing];
+                    _pageNum--;
+                }
+            }];
+        }
     }];
 }
 - (void)didReceiveMemoryWarning {
@@ -149,7 +175,7 @@ static NSString *videoCell = @"playerCell";
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return self.dataArray.count + 1;
+    return self.index > 0 ? self.dataArray.count : self.dataArray.count + 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -180,8 +206,14 @@ static NSString *videoCell = @"playerCell";
         if (!cell) {
             cell = [[HomePageTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:homepageCell];
         }
-        cell.titleLabel.text = [NSString stringWithFormat:@"%@",self.dataArray[indexPath.section - 1][@"title"]];
-        [cell.contentImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.dataArray[indexPath.section - 1][@"photo"]]]];
+        //非推荐
+        if (self.index > 0) {
+            cell.titleLabel.text = [NSString stringWithFormat:@"%@",self.dataArray[indexPath.section][@"title"]];
+            [cell.contentImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.dataArray[indexPath.section][@"photo"]]]];
+        }else{
+            cell.titleLabel.text = [NSString stringWithFormat:@"%@",self.dataArray[indexPath.section - 1][@"title"]];
+            [cell.contentImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.dataArray[indexPath.section - 1][@"photo"]]]];
+        }
         return cell;
     }
 //    else if (indexPath.section == 4){

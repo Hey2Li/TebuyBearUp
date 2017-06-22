@@ -29,12 +29,12 @@
 /** 标题 */
 @property (nonatomic, copy  ) NSString *title;
 /** 描述 */
-@property (nonatomic, copy  ) NSString *video_description;
+@property (nonatomic, copy  ) NSString *introduct;
 /** 视频地址 */
-@property (nonatomic, copy  ) NSString *playUrl;
+@property (nonatomic, copy  ) NSString *url;
 /** 封面图 */
-@property (nonatomic, copy  ) NSString *coverForFeed;
+@property (nonatomic, copy  ) NSString *photo;
 /** 视频分辨率的数组 */
-@property (nonatomic, strong) NSMutableArray *playInfo;
+//@property (nonatomic, strong) NSMutableArray *playInfo;
 
 @end

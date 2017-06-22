@@ -9,37 +9,99 @@
 #import "BUVideoViewController.h"
 #import "HomeContentTableViewController.h"
 #import "BUTopTitleBar.h"
+#import "TYTabButtonPagerController.h"
+#import "VideoTableViewController.h"
 
-@interface BUVideoViewController ()<UIScrollViewDelegate, BUTopTitleBarDelegate>
+@interface BUVideoViewController ()<UIScrollViewDelegate, BUTopTitleBarDelegate, TYPagerControllerDataSource>
 {
     NSInteger _currentIndex;
 }
 @property (nonatomic, strong) UIScrollView *contentScrollView;
-@property (nonatomic, strong) NSArray *titleArray;
+@property (nonatomic, strong) NSMutableArray *titleArray;
 @property (nonatomic, strong) HomeContentTableViewController *needScrollToTopPage;
 @property (nonatomic, strong) BUTopTitleBar *topTitleBar;
+@property (nonatomic, strong) TYTabButtonPagerController *pagerController;
 @end
 
 @implementation BUVideoViewController
 
-
+- (NSMutableArray *)titleArray{
+    if (!_titleArray) {
+        _titleArray = [NSMutableArray array];
+    }
+    return _titleArray;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    _titleArray = @[@"推荐",@"漫画",@"八卦",@"育儿",@"时尚",@"搞笑",@"涨知识",@"精品集"];
+//    self.titleArray = @[@"精选",@"原创",@"宠物",@"搞笑",@"萌娃",@"娱乐",@"影视",@"其他",];
     _currentIndex = 1;
-    [self setupViewControllers];
-    [self setupContentView];
-    [self initWithTopBar];
+//    [self setupViewControllers];
+//    [self setupContentView];
+//    [self initWithTopBar];
+    [self loadData];
 }
+- (void)loadData{
+    WeakSelf
+    [LTHttpManager videoListWithLimit:@100 Value:@"id,name" Complete:^(LTHttpResult result, NSString *message, id data) {
+        if (result == LTHttpResultSuccess) {
+            NSArray *array = data[@"responseData"][@"columns"];
+            [weakSelf.titleArray removeAllObjects];
+            for (NSDictionary *dic in array) {
+                NSString *name = dic[@"name"];
+                [weakSelf.titleArray addObject:name];
+            }
+            [self addPagerController];
+        }else{
+            [self.view makeToast:message];
+        }
+    }];
+}
+
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:YES];
     [self.navigationController setNavigationBarHidden:YES animated:animated];
 }
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    [self.navigationController setNavigationBarHidden:NO];
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
+}
+- (void)addPagerController{
+    TYTabButtonPagerController *pagerController = [[TYTabButtonPagerController alloc]init];
+    pagerController.dataSource = self;
+    pagerController.adjustStatusBarHeight = YES;
+    pagerController.pagerBarColor = DRGBCOLOR;
+    pagerController.selectedTextColor = [UIColor whiteColor];
+    pagerController.normalTextColor = [UIColor whiteColor];
+    //pagerController.cellWidth = 56;
+    pagerController.cellSpacing = 8;
+    pagerController.barStyle = TYPagerBarStyleProgressElasticView;
+    pagerController.cellEdging = 10;
+    pagerController.progressBottomEdging = 2;
+    
+    pagerController.view.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight - 50);
+    [self addChildViewController:pagerController];
+    [self.view addSubview:pagerController.view];
+    _pagerController = pagerController;
+    /*
+        self.view addsubView:pageController.view;
+     */
+}
+
+#pragma mark - TYPagerControllerDataSource
+
+- (NSInteger)numberOfControllersInPagerController
+{
+    return _titleArray.count;
+}
+
+- (NSString *)pagerController:(TYPagerController *)pagerController titleForIndex:(NSInteger)index{
+    return _titleArray[index];
+}
+
+- (UIViewController *)pagerController:(TYPagerController *)pagerController controllerForIndex:(NSInteger)index{
+    VideoTableViewController *vc  =[VideoTableViewController new];
+    return vc;
 }
 - (void)initWithTopBar{
 //    self.topTitleBar = [[BUTopTitleBar alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 64) AndItems:self.titleArray];

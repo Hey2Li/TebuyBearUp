@@ -87,12 +87,22 @@ static NSString *videoCell = @"playerCell";
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         NSLog(@"下拉刷新");
         WeakSelf
-        NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:1.0 repeats:NO block:^(NSTimer * _Nonnull timer) {
-            [weakSelf.tableView.mj_header endRefreshing];
-            [timer invalidate];
-            timer = nil;
-        }];
-        [[NSRunLoop mainRunLoop]addTimer:timer forMode:NSDefaultRunLoopMode];
+      [LTHttpManager videoListWithLimit:@100 Value:@"id,name" Complete:^(LTHttpResult result, NSString *message, id data) {
+          if (LTHttpResultSuccess == result) {
+              self.dataSource = @[].mutableCopy;
+              NSArray *videoList = [data[@"responseData"][@"videos"] objectForKey:@"data"];
+              for (NSDictionary *dataDic in videoList) {
+                  ZFVideoModel *model = [[ZFVideoModel alloc] init];
+                  [model setValuesForKeysWithDictionary:dataDic];
+                  [weakSelf.dataSource addObject:model];
+              }
+              [weakSelf.tableView reloadData];
+              [weakSelf.tableView.mj_header endRefreshing];
+          }else{
+              [weakSelf.view makeToast:message];
+              [weakSelf.tableView.mj_header endRefreshing];
+          }
+      }];
     }];
     [self.tableView.mj_header beginRefreshing];
 }
@@ -137,16 +147,16 @@ static NSString *videoCell = @"playerCell";
     __weak typeof(self)  weakSelf = self;
     //点击播放的回调
     cell.playBlock = ^(UIButton *btn){
-        //分辨率字典（key:分辨率名称，value：分辨率url)
-        NSMutableDictionary *dic = @{}.mutableCopy;
-        for (ZFVideoResolution * resolution in model.playInfo) {
-            [dic setValue:resolution.url forKey:resolution.name];
-        }
+//        //分辨率字典（key:分辨率名称，value：分辨率url)
+//        NSMutableDictionary *dic = @{}.mutableCopy;
+//        for (ZFVideoResolution * resolution in model.playInfo) {
+//            [dic setValue:resolution.url forKey:resolution.name];
+//        }
         //取出字典中的第一视频URL
-        NSURL *videoURL = [NSURL URLWithString:dic.allValues.firstObject];
+//        NSURL *videoURL = [NSURL URLWithString:dic.allValues.firstObject];
         ZFPlayerModel *playerModel = [[ZFPlayerModel alloc]init];
         playerModel.fatherViewTag = weakCell.picView.tag;
-        playerModel.videoURL = videoURL;
+        playerModel.videoURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@",model.url]];
         playerModel.scrollView = weakSelf.tableView;
         playerModel.indexPath = weakIndexPath;
         [weakSelf.playerView playerControlView:self.controlView playerModel:playerModel];
@@ -157,7 +167,7 @@ static NSString *videoCell = @"playerCell";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     ZFVideoModel *playerModel = self.dataSource[indexPath.section];
     VideoDetailViewController *vc = [VideoDetailViewController new];
-    vc.videoURL                   = [NSURL URLWithString:playerModel.playUrl];
+    vc.videoURL                   = [NSURL URLWithString:playerModel.url];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

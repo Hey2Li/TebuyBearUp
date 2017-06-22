@@ -99,6 +99,7 @@
 - (UIViewController *)pagerController:(TYPagerController *)pagerController controllerForIndex:(NSInteger)index{
     HomeContentTableViewController *vc  =[HomeContentTableViewController new];
     vc.name = self.titleArray[index];
+    vc.index = index;
     return vc;
 }
 

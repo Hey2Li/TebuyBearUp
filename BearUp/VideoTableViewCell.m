@@ -86,7 +86,7 @@
  
 }
 - (void)setModel:(ZFVideoModel *)model {
-//    [self.picView sd_setImageWithURL:[NSURL URLWithString:model.coverForFeed] placeholderImage:[UIImage imageNamed:@"loading_bgView"]];
+    [self.picView sd_setImageWithURL:[NSURL URLWithString:model.photo] placeholderImage:[UIImage imageNamed:@"loading_bgView"]];
 }
 - (void)play:(UIButton *)sender{
     if (self.playBlock) {
