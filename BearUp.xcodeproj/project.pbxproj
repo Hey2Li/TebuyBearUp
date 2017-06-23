@@ -57,6 +57,8 @@
 		1C1EDE471ED7B5B80099D115 /* CommentsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C1EDE451ED7B5B80099D115 /* CommentsTableViewCell.m */; };
 		1C1EDE481ED7B5B80099D115 /* CommentsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1C1EDE461ED7B5B80099D115 /* CommentsTableViewCell.xib */; };
 		1C2A11B71EEF702A00B0BC45 /* VideoTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C2A11B61EEF702900B0BC45 /* VideoTableViewController.m */; };
+		1C5625071EFCA9D1000F8808 /* VideoDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C5625051EFCA9D1000F8808 /* VideoDetailTableViewCell.m */; };
+		1C5625081EFCA9D1000F8808 /* VideoDetailTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1C5625061EFCA9D1000F8808 /* VideoDetailTableViewCell.xib */; };
 		1C724D041EE7FA2600528FDC /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C724D031EE7FA2600528FDC /* RegisterViewController.m */; };
 		1C724D071EE9365900528FDC /* FindPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C724D061EE9365900528FDC /* FindPasswordViewController.m */; };
 		1C75E1B51EEF7E5A00BC59B5 /* ASValuePopUpView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C75E1961EEF7E5A00BC59B5 /* ASValuePopUpView.m */; };
@@ -191,6 +193,9 @@
 		1C1EDE461ED7B5B80099D115 /* CommentsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommentsTableViewCell.xib; sourceTree = "<group>"; };
 		1C2A11B51EEF702900B0BC45 /* VideoTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoTableViewController.h; sourceTree = "<group>"; };
 		1C2A11B61EEF702900B0BC45 /* VideoTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoTableViewController.m; sourceTree = "<group>"; };
+		1C5625041EFCA9D1000F8808 /* VideoDetailTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoDetailTableViewCell.h; sourceTree = "<group>"; };
+		1C5625051EFCA9D1000F8808 /* VideoDetailTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoDetailTableViewCell.m; sourceTree = "<group>"; };
+		1C5625061EFCA9D1000F8808 /* VideoDetailTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VideoDetailTableViewCell.xib; sourceTree = "<group>"; };
 		1C724D021EE7FA2600528FDC /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
 		1C724D031EE7FA2600528FDC /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
 		1C724D051EE9365900528FDC /* FindPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindPasswordViewController.h; sourceTree = "<group>"; };
@@ -654,6 +659,9 @@
 			children = (
 				1C1EDE361ED3E18A0099D115 /* VideoTableViewCell.h */,
 				1C1EDE371ED3E18A0099D115 /* VideoTableViewCell.m */,
+				1C5625041EFCA9D1000F8808 /* VideoDetailTableViewCell.h */,
+				1C5625051EFCA9D1000F8808 /* VideoDetailTableViewCell.m */,
+				1C5625061EFCA9D1000F8808 /* VideoDetailTableViewCell.xib */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -847,6 +855,7 @@
 			files = (
 				1C1EDC521EC2EA960099D115 /* UMSocialSDKPromptResources.bundle in Resources */,
 				1C1EDE141ECADD250099D115 /* newDetail.css in Resources */,
+				1C5625081EFCA9D1000F8808 /* VideoDetailTableViewCell.xib in Resources */,
 				1C1EDE481ED7B5B80099D115 /* CommentsTableViewCell.xib in Resources */,
 				1C1EDBD71EBC43BE0099D115 /* LaunchScreen.storyboard in Resources */,
 				1C75E1C01EEF7E5A00BC59B5 /* ZFPlayer.bundle in Resources */,
@@ -929,6 +938,7 @@
 			files = (
 				1C75E1BE1EEF7E5A00BC59B5 /* MMMaterialDesignSpinner.m in Sources */,
 				1C1EDC2C1EC1B0250099D115 /* HomeContentTableViewController.m in Sources */,
+				1C5625071EFCA9D1000F8808 /* VideoDetailTableViewCell.m in Sources */,
 				1C724D041EE7FA2600528FDC /* RegisterViewController.m in Sources */,
 				1C75E1C31EEF7E5A00BC59B5 /* ZFPlayerView.m in Sources */,
 				1C75E1B51EEF7E5A00BC59B5 /* ASValuePopUpView.m in Sources */,

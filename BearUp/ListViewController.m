@@ -19,10 +19,6 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    //自定义一个NaVIgationBar
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-    //消除阴影
-    self.navigationController.navigationBar.shadowImage = [UIImage new];
 }
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
