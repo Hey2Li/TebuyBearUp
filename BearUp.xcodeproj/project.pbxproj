@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1C0580401F02348600EAD755 /* SubCategoryCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C05803F1F02348600EAD755 /* SubCategoryCollectionViewCell.m */; };
+		1C0580431F024B7400EAD755 /* AdvertisingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C0580421F024B7400EAD755 /* AdvertisingTableViewCell.m */; };
 		1C1EDBC91EBC43BE0099D115 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C1EDBC81EBC43BE0099D115 /* main.m */; };
 		1C1EDBCC1EBC43BE0099D115 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C1EDBCB1EBC43BE0099D115 /* AppDelegate.m */; };
 		1C1EDBCF1EBC43BE0099D115 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C1EDBCE1EBC43BE0099D115 /* ViewController.m */; };
@@ -104,6 +106,10 @@
 
 /* Begin PBXFileReference section */
 		1701B53EBC2CD6FCE70EFC7E /* libPods-BearUp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BearUp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1C05803E1F02348600EAD755 /* SubCategoryCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubCategoryCollectionViewCell.h; sourceTree = "<group>"; };
+		1C05803F1F02348600EAD755 /* SubCategoryCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubCategoryCollectionViewCell.m; sourceTree = "<group>"; };
+		1C0580411F024B7400EAD755 /* AdvertisingTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdvertisingTableViewCell.h; sourceTree = "<group>"; };
+		1C0580421F024B7400EAD755 /* AdvertisingTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdvertisingTableViewCell.m; sourceTree = "<group>"; };
 		1C1EDBC41EBC43BE0099D115 /* BearUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BearUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C1EDBC81EBC43BE0099D115 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		1C1EDBCA1EBC43BE0099D115 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -584,6 +590,10 @@
 			children = (
 				1C9590311EE52421001E0DF0 /* HorizontalTableViewCell.h */,
 				1C9590321EE52421001E0DF0 /* HorizontalTableViewCell.m */,
+				1C05803E1F02348600EAD755 /* SubCategoryCollectionViewCell.h */,
+				1C05803F1F02348600EAD755 /* SubCategoryCollectionViewCell.m */,
+				1C0580411F024B7400EAD755 /* AdvertisingTableViewCell.h */,
+				1C0580421F024B7400EAD755 /* AdvertisingTableViewCell.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -942,6 +952,7 @@
 				1C724D041EE7FA2600528FDC /* RegisterViewController.m in Sources */,
 				1C75E1C31EEF7E5A00BC59B5 /* ZFPlayerView.m in Sources */,
 				1C75E1B51EEF7E5A00BC59B5 /* ASValuePopUpView.m in Sources */,
+				1C0580431F024B7400EAD755 /* AdvertisingTableViewCell.m in Sources */,
 				1C1EDC181EC00F650099D115 /* LTHttpManager.m in Sources */,
 				1C2A11B71EEF702A00B0BC45 /* VideoTableViewController.m in Sources */,
 				1C1EDC301EC1B7500099D115 /* BUTitleLabel.m in Sources */,
@@ -970,6 +981,7 @@
 				1C75E1BA1EEF7E5A00BC59B5 /* UITabBarController+ZFPlayerRotation.m in Sources */,
 				1C1EDE2E1ECD92F00099D115 /* DataInfo.m in Sources */,
 				1C1EDE381ED3E18A0099D115 /* VideoTableViewCell.m in Sources */,
+				1C0580401F02348600EAD755 /* SubCategoryCollectionViewCell.m in Sources */,
 				1C75E1B81EEF7E5A00BC59B5 /* UIImageView+ZFCache.m in Sources */,
 				1C75E1BB1EEF7E5A00BC59B5 /* UIView+CustomControlView.m in Sources */,
 				1CEBC8711ED926EA00760301 /* BottomCommentView.m in Sources */,

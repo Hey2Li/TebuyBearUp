@@ -62,6 +62,8 @@
         self.isPlaying = YES;
         //        [self.playerView pause];
         self.playerView.playerPushedOrPresented = YES;
+    }else{
+        [self.playerView resetPlayer];
     }
     [_render stop];
 }

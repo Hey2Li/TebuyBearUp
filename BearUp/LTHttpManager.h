@@ -274,4 +274,12 @@
  @param complete block
  */
 + (void)getCommentWithType:(NSNumber *)type Page:(NSNumber *)Page Complete:(completeBlock)complete;
+
+
+/**
+ 发现首页api/explore/index
+
+ @param complete block
+ */
++ (void)foundIndexComplete:(completeBlock)complete;
 @end

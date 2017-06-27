@@ -11,6 +11,8 @@
 #import "HomePageTableViewCell.h"
 #import "ListViewController.h"
 #import "CategoryViewController.h"
+#import "ScrollBannerTableViewCell.h"
+#import "AdvertisingTableViewCell.h"
 
 static NSString *HORCELL = @"HorizontalCell";
 @interface BUFoundViewController ()<UITableViewDelegate, UITableViewDataSource>
@@ -25,6 +27,16 @@ static NSString *FOUNDCELL = @"foundCell";
     self.title = @"发现";
     self.view.backgroundColor = [UIColor whiteColor];
     [self initWithView];
+    [self loadData];
+}
+- (void)loadData{
+    [LTHttpManager foundIndexComplete:^(LTHttpResult result, NSString *message, id data) {
+        if (LTHttpResultSuccess == result) {
+            //
+        }else{
+            [self.view makeToast:message];
+        }
+    }];
 }
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -47,46 +59,88 @@ static NSString *FOUNDCELL = @"foundCell";
     tableView.tableFooterView = [UIView new];
     [tableView registerClass:[HomePageTableViewCell class] forCellReuseIdentifier:FOUNDCELL];
     [tableView registerClass:[HorizontalTableViewCell class] forCellReuseIdentifier:HORCELL];
+    [tableView registerClass:[ScrollBannerTableViewCell class] forCellReuseIdentifier:@"scrollcell"];
     self.myTableView = tableView;
 }
 
 #pragma mark tableViewDelegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 10;
+    return 3;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 1;
+    if (section == 0 || section == 1) {
+        return 1;
+    }else{
+        return 5;
+    }
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 200;
+    switch (indexPath.section) {
+        case 0:
+            return 180;
+            break;
+        case 1:
+            return 200;
+            break;
+        case 2:
+            return 230;
+            break;
+        default:
+            return 0;
+            break;
+    }
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 25;
+    if (section == 0) {
+        return CGFLOAT_MIN;
+    }else{
+        return 25;
+    }
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     return CGFLOAT_MIN;
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    UILabel *label = [UILabel new];
-    label.textAlignment = NSTextAlignmentCenter;
-    label.text = @"全部排行";
-    label.textColor = UIColorFromRGB(0x000000);
-    label.font = [UIFont systemFontOfSize:16];
-    label.backgroundColor = UIColorFromRGB(0xf5f5f5);
-    return label;
+    if (section == 0) {
+        return 0;
+    }else if (section == 1){
+        UILabel *label = [UILabel new];
+        label.textAlignment = NSTextAlignmentCenter;
+        label.text = @"热门排行";
+        label.textColor = UIColorFromRGB(0x000000);
+        label.font = [UIFont systemFontOfSize:16];
+        label.backgroundColor = UIColorFromRGB(0xf5f5f5);
+        return label;
+    }else{
+        UILabel *label = [UILabel new];
+        label.textAlignment = NSTextAlignmentCenter;
+        label.text = @"热门分类";
+        label.textColor = UIColorFromRGB(0x000000);
+        label.font = [UIFont systemFontOfSize:16];
+        label.backgroundColor = UIColorFromRGB(0xf5f5f5);
+        return label;
+    }
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    HomePageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:FOUNDCELL];
-    if (indexPath.section == 4) {
-        HorizontalTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:HORCELL];
-        cell.HorCollectionCellClick = ^(NSIndexPath *index){
-            NSLog(@"%ld",(long)index.row);
-            CategoryViewController *vc = [CategoryViewController new];
-            [self.navigationController pushViewController:vc animated:YES];
-        };
+    if (indexPath.section == 0) {
+        AdvertisingTableViewCell *cell = [[AdvertisingTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"adverCell"];
+        if (!cell) {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"adverCell"];
+        }
+        return  cell;
+    }else if (indexPath.section == 1){
+        ScrollBannerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"scrollcell"];
         return cell;
+           }else{
+               HorizontalTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:HORCELL];
+               cell.HorCollectionCellClick = ^(NSIndexPath *index){
+                   NSLog(@"%ld",(long)index.row);
+                   CategoryViewController *vc = [CategoryViewController new];
+                   [self.navigationController pushViewController:vc animated:YES];
+               };
+               return cell;
+
     }
-    return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{

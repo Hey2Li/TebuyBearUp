@@ -412,7 +412,7 @@
  
  
  @param type 类型
- @param Page 页数
+ @param page 页数
  @param complete block
  */
 + (void)getCommentWithType:(NSNumber *)type Page:(NSNumber *)page Complete:(completeBlock)complete{
@@ -423,5 +423,17 @@
     [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/user/getcmment",BaseURL] parameters:paramters complete:complete];
 
+}
+
+/**
+ 发现首页api/explore/index
+ 
+ @param complete block
+ */
++ (void)foundIndexComplete:(completeBlock)complete{
+    LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
+    NSMutableDictionary *paramters  =[NSMutableDictionary dictionary];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/explore/index",BaseURL] parameters:paramters complete:complete];
 }
 @end
