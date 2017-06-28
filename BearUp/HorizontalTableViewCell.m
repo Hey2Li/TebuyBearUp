@@ -19,6 +19,7 @@ static NSString *SUBCATEGORY = @"subcateoryCell";
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         UIImageView *topImageView = [UIImageView new];
+        topImageView.image = [UIImage imageNamed:@"发现页—排行版_03.jpg"];
         topImageView.backgroundColor = [UIColor grayColor];
         [self.contentView addSubview:topImageView];
         [topImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -27,14 +28,27 @@ static NSString *SUBCATEGORY = @"subcateoryCell";
             make.top.equalTo(self.contentView.mas_top);
             make.height.equalTo(@100);
         }];
+        UIImageView *sanjiaoImageView = [UIImageView new];
+        sanjiaoImageView.image = [UIImage imageNamed:@"热门分类三角"];
+        [topImageView addSubview:sanjiaoImageView];
+        [sanjiaoImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(topImageView.mas_left).offset(10);
+            make.bottom.equalTo(topImageView.mas_bottom).offset(2);
+            make.height.equalTo(@15);
+            make.width.equalTo(@15);
+        }];
+        
         UIButton *titleBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [titleBtn setBackgroundImage:[UIImage imageNamed:@"分类标题背景"] forState:UIControlStateNormal];
         [titleBtn setTitle:@"搞笑" forState:UIControlStateNormal];
+        [titleBtn setTitleColor:UIColorFromRGB(0xff4466) forState:UIControlStateNormal];
+        titleBtn.titleLabel.font = [UIFont systemFontOfSize:20];
         [titleBtn setBackgroundColor:[UIColor whiteColor]];
         [topImageView addSubview:titleBtn];
         [titleBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.center.equalTo(topImageView);
             make.height.equalTo(@50);
-            make.width.equalTo(@80);
+            make.width.equalTo(@100);
         }];
         
         self.selectionStyle = UITableViewCellSelectionStyleNone;

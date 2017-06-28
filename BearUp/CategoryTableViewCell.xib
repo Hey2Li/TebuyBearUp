@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="CategoryTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="397" height="100"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="397" height="100"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="程序员的那点事" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kGW-Oi-cW4">
+                        <rect key="frame" x="105" y="18" width="194" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="tjy-g3-UUw"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="两岸猿声啼不住" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C3o-Db-9FK">
+                        <rect key="frame" x="105" y="46.5" width="274" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="1mw-WN-NpJ"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="搞笑老爹用女儿当道具" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bZa-z2-Kk9">
+                        <rect key="frame" x="105" y="73.5" width="282" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="F6P-0A-ztI"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vJi-y0-Cat">
+                        <rect key="frame" x="309" y="15.5" width="70" height="26"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="26" id="F01-P8-qgX"/>
+                            <constraint firstAttribute="width" constant="70" id="PL5-2C-wlC"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <state key="normal" title="关注">
+                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                    </button>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="发现页—热门分类_06" translatesAutoresizingMaskIntoConstraints="NO" id="493-dG-iSL">
+                        <rect key="frame" x="5" y="5" width="90" height="89.5"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="90" id="TdA-Ck-nUK"/>
+                            <constraint firstAttribute="width" constant="90" id="gtR-2i-u2v"/>
+                        </constraints>
+                    </imageView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="vJi-y0-Cat" firstAttribute="leading" secondItem="kGW-Oi-cW4" secondAttribute="trailing" constant="10" id="9qh-Kd-e4n"/>
+                    <constraint firstItem="C3o-Db-9FK" firstAttribute="leading" secondItem="493-dG-iSL" secondAttribute="trailing" constant="10" id="AH7-eE-rWd"/>
+                    <constraint firstItem="vJi-y0-Cat" firstAttribute="centerY" secondItem="kGW-Oi-cW4" secondAttribute="centerY" id="RoM-Tw-iQw"/>
+                    <constraint firstItem="kGW-Oi-cW4" firstAttribute="leading" secondItem="493-dG-iSL" secondAttribute="trailing" constant="10" id="WlW-FP-8yc"/>
+                    <constraint firstAttribute="trailing" secondItem="bZa-z2-Kk9" secondAttribute="trailing" constant="10" id="Yhg-gf-adz"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="vJi-y0-Cat" secondAttribute="trailing" constant="10" id="afY-en-qJD"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="C3o-Db-9FK" secondAttribute="trailing" constant="10" id="aiO-uP-jaP"/>
+                    <constraint firstItem="C3o-Db-9FK" firstAttribute="top" secondItem="vJi-y0-Cat" secondAttribute="bottom" constant="5" id="gC8-Rb-DfK"/>
+                    <constraint firstItem="bZa-z2-Kk9" firstAttribute="bottom" secondItem="493-dG-iSL" secondAttribute="bottom" id="jju-aQ-2fU"/>
+                    <constraint firstItem="bZa-z2-Kk9" firstAttribute="leading" secondItem="493-dG-iSL" secondAttribute="trailing" constant="10" id="m6i-8j-3VV"/>
+                    <constraint firstAttribute="bottom" secondItem="493-dG-iSL" secondAttribute="bottom" constant="5" id="uAk-IM-PRn"/>
+                    <constraint firstItem="493-dG-iSL" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="vFO-sg-dgM"/>
+                    <constraint firstItem="kGW-Oi-cW4" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="10" id="wDb-AZ-FKQ"/>
+                    <constraint firstItem="493-dG-iSL" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="5" id="wMJ-lv-GuN"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="categoryNameLabel" destination="kGW-Oi-cW4" id="4Mz-5L-QBb"/>
+                <outlet property="focusBtn" destination="vJi-y0-Cat" id="Acz-CY-Zfy"/>
+                <outlet property="introducelabel" destination="C3o-Db-9FK" id="6EA-vY-wWj"/>
+                <outlet property="leftImageView" destination="493-dG-iSL" id="AEV-wb-ZIp"/>
+                <outlet property="subTitleLabel" destination="bZa-z2-Kk9" id="z1m-iP-9A0"/>
+            </connections>
+            <point key="canvasLocation" x="-104.5" y="115"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="发现页—热门分类_06" width="165" height="165"/>
+    </resources>
+</document>

@@ -94,7 +94,7 @@ static NSString *FOUNDCELL = @"foundCell";
     if (section == 0) {
         return CGFLOAT_MIN;
     }else{
-        return 25;
+        return 50;
     }
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
@@ -104,22 +104,100 @@ static NSString *FOUNDCELL = @"foundCell";
     if (section == 0) {
         return 0;
     }else if (section == 1){
+        UIView *sectionHeaderView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 50)];
+//        sectionHeaderView.backgroundColor = [UIColor whiteColor];
         UILabel *label = [UILabel new];
         label.textAlignment = NSTextAlignmentCenter;
         label.text = @"热门排行";
         label.textColor = UIColorFromRGB(0x000000);
-        label.font = [UIFont systemFontOfSize:16];
-        label.backgroundColor = UIColorFromRGB(0xf5f5f5);
-        return label;
+        label.font = [UIFont systemFontOfSize:18];
+//        label.backgroundColor = UIColorFromRGB(0xf5f5f5);
+        [sectionHeaderView addSubview:label];
+        [label mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.center.equalTo(sectionHeaderView);
+            make.height.equalTo(@30);
+            make.width.equalTo(@100);
+        }];
+        
+        UILabel *lineLabel = [UILabel new];
+        lineLabel.backgroundColor = [UIColor grayColor];
+        [sectionHeaderView addSubview:lineLabel];
+        [lineLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(label);
+            make.top.equalTo(label.mas_bottom);
+            make.height.equalTo(@1);
+            make.width.equalTo(@50);
+        }];
+        
+        UIButton *getAllBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [getAllBtn setTitle:@"全部排行" forState:UIControlStateNormal];
+        [getAllBtn setTitleColor:UIColorFromRGB(0xaeaeae) forState:UIControlStateNormal];
+        getAllBtn.titleLabel.font = [UIFont systemFontOfSize:10];
+        [getAllBtn.layer setBorderWidth:1.0f];
+        [getAllBtn.layer setBorderColor:UIColorFromRGB(0xaeaeae).CGColor];
+        [getAllBtn.layer setCornerRadius:9.0f];
+        [sectionHeaderView addSubview:getAllBtn];
+        [getAllBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(sectionHeaderView.mas_right).offset(-5);
+            make.bottom.equalTo(sectionHeaderView.mas_bottom).offset(-5);
+            make.height.equalTo(@18);
+            make.width.equalTo(@50);
+        }];
+        [getAllBtn addTarget:self action:@selector(pushAllList:) forControlEvents:UIControlEventTouchUpInside];
+        return sectionHeaderView;
     }else{
+        UIView *sectionHeaderView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 50)];
+//        sectionHeaderView.backgroundColor = [UIColor whiteColor];
         UILabel *label = [UILabel new];
+        
         label.textAlignment = NSTextAlignmentCenter;
         label.text = @"热门分类";
         label.textColor = UIColorFromRGB(0x000000);
-        label.font = [UIFont systemFontOfSize:16];
-        label.backgroundColor = UIColorFromRGB(0xf5f5f5);
-        return label;
+        label.font = [UIFont systemFontOfSize:18];
+//        label.backgroundColor = UIColorFromRGB(0xf5f5f5);
+        [sectionHeaderView addSubview:label];
+        [label mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.center.equalTo(sectionHeaderView);
+            make.height.equalTo(@30);
+            make.width.equalTo(@100);
+        }];
+        
+        UILabel *lineLabel = [UILabel new];
+        lineLabel.backgroundColor = [UIColor grayColor];
+        [sectionHeaderView addSubview:lineLabel];
+        [lineLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(label);
+            make.top.equalTo(label.mas_bottom);
+            make.height.equalTo(@1);
+            make.width.equalTo(@50);
+        }];
+        
+        UIButton *getAllBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [getAllBtn setTitle:@"全部分类" forState:UIControlStateNormal];
+        [getAllBtn setTitleColor:UIColorFromRGB(0xaeaeae) forState:UIControlStateNormal];
+        getAllBtn.titleLabel.font = [UIFont systemFontOfSize:10];
+        [getAllBtn.layer setBorderWidth:1.0f];
+        [getAllBtn.layer setBorderColor:UIColorFromRGB(0xaeaeae).CGColor];
+        [getAllBtn.layer setCornerRadius:9.0f];
+        [sectionHeaderView addSubview:getAllBtn];
+        [getAllBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(sectionHeaderView.mas_right).offset(-5);
+            make.bottom.equalTo(sectionHeaderView.mas_bottom).offset(-5);
+            make.height.equalTo(@18);
+            make.width.equalTo(@50);
+        }];
+        [getAllBtn addTarget:self action:@selector(pushAllCategory:) forControlEvents:UIControlEventTouchUpInside];
+        return sectionHeaderView;
     }
+}
+- (void)pushAllCategory:(UIButton *)btn{
+    CategoryViewController *vc = [CategoryViewController new];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+- (void)pushAllList:(UIButton *)btn{
+    ListViewController *vc = [ListViewController new];
+    [self.navigationController pushViewController:vc animated:YES];
+
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 0) {

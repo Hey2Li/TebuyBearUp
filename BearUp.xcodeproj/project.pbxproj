@@ -59,6 +59,8 @@
 		1C1EDE471ED7B5B80099D115 /* CommentsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C1EDE451ED7B5B80099D115 /* CommentsTableViewCell.m */; };
 		1C1EDE481ED7B5B80099D115 /* CommentsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1C1EDE461ED7B5B80099D115 /* CommentsTableViewCell.xib */; };
 		1C2A11B71EEF702A00B0BC45 /* VideoTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C2A11B61EEF702900B0BC45 /* VideoTableViewController.m */; };
+		1C54540D1F03572000E9E74A /* CategoryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C54540B1F03572000E9E74A /* CategoryTableViewCell.m */; };
+		1C54540E1F03572000E9E74A /* CategoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1C54540C1F03572000E9E74A /* CategoryTableViewCell.xib */; };
 		1C5625071EFCA9D1000F8808 /* VideoDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C5625051EFCA9D1000F8808 /* VideoDetailTableViewCell.m */; };
 		1C5625081EFCA9D1000F8808 /* VideoDetailTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1C5625061EFCA9D1000F8808 /* VideoDetailTableViewCell.xib */; };
 		1C724D041EE7FA2600528FDC /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C724D031EE7FA2600528FDC /* RegisterViewController.m */; };
@@ -199,6 +201,9 @@
 		1C1EDE461ED7B5B80099D115 /* CommentsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommentsTableViewCell.xib; sourceTree = "<group>"; };
 		1C2A11B51EEF702900B0BC45 /* VideoTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoTableViewController.h; sourceTree = "<group>"; };
 		1C2A11B61EEF702900B0BC45 /* VideoTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoTableViewController.m; sourceTree = "<group>"; };
+		1C54540A1F03572000E9E74A /* CategoryTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryTableViewCell.h; sourceTree = "<group>"; };
+		1C54540B1F03572000E9E74A /* CategoryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryTableViewCell.m; sourceTree = "<group>"; };
+		1C54540C1F03572000E9E74A /* CategoryTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategoryTableViewCell.xib; sourceTree = "<group>"; };
 		1C5625041EFCA9D1000F8808 /* VideoDetailTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoDetailTableViewCell.h; sourceTree = "<group>"; };
 		1C5625051EFCA9D1000F8808 /* VideoDetailTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoDetailTableViewCell.m; sourceTree = "<group>"; };
 		1C5625061EFCA9D1000F8808 /* VideoDetailTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VideoDetailTableViewCell.xib; sourceTree = "<group>"; };
@@ -594,6 +599,9 @@
 				1C05803F1F02348600EAD755 /* SubCategoryCollectionViewCell.m */,
 				1C0580411F024B7400EAD755 /* AdvertisingTableViewCell.h */,
 				1C0580421F024B7400EAD755 /* AdvertisingTableViewCell.m */,
+				1C54540A1F03572000E9E74A /* CategoryTableViewCell.h */,
+				1C54540B1F03572000E9E74A /* CategoryTableViewCell.m */,
+				1C54540C1F03572000E9E74A /* CategoryTableViewCell.xib */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -866,6 +874,7 @@
 				1C1EDC521EC2EA960099D115 /* UMSocialSDKPromptResources.bundle in Resources */,
 				1C1EDE141ECADD250099D115 /* newDetail.css in Resources */,
 				1C5625081EFCA9D1000F8808 /* VideoDetailTableViewCell.xib in Resources */,
+				1C54540E1F03572000E9E74A /* CategoryTableViewCell.xib in Resources */,
 				1C1EDE481ED7B5B80099D115 /* CommentsTableViewCell.xib in Resources */,
 				1C1EDBD71EBC43BE0099D115 /* LaunchScreen.storyboard in Resources */,
 				1C75E1C01EEF7E5A00BC59B5 /* ZFPlayer.bundle in Resources */,
@@ -997,6 +1006,7 @@
 				1C75E1BC1EEF7E5A00BC59B5 /* UIViewController+ZFPlayerRotation.m in Sources */,
 				1C1EDBC91EBC43BE0099D115 /* main.m in Sources */,
 				1C75E1C21EEF7E5A00BC59B5 /* ZFPlayerModel.m in Sources */,
+				1C54540D1F03572000E9E74A /* CategoryTableViewCell.m in Sources */,
 				1C1EDBFD1EBC450F0099D115 /* BaseNaviViewController.m in Sources */,
 				1C1EDE181ECBF4100099D115 /* BUTopTitleBar.m in Sources */,
 				1C75E1B61EEF7E5A00BC59B5 /* ASValueTrackingSlider.m in Sources */,

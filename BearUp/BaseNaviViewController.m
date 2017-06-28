@@ -17,7 +17,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.navigationBar.barTintColor = DRGBCOLOR;
+//    self.navigationBar.barTintColor = DRGBCOLOR;
     self.navigationBar.tintColor = [UIColor whiteColor];
     self.navigationBar.translucent = NO;
     //去掉左边的title

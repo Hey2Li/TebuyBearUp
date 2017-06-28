@@ -20,10 +20,10 @@
         advertisingImageView.backgroundColor = [UIColor redColor];
         [self.contentView addSubview:advertisingImageView];
         [advertisingImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.contentView.mas_left).offset(10);
-            make.right.equalTo(self.contentView.mas_right).offset(-10);
+            make.left.equalTo(self.contentView.mas_left).offset(5);
+            make.right.equalTo(self.contentView.mas_right).offset(-5);
             make.height.equalTo(self.contentView.mas_height);
-            make.top.equalTo(self.contentView.mas_top).offset(10);
+            make.top.equalTo(self.contentView.mas_top).offset(5);
         }];
         
         UIButton *closeBtn = [UIButton buttonWithType:UIButtonTypeCustom];

@@ -19,8 +19,8 @@
         topImageView.image = [UIImage imageNamed:@"index_shipin"];
         [self.contentView addSubview:topImageView];
         [topImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.contentView.mas_left).offset(10);
-            make.right.equalTo(self.contentView.mas_right).offset(-10);
+            make.left.equalTo(self.contentView.mas_left);
+            make.right.equalTo(self.contentView.mas_right);
             make.top.equalTo(self.contentView.mas_top);
             make.height.mas_equalTo(self.contentView.bounds.size.height - 20);
         }];
