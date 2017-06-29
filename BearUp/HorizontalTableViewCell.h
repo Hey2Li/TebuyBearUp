@@ -10,4 +10,7 @@
 
 @interface HorizontalTableViewCell : UITableViewCell
 @property (nonatomic, copy) void (^HorCollectionCellClick)(NSIndexPath *indexPath);
+@property (nonatomic, strong) UIButton *categoryNameBtn;
+@property (nonatomic, strong) UIImageView *backgroundImageView;
+@property (nonatomic, strong) NSMutableArray *subCategoryArray;
 @end

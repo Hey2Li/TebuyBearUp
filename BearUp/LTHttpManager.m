@@ -436,4 +436,65 @@
     [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/explore/index",BaseURL] parameters:paramters complete:complete];
 }
+
+/**
+ 排行榜
+ 请求地址:api/explore/toplist
+ 
+ @param type 0-总榜；1-文章榜；2-视频榜
+ @param limit 每次查询的排行数量
+ @param complete block
+ */
++ (void)topListWithType:(NSString *)type Limit:(NSNumber *)limit Complete:(completeBlock)complete{
+    LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
+    NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:type,@"type", limit,@"limit",nil];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/explore/toplist",BaseURL] parameters:paramters complete:complete];
+}
+
+/**
+ 热门分类
+ 请求地址:api/explore/hotcolumn
+ 
+ 
+ @param limit 每次查询的排行数量
+ @param complete block
+ */
++ (void)hotCategoryWithLimit:(NSNumber *)limit Complete:(completeBlock)complete{
+    LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
+    NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: limit,@"limit",nil];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/explore/hotcolumn",BaseURL] parameters:paramters complete:complete];
+}
+
+
+/**
+ 分类详情
+ 请求地址:api/explore/getcolumn
+ 
+ @param limit 每次查询的排行数量
+ @param ID 分类id
+ @param complete block
+ */
++ (void)categoryDetailWithLimit:(NSNumber *)limit ID:(NSNumber *)ID Complete:(completeBlock)complete{
+    LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
+    NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: limit,@"limit",ID,@"id",nil];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/explore/getcolumn",BaseURL] parameters:paramters complete:complete];
+}
+
+
+/**
+ 关注类别
+ 请求地址:api/explore/attention
+ 
+ @param cid 分类id
+ @param complete block
+ */
++ (void)focusCategoryWithCid:(NSNumber *)cid Complete:(completeBlock)complete{
+    LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
+    NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: cid,@"cid",nil];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/explore/attention",BaseURL] parameters:paramters complete:complete];
+}
 @end

@@ -230,16 +230,7 @@
         [self.myTableView reloadData];
     }
 }
-- (void)rightBtnClick:(UIButton *)btn{
-    btn.selected = !btn.selected;
-    if (btn.selected) {
-        [UIView animateWithDuration:0.25 animations:^{
-            [self.lineLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-                make.centerX.equalTo(btn.mas_centerX);
-            }];
-        }];
-    }
-}
+
 #pragma mark TableViewDelage
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 10;

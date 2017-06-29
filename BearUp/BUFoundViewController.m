@@ -17,11 +17,24 @@
 static NSString *HORCELL = @"HorizontalCell";
 @interface BUFoundViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UITableView *myTableView;
-
+@property (nonatomic, strong) NSMutableArray *hotCategoryArray;
+@property (nonatomic, strong) NSMutableArray *hotRankArray;
 @end
 static NSString *FOUNDCELL = @"foundCell";
 @implementation BUFoundViewController
 
+- (NSMutableArray *)hotRankArray{
+    if (!_hotRankArray) {
+        _hotRankArray = [NSMutableArray array];
+    }
+    return _hotRankArray;
+}
+- (NSMutableArray *)hotCategoryArray{
+    if (!_hotCategoryArray) {
+        _hotCategoryArray = [NSMutableArray array];
+    }
+    return _hotCategoryArray;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"发现";
@@ -32,7 +45,9 @@ static NSString *FOUNDCELL = @"foundCell";
 - (void)loadData{
     [LTHttpManager foundIndexComplete:^(LTHttpResult result, NSString *message, id data) {
         if (LTHttpResultSuccess == result) {
-            //
+            self.hotRankArray = [NSMutableArray arrayWithArray:data[@"responseData"][@"toparr"]];
+            self.hotCategoryArray = [NSMutableArray arrayWithArray:data[@"responseData"][@"columns"]];
+            [self.myTableView reloadData];
         }else{
             [self.view makeToast:message];
         }
@@ -71,7 +86,7 @@ static NSString *FOUNDCELL = @"foundCell";
     if (section == 0 || section == 1) {
         return 1;
     }else{
-        return 5;
+        return self.hotCategoryArray.count;
     }
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -83,7 +98,7 @@ static NSString *FOUNDCELL = @"foundCell";
             return 200;
             break;
         case 2:
-            return 230;
+            return 250;
             break;
         default:
             return 0;
@@ -208,14 +223,20 @@ static NSString *FOUNDCELL = @"foundCell";
         return  cell;
     }else if (indexPath.section == 1){
         ScrollBannerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"scrollcell"];
+        if (self.hotRankArray) {
+            cell.imageURLStringsGroup = self.hotRankArray;
+        }
         return cell;
            }else{
                HorizontalTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:HORCELL];
                cell.HorCollectionCellClick = ^(NSIndexPath *index){
                    NSLog(@"%ld",(long)index.row);
-                   CategoryViewController *vc = [CategoryViewController new];
-                   [self.navigationController pushViewController:vc animated:YES];
+//                   CategoryViewController *vc = [CategoryViewController new];
+//                   [self.navigationController pushViewController:vc animated:YES];
                };
+               [cell.categoryNameBtn setTitle:[NSString stringWithFormat:@"%@",self.hotCategoryArray[indexPath.row][@"name"]] forState:UIControlStateNormal];
+               [cell.backgroundImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.hotCategoryArray[indexPath.row][@"photo"]]]];
+               cell.subCategoryArray = [NSMutableArray arrayWithArray:self.hotCategoryArray[indexPath.row][@"arr"]];
                return cell;
 
     }
@@ -223,7 +244,7 @@ static NSString *FOUNDCELL = @"foundCell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 4) {
-    
+        
     }
     ListViewController *vc = [ListViewController new];
     [self.navigationController pushViewController:vc animated:YES];

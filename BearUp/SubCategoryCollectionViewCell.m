@@ -28,7 +28,8 @@
         self.subImageView = topImageView;
         
         UILabel *subTitleLabel = [UILabel new];
-        subTitleLabel.text = @"娃逛迪士尼你你你你你你你";
+        subTitleLabel.text = @"";
+        subTitleLabel.font = [UIFont systemFontOfSize:12];
         [self.contentView addSubview:subTitleLabel];
         [subTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.contentView);

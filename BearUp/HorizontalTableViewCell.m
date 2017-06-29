@@ -26,7 +26,7 @@ static NSString *SUBCATEGORY = @"subcateoryCell";
             make.left.equalTo(self.contentView.mas_left).offset(10);
             make.right.equalTo(self.contentView.mas_right).offset(-10);
             make.top.equalTo(self.contentView.mas_top);
-            make.height.equalTo(@100);
+            make.height.equalTo(@120);
         }];
         UIImageView *sanjiaoImageView = [UIImageView new];
         sanjiaoImageView.image = [UIImage imageNamed:@"三角形"];
@@ -54,7 +54,7 @@ static NSString *SUBCATEGORY = @"subcateoryCell";
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         UICollectionViewFlowLayout *flowlayout = [[UICollectionViewFlowLayout alloc]init];
         flowlayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-        UICollectionView *collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 110, SCREEN_WIDTH, 120) collectionViewLayout:flowlayout];
+        UICollectionView *collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 130, SCREEN_WIDTH, 120) collectionViewLayout:flowlayout];
         collectionView.dataSource = self;
         collectionView.delegate = self;
         [collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"collectionCell"];
@@ -63,12 +63,15 @@ static NSString *SUBCATEGORY = @"subcateoryCell";
         collectionView.backgroundColor = [UIColor whiteColor];
         [collectionView registerClass:[SubCategoryCollectionViewCell class] forCellWithReuseIdentifier:SUBCATEGORY];
         collectionView.showsHorizontalScrollIndicator = NO;
+        
+        self.backgroundImageView = topImageView;
+        self.categoryNameBtn = titleBtn;
     }
     return self;
 }
 #pragma mark UICollectionViewDelegate
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return 5;
+    return  self.subCategoryArray.count;
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     return CGSizeMake(100 , 110);
@@ -78,7 +81,15 @@ static NSString *SUBCATEGORY = @"subcateoryCell";
 }
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     SubCategoryCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:SUBCATEGORY forIndexPath:indexPath];
+    if (self.subCategoryArray.count) {
+        [cell.subImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.subCategoryArray[indexPath.row][@"photo"]]]];
+        cell.subTitleLabel.text = self.subCategoryArray[indexPath.row][@"title"];
+    }
     return cell;
+}
+- (void)setSubCategoryArray:(NSMutableArray *)subCategoryArray{
+    _subCategoryArray = subCategoryArray;
+    [self.collectionView reloadData];
 }
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     self.HorCollectionCellClick(indexPath);

@@ -39,7 +39,7 @@
         [titleArray addObject:dic[@"title"]];
         [imageViewUrlArray addObject:dic[@"photo"]];
     }
-    self.bannerScrollView.titlesGroup = titleArray ? titleArray : @[@"ssss"];
+    self.bannerScrollView.titlesGroup = titleArray ? titleArray : @[@""];
     self.bannerScrollView.localizationImageNamesGroup = imageViewUrlArray;
 }
 //点击图片回调
