@@ -29,7 +29,7 @@ static NSString *SUBCATEGORY = @"subcateoryCell";
             make.height.equalTo(@100);
         }];
         UIImageView *sanjiaoImageView = [UIImageView new];
-        sanjiaoImageView.image = [UIImage imageNamed:@"热门分类三角"];
+        sanjiaoImageView.image = [UIImage imageNamed:@"三角形"];
         [topImageView addSubview:sanjiaoImageView];
         [sanjiaoImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(topImageView.mas_left).offset(10);
