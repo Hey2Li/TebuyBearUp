@@ -36,5 +36,6 @@
 @property (nonatomic, copy  ) NSString *photo;
 /** 视频分辨率的数组 */
 //@property (nonatomic, strong) NSMutableArray *playInfo;
+@property (nonatomic, copy) NSString *vid;
 
 @end

@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface SubCategoryViewController : UIViewController
-
+@property (nonatomic, strong) NSNumber *cid;
 @end

@@ -188,7 +188,8 @@ static NSString *videoCell = @"playerCell";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     ZFVideoModel *playerModel = self.dataSource[indexPath.section];
     VideoDetailViewController *vc = [VideoDetailViewController new];
-    vc.videoURL                   = [NSURL URLWithString:playerModel.url];
+//    vc.videoURL                   = [NSURL URLWithString:playerModel.url];
+    vc.vid = [NSNumber numberWithInteger:[playerModel.vid integerValue]];
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)shareImageAndTextToPlatformType:(UMSocialPlatformType)platformType

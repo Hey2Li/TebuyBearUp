@@ -27,14 +27,14 @@
 
 - (void)setValue:(id)value forUndefinedKey:(NSString *)key {
     // 转换系统关键字description
-    if ([key isEqualToString:@"description"]) {
-//        self.video_description = [NSString stringWithFormat:@"%@",value];
+    if ([key isEqualToString:@"id"]) {
+        self.vid = [NSString stringWithFormat:@"%@",value];
     }
 
 }
 
 - (void)setValue:(id)value forKey:(NSString *)key {
-    if ([key isEqualToString:@"playInfo"]) {
+    if ([key isEqualToString:@"id"]) {
 //        self.playInfo = @[].mutableCopy;
 //        NSMutableArray *array = @[].mutableCopy;
 //        for (NSDictionary *dataDic in value) {
@@ -44,6 +44,7 @@
 //        }
 //        [self.playInfo removeAllObjects];
 //        [self.playInfo addObjectsFromArray:array];
+        self.vid = value;
     } else if ([key isEqualToString:@"title"]) {
         self.title = value;
     } else if ([key isEqualToString:@"url"]) {

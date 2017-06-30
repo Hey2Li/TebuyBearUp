@@ -9,16 +9,78 @@
 #import "SubCategoryViewController.h"
 #import "HomePageTableViewCell.h"
 #import "VideoTableViewCell.h"
+#import "ZFVideoModel.h"
+#import "ZFVideoResolution.h"
 
-@interface SubCategoryViewController ()<UITableViewDelegate, UITableViewDataSource,UIGestureRecognizerDelegate>
+
+@interface SubCategoryViewController ()<UITableViewDelegate, UITableViewDataSource,UIGestureRecognizerDelegate,ZFPlayerDelegate, ZFPlayerControlViewDelagate>
 @property (nonatomic, strong) UITableView *myTableView;
 @property (nonatomic, strong) UILabel *lineLabel;
 @property (nonatomic, strong) UIButton *tempBtn;
 @property (nonatomic, assign) NSUInteger selectIndex;
 @property (nonatomic, strong) UIView *navigtionBar;
+@property (nonatomic, strong) UILabel *naviTitle;
+@property (nonatomic, strong) UIButton *categoryHederBtn;
+@property (nonatomic, strong) UIImageView *categoryBackgroundImageView;
+@property (nonatomic, strong) UILabel *categoryDetailLabel;
+@property (nonatomic, strong) UILabel *focusPeopleLabel;
+@property (nonatomic, strong) NSMutableDictionary *dataDic;
+@property (nonatomic, strong) NSMutableArray *updateDataArray;
+@property (nonatomic, strong) NSMutableArray *welcomeDataArray;
+@property (nonatomic, strong) NSMutableArray *dataArray;
+@property (nonatomic, strong) ZFPlayerView        *playerView;
+@property (nonatomic, strong) ZFPlayerControlView *controlView;
 @end
 
 @implementation SubCategoryViewController
+
+- (NSMutableArray *)dataArray{
+    if (!_dataArray) {
+        _dataArray = [NSMutableArray array];
+    }
+    return _dataArray;
+}
+- (NSMutableDictionary *)dataDic{
+    if (!_dataDic) {
+        _dataDic = [NSMutableDictionary dictionary];
+    }
+    return _dataDic;
+}
+- (NSMutableArray *)updateDataArray{
+    if (!_updateDataArray) {
+        _updateDataArray = [NSMutableArray array];
+    }
+    return _updateDataArray;
+}
+- (NSMutableArray *)welcomeDataArray{
+    if (!_welcomeDataArray) {
+        _welcomeDataArray = [NSMutableArray array];
+    }
+    return _welcomeDataArray;
+}
+- (ZFPlayerView *)playerView {
+    if (!_playerView) {
+        _playerView = [ZFPlayerView sharedPlayerView];
+        _playerView.delegate = self;
+        // 当cell播放视频由全屏变为小屏时候，不回到中间位置
+        //        _playerView.cellPlayerOnCenter = NO;
+        
+        // 当cell划出屏幕的时候停止播放
+        // _playerView.stopPlayWhileCellNotVisable = YES;
+        //（可选设置）可以设置视频的填充模式，默认为（等比例填充，直到一个维度到达区域边界）
+        // _playerView.playerLayerGravity = ZFPlayerLayerGravityResizeAspect;
+        // 静音
+        // _playerView.mute = YES;
+    }
+    return _playerView;
+}
+
+- (ZFPlayerControlView *)controlView {
+    if (!_controlView) {
+        _controlView = [[ZFPlayerControlView alloc] init];
+    }
+    return _controlView;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -27,6 +89,30 @@
     self.title = @"孕妈圈";
     _selectIndex = 1001;
     self.navigationController.interactivePopGestureRecognizer.delegate = self;
+    [self loadData];
+}
+- (void)loadData{
+    [LTHttpManager categoryDetailWithLimit:@1 ID:self.cid Complete:^(LTHttpResult result, NSString *message, id data) {
+        if (LTHttpResultSuccess == result) {
+            self.dataDic = [NSMutableDictionary dictionaryWithDictionary:data[@"responseData"][@"info"]];
+            self.naviTitle.text = [NSString stringWithFormat:@"%@",self.dataDic[@"name"]];
+            [self.categoryBackgroundImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.dataDic[@"photo"]]]];
+            [self.categoryHederBtn sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.dataDic[@"photo"]]] forState:UIControlStateNormal];
+            self.focusPeopleLabel.text = [NSString stringWithFormat:@"已关注人数：%@",self.dataDic[@"hot"]];
+            self.categoryDetailLabel.text = [NSString stringWithFormat:@"%@",self.dataDic[@"introduct"]];
+            self.welcomeDataArray = [NSMutableArray arrayWithArray:data[@"responseData"][@"comment"]];
+            self.dataArray = [NSMutableArray arrayWithArray:data[@"responseData"][@"new"]];
+            [self.welcomeDataArray removeAllObjects];
+            for (NSDictionary *dataDic in data[@"responseData"][@"new"]) {
+                ZFVideoModel *model = [[ZFVideoModel alloc] init];
+                [model setValuesForKeysWithDictionary:dataDic];
+                [self.updateDataArray addObject:model];
+            }
+            [self.myTableView reloadData];
+        }else{
+            [self.view makeToast:message];
+        }
+    }];
 }
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -58,6 +144,7 @@
         make.height.equalTo(@25);
         make.width.equalTo(@200);
     }];
+    self.naviTitle = titleLabel;
     self.navigtionBar = navigationBar;
 }
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
@@ -197,6 +284,10 @@
     [rightBtn addTarget:self action:@selector(leftBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     leftBtn.tag = 1001;
     rightBtn.tag = 1002;
+    self.categoryHederBtn = headerBtn;
+    self.categoryDetailLabel = detailLabel;
+    self.categoryBackgroundImageView = backgroundImageView;
+    self.focusPeopleLabel = focusNum;
     return tableViewHeaderView;
 }
 - (void)leftBtnClick:(UIButton *)btn{
@@ -233,7 +324,13 @@
 
 #pragma mark TableViewDelage
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 10;
+    if (_selectIndex == 1001) {
+        return self.updateDataArray.count;
+    }else if (_selectIndex == 1002){
+        return self.welcomeDataArray.count;
+    }else{
+        return 0;
+    }
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 1;
@@ -247,17 +344,54 @@
         return 0;
     }
 }
-
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 5;
+}
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     return CGFLOAT_MIN;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (_selectIndex == 1001) {
+//        if ([self.dataArray[indexPath.section][@"show_type"] isEqual:@1]) {
+//            VideoTableViewCell *cell  =[[VideoTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+//            __block ZFVideoModel *model = self.updateDataArray[indexPath.section];
+//            //赋值model
+//            cell.model = model;
+//            __block NSIndexPath *weakIndexPath = indexPath;
+//            __block VideoTableViewCell *weakCell = cell;
+//            __weak typeof(self)  weakSelf = self;
+//            //点击播放的回调
+//            cell.playBlock = ^(UIButton *btn){
+//                ZFPlayerModel *playerModel = [[ZFPlayerModel alloc]init];
+//                playerModel.fatherViewTag = weakCell.picView.tag;
+//                playerModel.videoURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@",model.url]];
+//                playerModel.scrollView = weakSelf.myTableView;
+//                playerModel.indexPath = weakIndexPath;
+//                [weakSelf.playerView playerControlView:self.controlView playerModel:playerModel];
+//                [weakSelf.playerView autoPlayTheVideo];
+//            };
+//            return cell;
+//        }else{
+//            HomePageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+//            if (!cell) {
+//                cell = [[HomePageTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+//            }
+//            [cell.contentImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", [NSString stringWithFormat:@"%@",self.dataArray[indexPath.section][@"photo"]]]]];
+//            cell.titleLabel.text = [NSString stringWithFormat:@"%@",self.dataArray[indexPath.section][@"title"]];
+//            cell.hotImageView.hidden = YES;
+//            cell.hotNumLabel.hidden = YES;
+//            return cell;
+//        }
         HomePageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
         if (!cell) {
             cell = [[HomePageTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
         }
+        [cell.contentImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", [NSString stringWithFormat:@"%@",self.dataArray[indexPath.section][@"photo"]]]]];
+        cell.titleLabel.text = [NSString stringWithFormat:@"%@",self.dataArray[indexPath.section][@"title"]];
+        cell.hotImageView.hidden = YES;
+        cell.hotNumLabel.hidden = YES;
         return cell;
+
     }else{
         VideoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"welcomeCell"];
         cell.playBtn.hidden = YES;

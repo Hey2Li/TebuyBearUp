@@ -13,10 +13,17 @@
 @property (nonatomic, strong) UISegmentedControl *changeControl;
 @property (nonatomic, strong) UITableView *myTableView;
 @property (nonatomic, strong) NSString *titleStr;
+@property (nonatomic, strong) NSMutableArray *dataArray;
 @end
 
 @implementation ListViewController
 
+- (NSMutableArray *)dataArray{
+    if (!_dataArray) {
+        _dataArray = [NSMutableArray array];
+    }
+    return _dataArray;
+}
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
 }
@@ -30,7 +37,18 @@
     [super viewDidLoad];
     self.title = @"排行榜";
     [self initWithView];
-    self.titleStr = @"文创总榜";
+//    self.titleStr = @"文创总榜";
+    [self loadData];
+}
+- (void)loadData{
+    [LTHttpManager topListWithType:@"0" Limit:@10 Complete:^(LTHttpResult result, NSString *message, id data) {
+        if (LTHttpResultSuccess == result) {
+            self.dataArray = [NSMutableArray arrayWithArray:data[@"responseData"]];
+            [self.myTableView reloadData];
+        }else{
+            [self.view makeToast:message];
+        }
+    }];
 }
 - (void)initWithView{
     UIView *topView = [UIView new];
@@ -62,7 +80,7 @@
         make.left.equalTo(self.view.mas_left);
         make.right.equalTo(self.view.mas_right);
         make.top.equalTo(topView.mas_bottom);
-        make.bottom.equalTo(self.view.mas_bottom);
+        make.bottom.equalTo(self.view.mas_bottom).offset(-44);
     }];
     tableView.delegate = self;
     tableView.dataSource = self;
@@ -72,7 +90,7 @@
 }
 #pragma mark TableViewDelage
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 10;
+    return self.dataArray.count;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 1;
@@ -84,25 +102,66 @@
     return CGFLOAT_MIN;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    return 10;
+    return 5;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    HomePageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-    if (!cell) {
-        cell = [[HomePageTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+    HomePageTableViewCell *cell = [[HomePageTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+    if (self.dataArray) {
+         [cell.contentImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.dataArray[indexPath.section][@"photo"]]]];
+        cell.titleLabel.text = [NSString stringWithFormat:@"%@",self.dataArray[indexPath.section][@"title"]];
+        cell.hotNumLabel.hidden = YES;
+        cell.hotImageView.hidden = YES;
+        UIImageView *imageView = [UIImageView new];
+        [cell.contentView addSubview:imageView];
+        [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(cell.contentView);
+            make.bottom.equalTo(cell.contentView);
+            make.height.equalTo(@80);
+            make.width.equalTo(imageView.mas_height);
+        }];
+
+        if (indexPath.section == 0) {
+            imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"印戳%ld",(long)indexPath.section]];
+
+        }else if (indexPath.section == 1){
+            imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"印戳%ld",(long)indexPath.section]];
+
+        }else if (indexPath.section == 2){
+            imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"印戳%ld",(long)indexPath.section]];
+        }
     }
-    cell.titleLabel.text = self.titleStr;
     return cell;
 }
 - (void)controlChange:(UISegmentedControl *)control{
-    if (control.selectedSegmentIndex == 0) {
-        self.titleStr = @"文创周榜";
-    }else if (control.selectedSegmentIndex == 1){
-        self.titleStr = @"视频总榜";
-    }else if (control.selectedSegmentIndex == 2){
-        self.titleStr = @"总榜";
+//    if (control.selectedSegmentIndex == 0) {
+//        self.titleStr = @"文创周榜";
+//    }else if (control.selectedSegmentIndex == 1){
+//        self.titleStr = @"视频总榜";
+//    }else if (control.selectedSegmentIndex == 2){
+//        self.titleStr = @"总榜";
+//    }
+    [LTHttpManager topListWithType:[NSString stringWithFormat:@"%ld",(long)control.selectedSegmentIndex] Limit:@10 Complete:^(LTHttpResult result, NSString *message, id data) {
+        if (LTHttpResultSuccess == result) {
+            [self.dataArray removeAllObjects];
+            self.dataArray = [NSMutableArray arrayWithArray:data[@"responseData"]];
+            [self.myTableView reloadData];
+            [self.myTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+        }else{
+            [self.view makeToast:message];
+        }
+    }];
+}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if ([self.dataArray[indexPath.section][@"type"] isEqual:@1]) {
+        CDetailViewController *vc =[CDetailViewController new];
+         vc.cid = self.dataArray[indexPath.section][@"nid"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        VideoDetailViewController *vc = [VideoDetailViewController new];
+        vc.vid = [NSNumber numberWithInteger:[self.dataArray[indexPath.section][@"id"]integerValue]];
+        [self.navigationController pushViewController:vc animated:YES];
     }
-    [self.myTableView reloadData];
+   
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

@@ -22,6 +22,11 @@
 #import "SDCycleScrollView.h"
 #import "ZFPlayer.h"
 #import "LTHttpManager.h"
+#import "VideoTableViewCell.h"
+#import "ZFVideoModel.h"
+#import "ZFVideoResolution.h"
+#import "CDetailViewController.h"
+#import "VideoDetailViewController.h"
 
 //-----------------color----------------------
 #define RGBCOLOR(r,g,b) [UIColor colorWithRed:(r)/255.0f green:(g)/255.0f blue:(b)/255.0f alpha:1]
