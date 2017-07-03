@@ -299,7 +299,7 @@
               if (result == LTHttpResultSuccess) {
                   [self presentViewController:[BaseTabBarViewController new] animated:YES completion:nil];
               }else{
-                  [self.view makeToast:message];
+                 // [self.view makeToast:message];
               }
           }];
         }else{

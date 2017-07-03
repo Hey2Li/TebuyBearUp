@@ -77,7 +77,7 @@
                             UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:nil message:@"找回密码成功，请登录" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
                             [alertView show];
                         }else{
-                            [self.view makeToast:message];
+                           // [self.view makeToast:message];
                         }
                     }];
                 }else{
@@ -99,7 +99,7 @@
             if (result == LTHttpResultSuccess) {
                 [self openCountdown];
             }else{
-                [self.view makeToast:message];
+               // [self.view makeToast:message];
             }
         }];
     }else{

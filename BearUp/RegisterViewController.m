@@ -90,7 +90,7 @@
             if (result == LTHttpResultSuccess) {
                 [self openCountdown];
             }else{
-                [self.view makeToast:message];
+               // [self.view makeToast:message];
             }
         }];
         
@@ -107,7 +107,7 @@
                         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"注册成功，请登录" message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
                         [alertView show];
                     }else{
-                        [self.view makeToast:message];
+                       // [self.view makeToast:message];
                     }
                 }];
             }else{
@@ -148,6 +148,7 @@
 
 }
 - (IBAction)readUserAgreement:(id)sender {
+    //时间
 }
 - (IBAction)hidePasswordBtn:(UIButton *)sender {
     sender.selected = !sender.selected;

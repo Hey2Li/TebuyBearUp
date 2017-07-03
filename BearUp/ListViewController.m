@@ -46,7 +46,7 @@
             self.dataArray = [NSMutableArray arrayWithArray:data[@"responseData"]];
             [self.myTableView reloadData];
         }else{
-            [self.view makeToast:message];
+           // [self.view makeToast:message];
         }
     }];
 }
@@ -147,7 +147,7 @@
             [self.myTableView reloadData];
             [self.myTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
         }else{
-            [self.view makeToast:message];
+           // [self.view makeToast:message];
         }
     }];
 }

@@ -54,7 +54,7 @@
             }
             [_pagerController reloadData];
         }else{
-            [self.view makeToast:message];
+           // [self.view makeToast:message];
         }
     }];
 }

@@ -95,7 +95,7 @@ static NSString *commentCell = @"commentCell";
             DataInfo *model = [DataInfo mj_objectWithKeyValues:[data objectForKey:@"responseData"]];
             [weakSelf loadingHtmlNews:model];
         }else{
-            [self.view makeToast:message];
+           // [self.view makeToast:message];
         }
     }];
 }

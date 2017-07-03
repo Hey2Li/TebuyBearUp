@@ -114,7 +114,7 @@ static NSString *videoCell = @"playerCell";
                     [weakSelf.tableView reloadData];
                     [weakSelf.tableView.mj_header endRefreshing];
                 }else{
-                    [self.view makeToast:message];
+                   // [self.view makeToast:message];
                     [weakSelf.tableView.mj_header endRefreshing];
                 }
             }];
@@ -126,7 +126,7 @@ static NSString *videoCell = @"playerCell";
                     self.dataArray = [NSMutableArray arrayWithArray:array];
                     [weakSelf.tableView.mj_header endRefreshing];
                 }else{
-                    [self.view makeToast:message];
+                   // [self.view makeToast:message];
                     [weakSelf.tableView.mj_header endRefreshing];
                 }
             }];
@@ -146,7 +146,7 @@ static NSString *videoCell = @"playerCell";
                     [self.tableView reloadData];
                     [self.tableView.mj_footer endRefreshing];
                 }else{
-                    [self.view makeToast:message];
+                   // [self.view makeToast:message];
                     [self.tableView.mj_footer endRefreshing];
                     _pageNum--;
                 }
@@ -159,7 +159,7 @@ static NSString *videoCell = @"playerCell";
                     [weakSelf.tableView reloadData];
                     [weakSelf.tableView.mj_header endRefreshing];
                 }else{
-                    [self.view makeToast:message];
+                   // [self.view makeToast:message];
                     [self.tableView.mj_footer endRefreshing];
                     _pageNum--;
                 }
@@ -200,6 +200,18 @@ static NSString *videoCell = @"playerCell";
     if (indexPath.section == 0 && self.index == 0) {
         ScrollBannerTableViewCell *cell = [[ScrollBannerTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
         cell.imageURLStringsGroup = self.scrollViewArray;
+        WeakSelf
+        cell.BannerImageClick = ^(NSInteger index) {
+            if ([weakSelf.scrollViewArray[index][@"type"] isEqual:@1]) {
+                CDetailViewController *vc = [CDetailViewController new];
+                vc.cid = [NSString stringWithFormat:@"%@",weakSelf.scrollViewArray[index][@"nid"]];
+                [weakSelf.navigationController pushViewController:vc animated:YES];
+            }else if ([weakSelf.scrollViewArray[index][@"type"] isEqual:@2]){
+                VideoDetailViewController *vc = [VideoDetailViewController new];
+                vc.vid = [NSNumber numberWithInteger:[weakSelf.scrollViewArray[index][@"nid"] integerValue]];
+                [weakSelf.navigationController pushViewController:vc animated:YES];
+            }
+        };
         return cell;
     }else{
         HomePageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:homepageCell];
