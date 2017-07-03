@@ -58,6 +58,36 @@
     }
     return _welcomeDataArray;
 }
+- (UIView *)navigtionBar{
+    if (!_navigtionBar) {
+        _navigtionBar =  [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 64)];
+        _navigtionBar.backgroundColor = [UIColor colorWithWhite:1 alpha:0];
+        [self.view addSubview:_navigtionBar];
+        UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [backBtn setImage:[UIImage imageNamed:@"返回白"] forState:UIControlStateNormal];
+        [_navigtionBar addSubview:backBtn];
+        [backBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_navigtionBar.mas_left).offset(15);
+            make.height.equalTo(@50);
+            make.width.equalTo(@30);
+            make.centerY.equalTo(_navigtionBar);
+        }];
+        [backBtn addTarget:self action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
+        
+        UILabel *titleLabel = [UILabel new];
+        titleLabel.text = @"";
+        titleLabel.textAlignment = NSTextAlignmentCenter;
+        titleLabel.textColor = [UIColor whiteColor];
+        [_navigtionBar addSubview:titleLabel];
+        [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.center.equalTo(_navigtionBar);
+            make.height.equalTo(@25);
+            make.width.equalTo(@200);
+        }];
+        self.naviTitle = titleLabel;
+    }
+    return _navigtionBar;
+}
 - (ZFPlayerView *)playerView {
     if (!_playerView) {
         _playerView = [ZFPlayerView sharedPlayerView];
@@ -94,59 +124,35 @@
 - (void)loadData{
     [LTHttpManager categoryDetailWithLimit:@1 ID:self.cid Complete:^(LTHttpResult result, NSString *message, id data) {
         if (LTHttpResultSuccess == result) {
+            //分类详情
             self.dataDic = [NSMutableDictionary dictionaryWithDictionary:data[@"responseData"][@"info"]];
+            [self navigtionBar];
             self.naviTitle.text = [NSString stringWithFormat:@"%@",self.dataDic[@"name"]];
             [self.categoryBackgroundImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.dataDic[@"photo"]]]];
             [self.categoryHederBtn sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.dataDic[@"photo"]]] forState:UIControlStateNormal];
             self.focusPeopleLabel.text = [NSString stringWithFormat:@"已关注人数：%@",self.dataDic[@"hot"]];
             self.categoryDetailLabel.text = [NSString stringWithFormat:@"%@",self.dataDic[@"introduct"]];
+            //最受欢迎
             self.welcomeDataArray = [NSMutableArray arrayWithArray:data[@"responseData"][@"comment"]];
-            self.dataArray = [NSMutableArray arrayWithArray:data[@"responseData"][@"new"]];
-            [self.welcomeDataArray removeAllObjects];
-            for (NSDictionary *dataDic in data[@"responseData"][@"new"]) {
-                ZFVideoModel *model = [[ZFVideoModel alloc] init];
-                [model setValuesForKeysWithDictionary:dataDic];
-                [self.updateDataArray addObject:model];
-            }
+            //最近更新
+            self.updateDataArray = [NSMutableArray arrayWithArray:data[@"responseData"][@"new"]];
+//            [self.welcomeDataArray removeAllObjects];
+//            for (NSDictionary *dataDic in data[@"responseData"][@"new"]) {
+//                ZFVideoModel *model = [[ZFVideoModel alloc] init];
+//                [model setValuesForKeysWithDictionary:dataDic];
+//                [self.updateDataArray addObject:model];
+//            }
             [self.myTableView reloadData];
         }else{
-            [self.view makeToast:message];
+           // [self.view makeToast:message];
         }
     }];
 }
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:animated];
-    [self initWithNavi];
 }
-- (void)initWithNavi{
-    UIView *navigationBar = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 64)];
-    navigationBar.backgroundColor = [UIColor colorWithWhite:1 alpha:0];
-    [self.view addSubview:navigationBar];
-    UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [backBtn setImage:[UIImage imageNamed:@"返回白"] forState:UIControlStateNormal];
-    [navigationBar addSubview:backBtn];
-    [backBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(navigationBar.mas_left).offset(15);
-        make.height.equalTo(@50);
-        make.width.equalTo(@30);
-        make.centerY.equalTo(navigationBar);
-    }];
-    [backBtn addTarget:self action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
-    
-    UILabel *titleLabel = [UILabel new];
-    titleLabel.text = @"孕妈圈";
-    titleLabel.textAlignment = NSTextAlignmentCenter;
-    titleLabel.textColor = [UIColor whiteColor];
-    [navigationBar addSubview:titleLabel];
-    [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(navigationBar);
-        make.height.equalTo(@25);
-        make.width.equalTo(@200);
-    }];
-    self.naviTitle = titleLabel;
-    self.navigtionBar = navigationBar;
-}
+
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     if (scrollView.contentOffset.y > SCREEN_HEIGHT/2 - 64) {
         self.navigtionBar.hidden = YES;
@@ -223,6 +229,7 @@
     [focusBtn setBackgroundColor:UIColorFromRGB(0xff4466)];
     [focusBtn setTitle:@"已关注" forState:UIControlStateSelected];
     [focusBtn setTitleColor:UIColorFromRGB(0xaeaeae) forState:UIControlStateSelected];
+    [focusBtn addTarget:self action:@selector(focusCategory:) forControlEvents:UIControlEventTouchUpInside];
     [blurView addSubview:focusBtn];
     [focusBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(blurView.mas_centerX);
@@ -290,6 +297,26 @@
     self.focusPeopleLabel = focusNum;
     return tableViewHeaderView;
 }
+- (void)focusCategory:(UIButton *)btn{
+    [LTHttpManager focusCategoryWithCid:self.dataDic[@"id"] Complete:^(LTHttpResult result, NSString *message, id data) {
+        if (LTHttpResultSuccess == result) {
+            btn.selected = YES;
+            btn.userInteractionEnabled = NO;
+            [self.view makeToast:@"关注成功"];
+            btn.backgroundColor = [UIColor whiteColor];
+            [btn setTitle:@"已关注" forState:UIControlStateSelected];
+            [btn setTitleColor:UIColorFromRGB(0xaeaeae) forState:UIControlStateSelected];
+        }else{
+            btn.selected = NO;
+            [btn setBackgroundColor:UIColorFromRGB(0xff4466)];
+            [btn.layer setBorderColor:UIColorFromRGB(0xff4466).CGColor];
+           // [self.view makeToast:message];
+        }
+    }];
+//    [btn setBackgroundColor:UIColorFromRGB(0xff4466)];
+//    [btn setTitleColor:UIColorFromRGB(0xaeaeae) forState:UIControlStateSelected];
+
+}
 - (void)leftBtnClick:(UIButton *)btn{
     if (_tempBtn == nil) {
         btn.selected = YES;
@@ -339,7 +366,7 @@
     if (_selectIndex == 1001) {
         return 200;
     }else if (_selectIndex == 1002){
-        return 270;
+        return 200;
     }else{
         return 0;
     }
@@ -386,20 +413,49 @@
         if (!cell) {
             cell = [[HomePageTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
         }
-        [cell.contentImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", [NSString stringWithFormat:@"%@",self.dataArray[indexPath.section][@"photo"]]]]];
-        cell.titleLabel.text = [NSString stringWithFormat:@"%@",self.dataArray[indexPath.section][@"title"]];
+        [cell.contentImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", [NSString stringWithFormat:@"%@",self.updateDataArray[indexPath.section][@"photo"]]]]];
+        cell.titleLabel.text = [NSString stringWithFormat:@"%@",self.updateDataArray[indexPath.section][@"title"]];
         cell.hotImageView.hidden = YES;
         cell.hotNumLabel.hidden = YES;
         return cell;
 
     }else{
-        VideoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"welcomeCell"];
-        cell.playBtn.hidden = YES;
+//        VideoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"welcomeCell"];
+//        cell.playBtn.hidden = YES;
+//        return cell;
+        HomePageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+        if (!cell) {
+            cell = [[HomePageTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+        }
+        [cell.contentImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", [NSString stringWithFormat:@"%@",self.welcomeDataArray[indexPath.section][@"photo"]]]]];
+        cell.titleLabel.text = [NSString stringWithFormat:@"%@",self.welcomeDataArray[indexPath.section][@"title"]];
+        cell.hotImageView.hidden = YES;
+        cell.hotNumLabel.hidden = YES;
         return cell;
-        
     }
 }
-
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if ([self.dataDic[@"type"] isEqual:@1]) {
+        CDetailViewController *vc = [CDetailViewController new];
+        if (_selectIndex == 1001) {
+            vc.cid = self.updateDataArray[indexPath.section][@"cid"];
+            [self.navigationController pushViewController:vc animated:YES];
+        }else if (_selectIndex == 1002){
+            vc.cid = self.welcomeDataArray[indexPath.section][@"cid"];
+            [self.navigationController pushViewController:vc animated:YES];
+        }else{
+        }
+    }else if ([self.dataDic[@"type"] isEqual:@2]){
+        VideoDetailViewController *vc = [VideoDetailViewController new];
+        if (_selectIndex == 1001) {
+            vc.vid = [NSNumber numberWithInteger:[self.updateDataArray[indexPath.section][@"id"] integerValue]];
+            [self.navigationController pushViewController:vc animated:YES];
+        }else{
+            vc.vid = [NSNumber numberWithInteger:[self.welcomeDataArray[indexPath.section][@"id"] integerValue]];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+    }
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

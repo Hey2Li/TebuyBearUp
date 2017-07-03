@@ -10,4 +10,5 @@
 
 @interface ScrollBannerTableViewCell : UITableViewCell
 @property (nonatomic, strong) NSArray *imageURLStringsGroup;
+@property (nonatomic, copy) void (^BannerImageClick)(NSInteger index);
 @end

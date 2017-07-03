@@ -10,4 +10,5 @@
 
 @interface VideoDetailViewController : UIViewController
 @property (nonatomic, strong) NSURL *videoURL;
+@property (nonatomic, strong) NSNumber *vid;
 @end

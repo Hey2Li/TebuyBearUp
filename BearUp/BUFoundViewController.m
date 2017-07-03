@@ -13,6 +13,7 @@
 #import "CategoryViewController.h"
 #import "ScrollBannerTableViewCell.h"
 #import "AdvertisingTableViewCell.h"
+#import "SubCategoryViewController.h"
 
 static NSString *HORCELL = @"HorizontalCell";
 @interface BUFoundViewController ()<UITableViewDelegate, UITableViewDataSource>
@@ -49,7 +50,7 @@ static NSString *FOUNDCELL = @"foundCell";
             self.hotCategoryArray = [NSMutableArray arrayWithArray:data[@"responseData"][@"columns"]];
             [self.myTableView reloadData];
         }else{
-            [self.view makeToast:message];
+           // [self.view makeToast:message];
         }
     }];
 }
@@ -226,28 +227,53 @@ static NSString *FOUNDCELL = @"foundCell";
         if (self.hotRankArray) {
             cell.imageURLStringsGroup = self.hotRankArray;
         }
-        return cell;
-           }else{
-               HorizontalTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:HORCELL];
-               cell.HorCollectionCellClick = ^(NSIndexPath *index){
-                   NSLog(@"%ld",(long)index.row);
-//                   CategoryViewController *vc = [CategoryViewController new];
-//                   [self.navigationController pushViewController:vc animated:YES];
-               };
-               [cell.categoryNameBtn setTitle:[NSString stringWithFormat:@"%@",self.hotCategoryArray[indexPath.row][@"name"]] forState:UIControlStateNormal];
-               [cell.backgroundImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.hotCategoryArray[indexPath.row][@"photo"]]]];
-               cell.subCategoryArray = [NSMutableArray arrayWithArray:self.hotCategoryArray[indexPath.row][@"arr"]];
-               return cell;
+        WeakSelf
+        cell.BannerImageClick = ^(NSInteger index) {
+            if ([weakSelf.hotRankArray[index][@"type"] isEqual:@1]) {
+                CDetailViewController *vc = [CDetailViewController new];
+                vc.cid = [NSString stringWithFormat:@"%@",weakSelf.hotRankArray[index][@"nid"]];
+                [weakSelf.navigationController pushViewController:vc animated:YES];
+            }else if ([weakSelf.hotRankArray[index][@"type"] isEqual:@2]){
+                VideoDetailViewController *vc = [VideoDetailViewController new];
+                vc.vid = [NSNumber numberWithInteger:[weakSelf.hotRankArray[index][@"nid"] integerValue]];
+                [weakSelf.navigationController pushViewController:vc animated:YES];
+            }
+        };
 
+        return cell;
+    }else{
+        HorizontalTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:HORCELL];
+        
+        [cell.categoryNameBtn setTitle:[NSString stringWithFormat:@"%@",self.hotCategoryArray[indexPath.row][@"name"]] forState:UIControlStateNormal];
+        [cell.backgroundImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.hotCategoryArray[indexPath.row][@"photo"]]]];
+        cell.subCategoryArray = [NSMutableArray arrayWithArray:self.hotCategoryArray[indexPath.row][@"arr"]];
+        
+        NSArray *subArray = self.hotCategoryArray[indexPath.row][@"arr"];
+        WeakSelf
+        cell.HorCollectionCellClick = ^(NSIndexPath *index){
+            if ([subArray[index.row][@"type"] isEqual:@1]) {
+                CDetailViewController *vc = [CDetailViewController new];
+                vc.cid = subArray[index.row][@"cid"];
+                [weakSelf.navigationController pushViewController:vc animated:YES];
+            }else if ([subArray[index.row][@"type"] isEqual:@2]){
+                VideoDetailViewController *vc = [VideoDetailViewController new];
+                vc.vid = [NSNumber numberWithInteger:[subArray[index.row][@"id"] integerValue]];
+                [weakSelf.navigationController pushViewController:vc animated:YES];
+            }
+        };
+        return cell;
+        
     }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section == 4) {
-        
+    if (indexPath.section == 2) {
+        //跳转到分类详情
+        SubCategoryViewController *vc = [SubCategoryViewController new];
+        vc.cid = [NSNumber numberWithInteger:[self.hotCategoryArray[indexPath.row][@"id"] integerValue]];
+        [self.navigationController pushViewController:vc animated:YES];
+
     }
-    ListViewController *vc = [ListViewController new];
-    [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

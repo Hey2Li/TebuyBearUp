@@ -45,6 +45,9 @@
 //点击图片回调
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index{
     NSLog(@"%ld",(long)index);
+    if (self.BannerImageClick) {
+        self.BannerImageClick(index);
+    }
 }
 - (void)awakeFromNib {
     [super awakeFromNib];

@@ -38,13 +38,8 @@
 
 }
 - (void)focusClick:(UIButton *)btn{
-    btn.selected = !btn.selected;
-    if (btn.selected) {
-        btn.backgroundColor = [UIColor whiteColor];
-        [btn.layer setBorderColor:UIColorFromRGB(0xaeaeae).CGColor];
-    }else{
-        [btn setBackgroundColor:UIColorFromRGB(0xff4466)];
-        [btn.layer setBorderColor:UIColorFromRGB(0xff4466).CGColor];
+    if (self.focusCategoryClick) {
+        self.focusCategoryClick(btn);
     }
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

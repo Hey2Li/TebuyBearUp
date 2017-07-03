@@ -36,7 +36,7 @@ static NSString *CATECELL = @"categoryCell";
             self.hotCategoryArray = [NSMutableArray arrayWithArray:data[@"responseData"]];
             [self.tableView reloadData];
         }else{
-            [self.view makeToast:message];
+           // [self.view makeToast:message];
         }
     }];
 }
@@ -71,6 +71,24 @@ static NSString *CATECELL = @"categoryCell";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     CategoryTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CATECELL forIndexPath:indexPath];
     [cell.leftImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.hotCategoryArray[indexPath.section][@"photo"]]]];
+    WeakSelf
+    cell.focusCategoryClick = ^(UIButton *btn) {
+        [LTHttpManager focusCategoryWithCid:weakSelf.hotCategoryArray[indexPath.section][@"photo"] Complete:^(LTHttpResult result, NSString *message, id data) {
+            if (LTHttpResultSuccess == result) {
+                btn.selected = YES;
+                btn.userInteractionEnabled = NO;
+                [SVProgressHUD setMinimumDismissTimeInterval:1];
+                [SVProgressHUD showSuccessWithStatus:@"关注成功"];                btn.backgroundColor = [UIColor whiteColor];
+                [btn.layer setBorderColor:UIColorFromRGB(0xaeaeae).CGColor];
+            }else{
+                btn.selected = NO;
+                [btn setBackgroundColor:UIColorFromRGB(0xff4466)];
+                [btn.layer setBorderColor:UIColorFromRGB(0xff4466).CGColor];
+//                [SVProgressHUD setMinimumDismissTimeInterval:1];
+//                [SVProgressHUD showErrorWithStatus:message];
+            }
+        }];
+    };
     cell.categoryNameLabel.text = [NSString stringWithFormat:@"%@",self.hotCategoryArray[indexPath.section][@"name"]];
     
     return cell;

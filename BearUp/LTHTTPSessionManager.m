@@ -47,6 +47,9 @@ NSString *const kKeyModelList = @"modellist";
             complete(LTHttpResultFailure, kParseResponseError, nil);
         }else if(![responseObject[kKeyResult] isEqualToString:@"0000"]){
             complete(LTHttpResultFailure, responseObject[kKeyMessage], nil);
+            //添加SV错误提示
+            [SVProgressHUD setMinimumDismissTimeInterval:1];
+            [SVProgressHUD showErrorWithStatus:responseObject[kKeyMessage]];
         }else{
             complete(LTHttpResultSuccess, responseObject[kKeyMessage], responseObject);
         }

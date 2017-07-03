@@ -14,5 +14,5 @@
 @property (weak, nonatomic) IBOutlet UIButton *focusBtn;
 @property (weak, nonatomic) IBOutlet UILabel *introducelabel;
 @property (weak, nonatomic) IBOutlet UILabel *subTitleLabel;
-
+@property (nonatomic, copy) void (^focusCategoryClick)(UIButton *btn);
 @end

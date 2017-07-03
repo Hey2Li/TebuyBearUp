@@ -26,10 +26,25 @@
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) BottomCommentView *bottomView;
 @property (nonatomic, strong) BarrageRenderer *render;
+@property (nonatomic, strong) NSMutableArray *videoDataArray;
+@property (nonatomic, strong) NSMutableDictionary *videoDataDic;
 @end
 
 @implementation VideoDetailViewController
 
+- (NSMutableDictionary *)videoDataDic{
+    if (!_videoDataDic) {
+        _videoDataDic = [NSMutableDictionary dictionary];
+    }
+    return _videoDataDic;
+}
+
+- (NSMutableArray *)videoDataArray{
+    if (!_videoDataArray) {
+        _videoDataArray =[NSMutableArray array];
+    }
+    return _videoDataArray;
+}
 - (BottomCommentView *)bottomView{
     if (!_bottomView) {
         _bottomView = [[BottomCommentView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
@@ -66,6 +81,8 @@
         [self.playerView resetPlayer];
     }
     [_render stop];
+    [self.tabBarController.tabBar setHidden:NO];
+
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -75,6 +92,22 @@
     [self initBarrageRenderer];
     [self autoSendBarrage];
     [_render start];
+    [self loadData];
+}
+- (void)loadData{
+    [LTHttpManager videoDetailWithId:self.vid Complete:^(LTHttpResult result, NSString *message, id data) {
+        if (LTHttpResultSuccess == result) {
+            self.videoDataDic = [NSMutableDictionary dictionaryWithDictionary:data[@"responseData"][@"info"]];
+            self.videoDataArray = [NSMutableArray arrayWithArray:data[@"responseData"][@"conment"]];
+            self.playerModel.videoURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@",self.videoDataDic[@"url"]]];
+            [self.playerView resetToPlayNewVideo:self.playerModel];
+
+            [self.tableView reloadData];
+        }else{
+           // [self.view makeToast:message];
+            [self.playerView resetPlayer];
+        }
+    }];
 }
 - (void)initBarrageRenderer{
     _render = [[BarrageRenderer alloc]init];
@@ -94,6 +127,7 @@
     }];
     [self.playerView autoPlayTheVideo];
 
+
     UITableView *tableView = [UITableView new];
     [self.view addSubview:tableView];
     [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -108,6 +142,7 @@
     tableView.rowHeight = UITableViewAutomaticDimension;
     [tableView registerNib:[UINib nibWithNibName:@"VideoDetailTableViewCell" bundle:nil] forCellReuseIdentifier:@"videoDetailCell"];
     tableView.estimatedRowHeight = 250;
+    self.tableView = tableView;
     
 }
 - (void)zf_playerBackAction {
@@ -129,15 +164,14 @@
 
 #pragma mark - Getter
 
+
 - (ZFPlayerModel *)playerModel {
     if (!_playerModel) {
         _playerModel                  = [[ZFPlayerModel alloc] init];
 //        _playerModel.title            = @"这里设置视频标题";
-        _playerModel.videoURL         = self.videoURL;
+//        _playerModel.videoURL         = self.videoURL;
         _playerModel.placeholderImage = [UIImage imageNamed:@"loading_bgView1"];
         _playerModel.fatherView       = self.playerFatherView;
-        //        _playerModel.resolutionDic = @{@"高清" : self.videoURL.absoluteString,
-        //                                       @"标清" : self.videoURL.absoluteString};
     }
     return _playerModel;
 }
@@ -165,7 +199,7 @@
 //        _playerView.hasDownload    = YES;
         
         // 打开预览图
-        self.playerView.hasPreviewView = YES;
+        _playerView.hasPreviewView = YES;
         
     }
     return _playerView;
@@ -204,6 +238,10 @@
     if (indexPath.section == 0) {
         tableView.estimatedRowHeight = 250.0f;
         VideoDetailTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"videoDetailCell"];
+        if (self.videoDataDic.allKeys.count > 0) {
+            cell.videoTitle.text = [NSString stringWithFormat:@"%@",self.videoDataDic[@"title"]];
+            cell.videoDetails.text = [NSString stringWithFormat:@"%@",self.videoDataDic[@"introduct"]];
+        }
         return cell;
     }else{
         tableView.estimatedRowHeight = 130.5f;
