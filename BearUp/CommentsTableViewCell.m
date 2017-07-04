@@ -35,6 +35,14 @@
     NSLog(@"parsieclick");
     sender.selected = !sender.selected;
 }
+- (void)setModel:(CommentModel *)model{
+    _model = model;
+    self.commentLabel.text = [NSString stringWithFormat:@"%@",model.content];
+    self.dateLabel.text = [NSString stringWithFormat:@"%@",model.time];
+    [self.headerImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",model.photo]] placeholderImage:[UIImage imageNamed:@"defaultUserIcon"]];
+    [self.praiseBtn setTitle:[NSString stringWithFormat:@"%@",model.agree] forState:UIControlStateNormal];
+    self.userName.text = [NSString stringWithFormat:@"%@",model.nickname];
+}
 // 切圆角
 - (void)cutRoundView:(UIImageView *)imageView {
     CGFloat corner = imageView.frame.size.width / 2;

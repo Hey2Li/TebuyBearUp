@@ -82,6 +82,12 @@
     }];
     
 }
+- (void)setModel:(HomeModel *)model{
+    _model = model;
+    self.titleLabel.text = [NSString stringWithFormat:@"%@",model.title];
+    [self.contentImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",model.photo]]];
+    self.hotNumLabel.text = [NSString stringWithFormat:@"%@",model.hits];
+}
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 

@@ -78,8 +78,8 @@
             NSArray *array = data[@"responseData"][@"column"];
             [weakSelf.titleArray removeAllObjects];
             for (NSDictionary *dic in array) {
-                NSString *name = dic[@"name"];
-                [weakSelf.titleArray addObject:name];
+//                NSString *name = dic[@"name"];
+                [weakSelf.titleArray addObject:dic];
             }
             [_pagerController reloadData];
         }else{
@@ -95,75 +95,77 @@
 }
 
 - (NSString *)pagerController:(TYPagerController *)pagerController titleForIndex:(NSInteger)index{
-    return self.titleArray[index];
+    return self.titleArray[index][@"name"];
 }
 
 - (UIViewController *)pagerController:(TYPagerController *)pagerController controllerForIndex:(NSInteger)index{
     HomeContentTableViewController *vc  =[HomeContentTableViewController new];
-    vc.name = self.titleArray[index];
+    vc.name = self.titleArray[index][@"name"];
+    vc.categoryID = self.titleArray[index][@"id"];
     vc.index = index;
     return vc;
 }
 
-#pragma mark - 自定义TopTitle
-- (void)initWithTopBar{
-    self.topTitleBar = [[BUTopTitleBar alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 64) AndItems:self.titleArray];
-    self.topTitleBar.itemTitles = self.titleArray;
-    self.topTitleBar.delegate = self;
-    self.topTitleBar.backgroundColor = RGBCOLOR(241, 73, 104);
-    [self.view addSubview:self.topTitleBar];
-}
-- (void)setupViewControllers{
-    for (int i = 0; i < _titleArray.count; i ++) {
-        HomeContentTableViewController *vc = [[HomeContentTableViewController alloc]init];
-        vc.title = _titleArray[i];
-        [self addChildViewController:vc];
-    }
-}
-- (void)setupContentView{
-    self.automaticallyAdjustsScrollViewInsets = NO;
-    self.contentScrollView.backgroundColor = [UIColor whiteColor];
-    self.contentScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 44 - 64)];
-    self.contentScrollView.contentSize = CGSizeMake(self.contentScrollView.frame.size.width * self.childViewControllers.count, self.contentScrollView.frame.size.height);
-    self.contentScrollView.delegate = self;
-    self.contentScrollView.pagingEnabled = YES;
-    [self.view insertSubview:self.contentScrollView atIndex:0];
-    [self scrollViewDidEndScrollingAnimation:self.contentScrollView];
-}
-#pragma mark - BUTopTitleBarDelegate
-- (void)itemDidSelectedWithIndex:(NSInteger)index withCurrentIndex:(NSInteger)currentIndex{
-    NSLog(@"%ld,%ld",(long)index,(long)currentIndex);
-    
-    if (currentIndex-index>=2 || currentIndex-index<=-2) {
-        [self.contentScrollView setContentOffset:CGPointMake(index * SCREEN_WIDTH, 0) animated:NO];
-        [self scrollViewDidEndScrollingAnimation:self.contentScrollView];
-    }else{
-        [self.contentScrollView setContentOffset:CGPointMake(index * SCREEN_WIDTH, 0) animated:YES];
-        [self scrollViewDidEndScrollingAnimation:self.contentScrollView];
-    }
-}
-#pragma mark scrollViewDelegate
-
-- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView{
-    //获得索引
-    NSUInteger index = scrollView.contentOffset.x / scrollView.frame.size.width;
-    _currentIndex = index;
-    self.topTitleBar.currentItemIndex = _currentIndex;
-   
-    if (self.childViewControllers.count > 0) {
-         HomeContentTableViewController *vc = self.childViewControllers[index];
-        if (vc.view.superview) {
-            return;
-        }
-        vc.view.frame = scrollView.bounds;
-        vc.index = index;
-        [self.contentScrollView addSubview:vc.view];
-    }
-}
-//停止滚动时
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
-    [self scrollViewDidEndScrollingAnimation:scrollView];
-}
+//#pragma mark - 自定义TopTitle
+//- (void)initWithTopBar{
+//    self.topTitleBar = [[BUTopTitleBar alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 64) AndItems:self.titleArray];
+//    self.topTitleBar.itemTitles = self.titleArray;
+//    self.topTitleBar.delegate = self;
+//    self.topTitleBar.backgroundColor = RGBCOLOR(241, 73, 104);
+//    [self.view addSubview:self.topTitleBar];
+//}
+//- (void)setupViewControllers{
+//    for (int i = 0; i < _titleArray.count; i ++) {
+//        HomeContentTableViewController *vc = [[HomeContentTableViewController alloc]init];
+//        vc.title = _titleArray[i][@"name"];
+//        vc.categoryID = _titleArray[i][@"id"];
+//        [self addChildViewController:vc];
+//    }
+//}
+//- (void)setupContentView{
+//    self.automaticallyAdjustsScrollViewInsets = NO;
+//    self.contentScrollView.backgroundColor = [UIColor whiteColor];
+//    self.contentScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 44 - 64)];
+//    self.contentScrollView.contentSize = CGSizeMake(self.contentScrollView.frame.size.width * self.childViewControllers.count, self.contentScrollView.frame.size.height);
+//    self.contentScrollView.delegate = self;
+//    self.contentScrollView.pagingEnabled = YES;
+//    [self.view insertSubview:self.contentScrollView atIndex:0];
+//    [self scrollViewDidEndScrollingAnimation:self.contentScrollView];
+//}
+//#pragma mark - BUTopTitleBarDelegate
+//- (void)itemDidSelectedWithIndex:(NSInteger)index withCurrentIndex:(NSInteger)currentIndex{
+//    NSLog(@"%ld,%ld",(long)index,(long)currentIndex);
+//    
+//    if (currentIndex-index>=2 || currentIndex-index<=-2) {
+//        [self.contentScrollView setContentOffset:CGPointMake(index * SCREEN_WIDTH, 0) animated:NO];
+//        [self scrollViewDidEndScrollingAnimation:self.contentScrollView];
+//    }else{
+//        [self.contentScrollView setContentOffset:CGPointMake(index * SCREEN_WIDTH, 0) animated:YES];
+//        [self scrollViewDidEndScrollingAnimation:self.contentScrollView];
+//    }
+//}
+//#pragma mark scrollViewDelegate
+//
+//- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView{
+//    //获得索引
+//    NSUInteger index = scrollView.contentOffset.x / scrollView.frame.size.width;
+//    _currentIndex = index;
+//    self.topTitleBar.currentItemIndex = _currentIndex;
+//   
+//    if (self.childViewControllers.count > 0) {
+//         HomeContentTableViewController *vc = self.childViewControllers[index];
+//        if (vc.view.superview) {
+//            return;
+//        }
+//        vc.view.frame = scrollView.bounds;
+//        vc.index = index;
+//        [self.contentScrollView addSubview:vc.view];
+//    }
+//}
+////停止滚动时
+//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+//    [self scrollViewDidEndScrollingAnimation:scrollView];
+//}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

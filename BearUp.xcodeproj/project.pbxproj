@@ -86,6 +86,9 @@
 		1C9590391EE64891001E0DF0 /* CategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C9590381EE64891001E0DF0 /* CategoryViewController.m */; };
 		1C95903C1EE6926C001E0DF0 /* SubCategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C95903B1EE6926C001E0DF0 /* SubCategoryViewController.m */; };
 		1CEBC8711ED926EA00760301 /* BottomCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CEBC8701ED926EA00760301 /* BottomCommentView.m */; };
+		1CF49EEB1F0B27AC0041D11F /* HomeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CF49EEA1F0B27AC0041D11F /* HomeModel.m */; };
+		1CF49EF11F0B721A0041D11F /* VideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CF49EF01F0B721A0041D11F /* VideoModel.m */; };
+		1CF49EF41F0B8AA00041D11F /* CommentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CF49EF31F0B8AA00041D11F /* CommentModel.m */; };
 		A4642D9C705BB581661F8BF1 /* libPods-BearUp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1701B53EBC2CD6FCE70EFC7E /* libPods-BearUp.a */; };
 /* End PBXBuildFile section */
 
@@ -254,6 +257,12 @@
 		1C95903B1EE6926C001E0DF0 /* SubCategoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubCategoryViewController.m; sourceTree = "<group>"; };
 		1CEBC86F1ED926EA00760301 /* BottomCommentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BottomCommentView.h; sourceTree = "<group>"; };
 		1CEBC8701ED926EA00760301 /* BottomCommentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BottomCommentView.m; sourceTree = "<group>"; };
+		1CF49EE91F0B27AC0041D11F /* HomeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeModel.h; sourceTree = "<group>"; };
+		1CF49EEA1F0B27AC0041D11F /* HomeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeModel.m; sourceTree = "<group>"; };
+		1CF49EEF1F0B721A0041D11F /* VideoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoModel.h; sourceTree = "<group>"; };
+		1CF49EF01F0B721A0041D11F /* VideoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoModel.m; sourceTree = "<group>"; };
+		1CF49EF21F0B8AA00041D11F /* CommentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentModel.h; sourceTree = "<group>"; };
+		1CF49EF31F0B8AA00041D11F /* CommentModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentModel.m; sourceTree = "<group>"; };
 		6BF61575B082E4169D6B8293 /* Pods-BearUp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BearUp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BearUp/Pods-BearUp.debug.xcconfig"; sourceTree = "<group>"; };
 		B51AF650A1AC20A003F12B9A /* Pods-BearUp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BearUp.release.xcconfig"; path = "Pods/Target Support Files/Pods-BearUp/Pods-BearUp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -655,6 +664,10 @@
 		1C1EDE3A1ED561180099D115 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				1CF49EE91F0B27AC0041D11F /* HomeModel.h */,
+				1CF49EEA1F0B27AC0041D11F /* HomeModel.m */,
+				1CF49EF21F0B8AA00041D11F /* CommentModel.h */,
+				1CF49EF31F0B8AA00041D11F /* CommentModel.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -692,6 +705,8 @@
 				1C1EDE3E1ED561420099D115 /* ZFVideoModel.m */,
 				1C1EDE411ED562E30099D115 /* ZFVideoResolution.h */,
 				1C1EDE421ED562E30099D115 /* ZFPVideoResolution.m */,
+				1CF49EEF1F0B721A0041D11F /* VideoModel.h */,
+				1CF49EF01F0B721A0041D11F /* VideoModel.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -995,6 +1010,8 @@
 				1C75E1BB1EEF7E5A00BC59B5 /* UIView+CustomControlView.m in Sources */,
 				1CEBC8711ED926EA00760301 /* BottomCommentView.m in Sources */,
 				1C1EDE2F1ECD92F00099D115 /* ImageInfo.m in Sources */,
+				1CF49EEB1F0B27AC0041D11F /* HomeModel.m in Sources */,
+				1CF49EF11F0B721A0041D11F /* VideoModel.m in Sources */,
 				1C1EDDC51EC9A8650099D115 /* DetailViewController.m in Sources */,
 				1C1EDC071EBC46200099D115 /* BUHomeViewController.m in Sources */,
 				1C75E1C61EF0CB6F00BC59B5 /* VideoDetailViewController.m in Sources */,
@@ -1006,6 +1023,7 @@
 				1C75E1BC1EEF7E5A00BC59B5 /* UIViewController+ZFPlayerRotation.m in Sources */,
 				1C1EDBC91EBC43BE0099D115 /* main.m in Sources */,
 				1C75E1C21EEF7E5A00BC59B5 /* ZFPlayerModel.m in Sources */,
+				1CF49EF41F0B8AA00041D11F /* CommentModel.m in Sources */,
 				1C54540D1F03572000E9E74A /* CategoryTableViewCell.m in Sources */,
 				1C1EDBFD1EBC450F0099D115 /* BaseNaviViewController.m in Sources */,
 				1C1EDE181ECBF4100099D115 /* BUTopTitleBar.m in Sources */,

@@ -34,11 +34,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-//    self.titleArray = @[@"精选",@"原创",@"宠物",@"搞笑",@"萌娃",@"娱乐",@"影视",@"其他",];
     _currentIndex = 1;
-//    [self setupViewControllers];
-//    [self setupContentView];
-//    [self initWithTopBar];
     [self loadData];
     [self addPagerController];
 }
@@ -49,8 +45,8 @@
             NSArray *array = data[@"responseData"][@"columns"];
             [weakSelf.titleArray removeAllObjects];
             for (NSDictionary *dic in array) {
-                NSString *name = dic[@"name"];
-                [weakSelf.titleArray addObject:name];
+//                NSString *name = dic[@"name"];
+                [weakSelf.titleArray addObject:dic];
             }
             [_pagerController reloadData];
         }else{
@@ -99,71 +95,15 @@
 }
 
 - (NSString *)pagerController:(TYPagerController *)pagerController titleForIndex:(NSInteger)index{
-    return _titleArray[index];
+    return _titleArray[index][@"name"];
 }
 
 - (UIViewController *)pagerController:(TYPagerController *)pagerController controllerForIndex:(NSInteger)index{
     VideoTableViewController *vc  =[VideoTableViewController new];
-    return vc;
-}
-- (void)initWithTopBar{
-//    self.topTitleBar = [[BUTopTitleBar alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 64) AndItems:self.titleArray];
-//    self.topTitleBar.itemTitles = self.titleArray;
-//    self.topTitleBar.backgroundColor = [UIColor redColor];
-//    self.topTitleBar.delegate = self;
-//    [self.view addSubview:self.topTitleBar];
-    self.topTitleBar = [[BUTopTitleBar alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 64) AndItems:self.titleArray];
-    self.topTitleBar.itemTitles = self.titleArray;
-    self.topTitleBar.delegate = self;
-    self.topTitleBar.backgroundColor = RGBCOLOR(241, 73, 104);
-    [self.navigationController.view addSubview:self.topTitleBar];
-}
-
-- (void)setupViewControllers{
-    for (int i = 0; i < _titleArray.count; i ++) {
-        HomeContentTableViewController *vc = [[HomeContentTableViewController alloc]init];
-        vc.title = _titleArray[i];
-        [self addChildViewController:vc];
-    }
-}
-- (void)setupContentView{
-    self.automaticallyAdjustsScrollViewInsets = NO;
-    self.contentScrollView.backgroundColor = [UIColor whiteColor];
-    self.contentScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 44 - 64)];
-    self.contentScrollView.contentSize = CGSizeMake(self.contentScrollView.frame.size.width * self.childViewControllers.count, self.contentScrollView.frame.size.height);
-    self.contentScrollView.delegate = self;
-    self.contentScrollView.pagingEnabled = YES;
-    [self.view insertSubview:self.contentScrollView atIndex:0];
-    [self scrollViewDidEndScrollingAnimation:self.contentScrollView];
-}
-
-- (void)itemDidSelectedWithIndex:(NSInteger)index withCurrentIndex:(NSInteger)currentIndex{
-    NSLog(@"%ld,%ld",(long)index,(long)currentIndex);
-
-    if (currentIndex-index>=2 || currentIndex-index<=-2) {
-        [self.contentScrollView setContentOffset:CGPointMake(index * SCREEN_WIDTH, 0) animated:NO];
-        [self scrollViewDidEndScrollingAnimation:self.contentScrollView];
-    }else{
-        [self.contentScrollView setContentOffset:CGPointMake(index * SCREEN_WIDTH, 0) animated:YES];
-        [self scrollViewDidEndScrollingAnimation:self.contentScrollView];
-    }
-}
-- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView{
-    //获得索引
-    NSUInteger index = scrollView.contentOffset.x / scrollView.frame.size.width;
-    _currentIndex = index;
-    self.topTitleBar.currentItemIndex = _currentIndex;
-    HomeContentTableViewController *vc = self.childViewControllers[index];
-    if (vc.view.superview) {
-        return;
-    }
-    vc.view.frame = scrollView.bounds;
+    vc.name = self.titleArray[index][@"name"];
+    vc.categoryID = self.titleArray[index][@"id"];
     vc.index = index;
-    [self.contentScrollView addSubview:vc.view];
-}
-//停止滚动时
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
-    [self scrollViewDidEndScrollingAnimation:scrollView];
+    return vc;
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

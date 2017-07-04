@@ -92,7 +92,7 @@ static NSString *commentCell = @"commentCell";
     [LTHttpManager newsDetailWithId:@([self.cid integerValue]) Value:@"" Complete:^(LTHttpResult result, NSString *message, id data) {
         if (LTHttpResultSuccess == result) {
             //
-            DataInfo *model = [DataInfo mj_objectWithKeyValues:[data objectForKey:@"responseData"]];
+            DataInfo *model = [DataInfo mj_objectWithKeyValues:[data objectForKey:@"responseData"][@"info"]];
             [weakSelf loadingHtmlNews:model];
         }else{
            // [self.view makeToast:message];

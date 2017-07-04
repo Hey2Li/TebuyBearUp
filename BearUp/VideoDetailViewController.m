@@ -14,6 +14,7 @@
 #import "BottomCommentView.h"
 #import <UShareUI/UShareUI.h>
 #import "BarrageRenderer/BarrageRenderer.h"
+#import "CommentModel.h"
 
 @interface VideoDetailViewController ()<ZFPlayerDelegate, UITableViewDelegate, UITableViewDataSource,BottomCommentDelegate>
 {
@@ -26,7 +27,7 @@
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) BottomCommentView *bottomView;
 @property (nonatomic, strong) BarrageRenderer *render;
-@property (nonatomic, strong) NSMutableArray *videoDataArray;
+@property (nonatomic, strong) NSMutableArray *commentDataArray;
 @property (nonatomic, strong) NSMutableDictionary *videoDataDic;
 @end
 
@@ -39,11 +40,11 @@
     return _videoDataDic;
 }
 
-- (NSMutableArray *)videoDataArray{
-    if (!_videoDataArray) {
-        _videoDataArray =[NSMutableArray array];
+- (NSMutableArray *)commentDataArray{
+    if (!_commentDataArray) {
+        _commentDataArray =[NSMutableArray array];
     }
-    return _videoDataArray;
+    return _commentDataArray;
 }
 - (BottomCommentView *)bottomView{
     if (!_bottomView) {
@@ -98,10 +99,14 @@
     [LTHttpManager videoDetailWithId:self.vid Complete:^(LTHttpResult result, NSString *message, id data) {
         if (LTHttpResultSuccess == result) {
             self.videoDataDic = [NSMutableDictionary dictionaryWithDictionary:data[@"responseData"][@"info"]];
-            self.videoDataArray = [NSMutableArray arrayWithArray:data[@"responseData"][@"conment"]];
+            NSArray *array = data[@"responseData"][@"comment"];
+            [self.commentDataArray removeAllObjects];
+            for (NSDictionary *dic in array) {
+                CommentModel *model = [CommentModel mj_objectWithKeyValues:dic];
+                [self.commentDataArray addObject:model];
+            }
             self.playerModel.videoURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@",self.videoDataDic[@"url"]]];
             [self.playerView resetToPlayNewVideo:self.playerModel];
-
             [self.tableView reloadData];
         }else{
            // [self.view makeToast:message];
@@ -211,7 +216,7 @@
     if (section == 0) {
         return 1;
     }else{
-        return 4;
+        return self.commentDataArray.count;
     }
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -241,12 +246,15 @@
         if (self.videoDataDic.allKeys.count > 0) {
             cell.videoTitle.text = [NSString stringWithFormat:@"%@",self.videoDataDic[@"title"]];
             cell.videoDetails.text = [NSString stringWithFormat:@"%@",self.videoDataDic[@"introduct"]];
+            [cell.hotBtn setTitle:[NSString stringWithFormat:@"%@",self.videoDataDic[@"hits"]] forState:UIControlStateNormal];
+            [cell.praiseBtn setTitle:[NSString stringWithFormat:@"%@",self.videoDataDic[@"agree"]] forState:UIControlStateNormal];
+            [cell.commendBtn setTitle:[NSString stringWithFormat:@"%@",self.videoDataDic[@"comment"]] forState:UIControlStateNormal];
         }
         return cell;
     }else{
         tableView.estimatedRowHeight = 130.5f;
         CommentsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"commentCell"];
-        cell.commentLabel.text = @"一个不会动脑筋的人，他的成就必然有限，不要说写字这种精细的活儿，就是举重、百米跑这种看似只需要有肌肉有力量的项目，你不动脑筋去想办法提高，你不用心去体会动作技巧，你也很难达到相应的高度。";
+        cell.model = self.commentDataArray[indexPath.row];
         return cell;
     }
 }

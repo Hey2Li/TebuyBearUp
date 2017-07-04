@@ -154,9 +154,17 @@
     }];
     [praiseBtn addTarget:self action:@selector(praiseClick:) forControlEvents:UIControlEventTouchUpInside];
     [shareBtn addTarget:self action:@selector(shareClick:) forControlEvents:UIControlEventTouchUpInside];
+    self.hotBtn = hotBtn;
+    self.praiseBtn = praiseBtn;
+    self.commentBtn = commendBtn;
+    self.titleLabel = videoTitleLabel;
 }
-- (void)setModel:(ZFVideoModel *)model {
+- (void)setModel:(VideoModel *)model {
     [self.picView sd_setImageWithURL:[NSURL URLWithString:model.photo] placeholderImage:[UIImage imageNamed:@"loading_bgView"]];
+    [self.hotBtn setTitle:[NSString stringWithFormat:@"%@",model.hits] forState:UIControlStateNormal];
+    [self.commentBtn setTitle:[NSString stringWithFormat:@"%@",model.comment] forState:UIControlStateNormal];
+    [self.praiseBtn setTitle:[NSString stringWithFormat:@"%@",model.agree] forState:UIControlStateNormal];
+    self.titleLabel.text = [NSString stringWithFormat:@"%@",model.title];
 }
 - (void)play:(UIButton *)sender{
     if (self.playBlock) {

@@ -14,13 +14,14 @@
 #import "CDetailViewController.h"
 #import "VideoDetailViewController.h"
 #import <UShareUI/UShareUI.h>
-
+#import "VideoModel.h"
 
 @interface VideoTableViewController ()<ZFPlayerControlViewDelagate, ZFPlayerDelegate>
 @property (nonatomic, strong) NSArray *titleArray;
 @property (nonatomic, strong) NSMutableArray *dataSource;
 @property (nonatomic, strong) ZFPlayerView        *playerView;
 @property (nonatomic, strong) ZFPlayerControlView *controlView;
+@property (nonatomic, assign) int pageNum;
 @end
 static NSString *videoCell = @"playerCell";
 @implementation VideoTableViewController
@@ -62,62 +63,90 @@ static NSString *videoCell = @"playerCell";
     [super viewDidLoad];
     [self footerLoadData];
     [self headerLoadData];
-    [self requestData];
     [self.tableView registerClass:[VideoTableViewCell class] forCellReuseIdentifier:videoCell];
-
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-}
-- (void)requestData {
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"videoData" ofType:@"json"];
-    NSData *data = [NSData dataWithContentsOfFile:path];
-    NSDictionary *rootDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-    
-    self.dataSource = @[].mutableCopy;
-    NSArray *videoList = [rootDict objectForKey:@"videoList"];
-    for (NSDictionary *dataDic in videoList) {
-        ZFVideoModel *model = [[ZFVideoModel alloc] init];
-        [model setValuesForKeysWithDictionary:dataDic];
-        [self.dataSource addObject:model];
-    }
+    _pageNum = 1;
 }
 //下拉刷新
 - (void)headerLoadData{
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        NSLog(@"下拉刷新");
         WeakSelf
-      [LTHttpManager videoListWithLimit:@100 Value:@"id,name" Complete:^(LTHttpResult result, NSString *message, id data) {
-          if (LTHttpResultSuccess == result) {
-              self.dataSource = @[].mutableCopy;
-              NSArray *videoList = [data[@"responseData"][@"videos"] objectForKey:@"data"];
-              for (NSDictionary *dataDic in videoList) {
-                  ZFVideoModel *model = [[ZFVideoModel alloc] init];
-                  [model setValuesForKeysWithDictionary:dataDic];
-                  [weakSelf.dataSource addObject:model];
-              }
-              [weakSelf.tableView reloadData];
-              [weakSelf.tableView.mj_header endRefreshing];
-          }else{
-              [weakSelf.view makeToast:message];
-              [weakSelf.tableView.mj_header endRefreshing];
-          }
-      }];
+        if (self.index == 0) {
+            [LTHttpManager videoListWithLimit:@10 Value:@"" Complete:^(LTHttpResult result, NSString *message, id data) {
+                if (LTHttpResultSuccess == result) {
+                    self.dataSource = @[].mutableCopy;
+                    NSArray *videoList = [data[@"responseData"][@"videos"] objectForKey:@"data"];
+                    for (NSDictionary *dataDic in videoList) {
+                        VideoModel *model = [VideoModel mj_objectWithKeyValues:dataDic];
+                        //                  ZFVideoModel *model = [[ZFVideoModel alloc] init];
+                        //                  [model setValuesForKeysWithDictionary:dataDic];
+                        [weakSelf.dataSource addObject:model];
+                    }
+                    [weakSelf.tableView reloadData];
+                    [weakSelf.tableView.mj_header endRefreshing];
+                }else{
+                    //              [weakSelf.view makeToast:message];
+                    [weakSelf.tableView.mj_header endRefreshing];
+                }
+            }];
+        }else{
+            [LTHttpManager videoListWithLimit:@10 Value:[NSString stringWithFormat:@"%@",self.categoryID] Complete:^(LTHttpResult result, NSString *message, id data) {
+                if (LTHttpResultSuccess == result) {
+                    self.dataSource = @[].mutableCopy;
+                    NSArray *videoList = [data[@"responseData"][@"videos"] objectForKey:@"data"];
+                    for (NSDictionary *dataDic in videoList) {
+                        VideoModel *model = [VideoModel mj_objectWithKeyValues:dataDic];
+                        //                  ZFVideoModel *model = [[ZFVideoModel alloc] init];
+                        //                  [model setValuesForKeysWithDictionary:dataDic];
+                        [weakSelf.dataSource addObject:model];
+                    }
+                    [weakSelf.tableView reloadData];
+                    [weakSelf.tableView.mj_header endRefreshing];
+                }else{
+                    //              [weakSelf.view makeToast:message];
+                    [weakSelf.tableView.mj_header endRefreshing];
+                }
+            }];
+        }
     }];
     [self.tableView.mj_header beginRefreshing];
 }
 - (void)footerLoadData{
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
         WeakSelf
-        NSTimer *timer  =[NSTimer scheduledTimerWithTimeInterval:1.0 repeats:NO block:^(NSTimer * _Nonnull timer) {
-            [weakSelf.tableView.mj_footer endRefreshing];
-            [timer invalidate];
-            timer = nil;
-        }];
-        [[NSRunLoop mainRunLoop]addTimer:timer forMode:NSDefaultRunLoopMode];
+        _pageNum++;
+        if (self.index == 0) {
+            [LTHttpManager getMoreVideoWithLimit:@10 Page:@(_pageNum) Cid:nil Complete:^(LTHttpResult result, NSString *message, id data) {
+                if (LTHttpResultSuccess == result) {
+                    NSArray *videoList = [data[@"responseData"][@"videos"] objectForKey:@"data"];
+                    for (NSDictionary *dataDic in videoList) {
+                        VideoModel *model = [VideoModel mj_objectWithKeyValues:dataDic];
+                        [weakSelf.dataSource addObject:model];
+                    }
+                    [self.tableView reloadData];
+                    [self.tableView.mj_footer endRefreshing];
+                }else{
+                    [self.tableView.mj_footer endRefreshing];
+                    _pageNum--;
+                }
+            }];
+        }else{
+            [LTHttpManager getMoreVideoWithLimit:@10 Page:@(_pageNum) Cid:self.categoryID Complete:^(LTHttpResult result, NSString *message, id data) {
+                if (LTHttpResultSuccess == result) {
+                    NSArray *videoList = [data[@"responseData"][@"videos"] objectForKey:@"data"];
+                    for (NSDictionary *dataDic in videoList) {
+                        VideoModel *model = [VideoModel mj_objectWithKeyValues:dataDic];
+                        [weakSelf.dataSource addObject:model];
+                    }
+                    [self.tableView reloadData];
+                    [self.tableView.mj_footer endRefreshing];
+                }else{
+                    [self.tableView.mj_footer endRefreshing];
+                    _pageNum--;
+                }
+            }];
+        }
     }];
+
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -150,7 +179,7 @@ static NSString *videoCell = @"playerCell";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     //取到对应cell的model
     VideoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:videoCell forIndexPath:indexPath];
-    __block ZFVideoModel *model = self.dataSource[indexPath.section];
+    __block VideoModel *model = self.dataSource[indexPath.section];
     //赋值model
     cell.model = model;
     __block NSIndexPath *weakIndexPath = indexPath;
@@ -158,13 +187,6 @@ static NSString *videoCell = @"playerCell";
     __weak typeof(self)  weakSelf = self;
     //点击播放的回调
     cell.playBlock = ^(UIButton *btn){
-//        //分辨率字典（key:分辨率名称，value：分辨率url)
-//        NSMutableDictionary *dic = @{}.mutableCopy;
-//        for (ZFVideoResolution * resolution in model.playInfo) {
-//            [dic setValue:resolution.url forKey:resolution.name];
-//        }
-        //取出字典中的第一视频URL
-//        NSURL *videoURL = [NSURL URLWithString:dic.allValues.firstObject];
         ZFPlayerModel *playerModel = [[ZFPlayerModel alloc]init];
         playerModel.fatherViewTag = weakCell.picView.tag;
         playerModel.videoURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@",model.url]];
@@ -186,10 +208,10 @@ static NSString *videoCell = @"playerCell";
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    ZFVideoModel *playerModel = self.dataSource[indexPath.section];
+    VideoModel *playerModel = self.dataSource[indexPath.section];
     VideoDetailViewController *vc = [VideoDetailViewController new];
 //    vc.videoURL                   = [NSURL URLWithString:playerModel.url];
-    vc.vid = [NSNumber numberWithInteger:[playerModel.vid integerValue]];
+    vc.vid = playerModel.ID;
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)shareImageAndTextToPlatformType:(UMSocialPlatformType)platformType

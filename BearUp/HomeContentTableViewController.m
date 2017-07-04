@@ -14,6 +14,7 @@
 #import "VideoTableViewCell.h"
 #import "ZFVideoModel.h"
 #import "ZFVideoResolution.h"
+#import "HomeModel.h"
 
 static NSString *homepageCell = @"HOMEPAGECELL";
 static NSString *scrollBannerCell = @"SCROLLBANNERCELL";
@@ -62,11 +63,10 @@ static NSString *videoCell = @"playerCell";
     //防止pop返回页面下移
     self.automaticallyAdjustsScrollViewInsets = NO;
     [super viewDidLoad];
-    self.tableView.separatorStyle = NO;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.view.backgroundColor = [UIColor whiteColor];
     [self footerLoadData];
     [self headerLoadData];
-    [self requestData];
     [self.tableView registerClass:[VideoTableViewCell class] forCellReuseIdentifier:videoCell];
     _pageNum = 1;
 }
@@ -76,19 +76,6 @@ static NSString *videoCell = @"playerCell";
         scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0);
     } else if (scrollView.contentOffset.y>=sectionHeaderHeight) {
         scrollView.contentInset = UIEdgeInsetsMake(-sectionHeaderHeight, 0, 0, 0);
-    }
-}
-- (void)requestData {
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"videoData" ofType:@"json"];
-    NSData *data = [NSData dataWithContentsOfFile:path];
-    NSDictionary *rootDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-    
-    self.dataSource = @[].mutableCopy;
-    NSArray *videoList = [rootDict objectForKey:@"videoList"];
-    for (NSDictionary *dataDic in videoList) {
-        ZFVideoModel *model = [[ZFVideoModel alloc] init];
-        [model setValuesForKeysWithDictionary:dataDic];
-        [self.dataSource addObject:model];
     }
 }
 - (void)viewWillAppear:(BOOL)animated{
@@ -103,14 +90,18 @@ static NSString *videoCell = @"playerCell";
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         WeakSelf
         //首页推荐
-        if (self.index < 1) {
-            [LTHttpManager homeTitleWithLimit:@2 Value:@"id,name" Page:@"1" Nlimit:@"1" Complete:^(LTHttpResult result, NSString *message, id data) {
+        if (self.index == 0) {
+            [LTHttpManager homeTitleWithLimit:@100 Value:@"id,name" Page:@"1" Nlimit:@"1" Complete:^(LTHttpResult result, NSString *message, id data) {
                 if (result == LTHttpResultSuccess) {
                     NSArray *array = data[@"responseData"][@"top"];
                     self.scrollViewArray = array;
                     NSArray *arrays = data[@"responseData"][@"rows"][@"data"];
                     [self.dataArray removeAllObjects];
-                    self.dataArray = [NSMutableArray arrayWithArray:arrays];
+                    for (NSDictionary *dic in arrays) {
+                        HomeModel *model = [HomeModel mj_objectWithKeyValues:dic];
+                        [self.dataArray addObject:model];
+                    }
+//                    self.dataArray = [NSMutableArray arrayWithArray:arrays];
                     [weakSelf.tableView reloadData];
                     [weakSelf.tableView.mj_header endRefreshing];
                 }else{
@@ -123,7 +114,11 @@ static NSString *videoCell = @"playerCell";
                 if (result == LTHttpResultSuccess) {
                     NSArray *array = data[@"responseData"][@"news"][@"data"];
                     [self.dataArray removeAllObjects];
-                    self.dataArray = [NSMutableArray arrayWithArray:array];
+                    for (NSDictionary *dic in array) {
+                        HomeModel *model = [HomeModel mj_objectWithKeyValues:dic];
+                        [self.dataArray addObject:model];
+                    }
+//                    self.dataArray = [NSMutableArray arrayWithArray:array];
                     [weakSelf.tableView.mj_header endRefreshing];
                 }else{
                    // [self.view makeToast:message];
@@ -139,28 +134,37 @@ static NSString *videoCell = @"playerCell";
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
         _pageNum++;
         if (self.index > 0) {
-            [LTHttpManager newListNextPageWithPage:[NSNumber numberWithInt:_pageNum] Limit:@10 Complete:^(LTHttpResult result, NSString *message, id data) {
+            [LTHttpManager getMoreNewsWithLimit:@10 Page:[NSNumber numberWithInteger:_pageNum] Cid:self.categoryID Complete:^(LTHttpResult result, NSString *message, id data) {
                 if (LTHttpResultSuccess == result) {
                     NSArray *array = data[@"responseData"][@"news"][@"data"];
-                    [self.dataArray addObjectsFromArray:array];
+                    //                    [self.dataArray addObjectsFromArray:array];
+                    for (NSDictionary *dic in array) {
+                        HomeModel *model = [HomeModel mj_objectWithKeyValues:dic];
+                        [self.dataArray addObject:model];
+                    }
                     [self.tableView reloadData];
                     [self.tableView.mj_footer endRefreshing];
                 }else{
-                   // [self.view makeToast:message];
+                    // [self.view makeToast:message];
                     [self.tableView.mj_footer endRefreshing];
                     _pageNum--;
                 }
+
             }];
         }else{
             [LTHttpManager recommendGetMoreWithPage:[NSNumber numberWithInt:_pageNum] Limit:@10 Complete:^(LTHttpResult result, NSString *message, id data) {
                 if (LTHttpResultSuccess == result) {
                     NSArray *arrays = data[@"responseData"][@"data"];
-                    [self.dataArray addObjectsFromArray:arrays];
+//                    [self.dataArray addObjectsFromArray:arrays];
+                    for (NSDictionary *dic in arrays) {
+                        HomeModel *model = [HomeModel mj_objectWithKeyValues:dic];
+                        [self.dataArray addObject:model];
+                    }
                     [weakSelf.tableView reloadData];
-                    [weakSelf.tableView.mj_header endRefreshing];
+                    [weakSelf.tableView.mj_footer endRefreshing];
                 }else{
                    // [self.view makeToast:message];
-                    [self.tableView.mj_footer endRefreshing];
+                    [weakSelf.tableView.mj_footer endRefreshing];
                     _pageNum--;
                 }
             }];
@@ -220,11 +224,11 @@ static NSString *videoCell = @"playerCell";
         }
         //非推荐
         if (self.index > 0) {
-            cell.titleLabel.text = [NSString stringWithFormat:@"%@",self.dataArray[indexPath.section][@"title"]];
-            [cell.contentImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.dataArray[indexPath.section][@"photo"]]]];
+            HomeModel *model = self.dataArray[indexPath.section];
+            cell.model = model;
         }else{
-            cell.titleLabel.text = [NSString stringWithFormat:@"%@",self.dataArray[indexPath.section - 1][@"title"]];
-            [cell.contentImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.dataArray[indexPath.section - 1][@"photo"]]]];
+            HomeModel *model = self.dataArray[indexPath.section-1];
+            cell.model = model;
         }
         return cell;
     }
@@ -260,10 +264,18 @@ static NSString *videoCell = @"playerCell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     CDetailViewController *vc = [CDetailViewController new];
-    indexPath.section == 4 ? : [self.navigationController pushViewController:vc animated:YES];
+//    indexPath.section == 4 ? : [self.navigationController pushViewController:vc animated:YES];
 //    vc.cid = [NSString stringWithFormat:@"%@",self.dataArray[indexPath.section][@"id"]];
-     vc.cid = self.dataArray[indexPath.section-1][@"id"];
-}
+    if (self.index == 0) {
+        HomeModel *model = self.dataArray[indexPath.section-1];
+        vc.cid = model.ID;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        HomeModel *model = self.dataArray[indexPath.section];
+        vc.cid = model.ID;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+   }
 
 /*
 // Override to support conditional editing of the table view.

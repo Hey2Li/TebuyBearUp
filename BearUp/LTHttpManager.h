@@ -90,7 +90,7 @@
  @param limit 查询文章数量
  @param complete block
  */
-+ (void)newListNextPageWithPage:(NSNumber *)page Limit:(NSNumber *)limit Complete:(completeBlock)complete;
+//+ (void)newListNextPageWithPage:(NSNumber *)page Limit:(NSNumber *)limit Complete:(completeBlock)complete;
 
 
 /**
@@ -325,4 +325,59 @@
  @param complete block
  */
 + (void)focusCategoryWithCid:(NSNumber *)cid Complete:(completeBlock)complete;
+
+
+
+/**
+ 详情页评论分页
+ 请求地址:api/news/getMore
+ 功能描述：获得文章更多评论
+
+
+ @param ID 文章id
+ @param page 分页 初始值为2
+ @param complete complete
+ */
++ (void)getMoreNewsCommentWithID:(NSNumber *)ID Page:(NSNumber *)page Complete:(completeBlock)complete;
+
+
+/**
+ 获得更多文章
+ 请求地址:api/news/getnews
+ 功能描述：获得更多文章
+
+
+ @param limit 查询数量
+ @param page 分页
+ @param cid 文章类别
+ @param complete block
+ */
++ (void)getMoreNewsWithLimit:(NSNumber *)limit Page:(NSNumber *)page Cid:(NSNumber *)cid Complete:(completeBlock)complete;
+
+
+/**
+ 详情页评论分页
+ 请求地址:api/video/getMore
+ 功能描述：获得视频更多评论
+
+
+ @param ID 视频id
+ @param page 分页 初始值为2
+ @param complete blcok
+ */
++ (void)getMoreVideoCommentWithId:(NSNumber *) ID Page:(NSNumber *)page Complete:(completeBlock)complete;
+
+
+/**
+ 获得更多视频
+ 请求地址:api/video/getvideo
+ 功能描述：获得更多视频
+
+
+ @param limit 查询数量
+ @param page 分页
+ @param cid 视频类别
+ @param complete block
+ */
++ (void)getMoreVideoWithLimit:(NSNumber *)limit Page:(NSNumber *)page Cid:(NSNumber *)cid Complete:(completeBlock)complete;
 @end

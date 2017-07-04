@@ -86,7 +86,9 @@
  功能描述：首页头部栏目
  
  @param limit 查询数量 要返回几个栏目
- @param value 查询字段 格式如：id,name
+ @param value 查询字段 格式如：id,name 
+ @param page 数据分页
+ @param Nlimit 推荐内容查询数量 初始显示数量
  @param complete block
  */
 + (void)homeTitleWithLimit:(NSNumber *)limit Value:(NSString *)value  Page:(NSString *)page Nlimit:(NSString *)nlimit Complete:(completeBlock)complete{
@@ -496,5 +498,80 @@
     NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: cid,@"cid",nil];
     [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/explore/attention",BaseURL] parameters:paramters complete:complete];
+}
+
+/**
+ 详情页评论分页
+ 请求地址:api/news/getMore
+ 功能描述：获得文章更多评论
+ 
+ 
+ @param ID 文章id
+ @param page 分页 初始值为2
+ @param complete complete
+ */
++ (void)getMoreNewsCommentWithID:(NSNumber *)ID Page:(NSNumber *)page Complete:(completeBlock)complete{
+    LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
+    NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: ID,@"id",page,@"page",nil];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/news/getMore",BaseURL] parameters:paramters complete:complete];
+
+}
+
+
+/**
+ 获得更多文章
+ 请求地址:api/news/getnews
+ 功能描述：获得更多文章
+ 
+ 
+ @param limit 查询数量
+ @param page 分页
+ @param cid 文章类别
+ @param complete block
+ */
++ (void)getMoreNewsWithLimit:(NSNumber *)limit Page:(NSNumber *)page Cid:(NSNumber *)cid Complete:(completeBlock)complete{
+    LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
+    NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: limit,@"limit",page,@"page",cid,@"cid",nil];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/news/getnews",BaseURL] parameters:paramters complete:complete];
+
+}
+
+
+/**
+ 详情页评论分页
+ 请求地址:api/video/getMore
+ 功能描述：获得视频更多评论
+ 
+ 
+ @param ID 视频id
+ @param page 分页 初始值为2
+ @param complete blcok
+ */
++ (void)getMoreVideoCommentWithId:(NSNumber *) ID Page:(NSNumber *)page Complete:(completeBlock)complete{
+    LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
+    NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: ID,@"id",page,@"page",nil];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/video/getMore",BaseURL] parameters:paramters complete:complete];
+}
+
+
+/**
+ 获得更多视频
+ 请求地址:api/video/getvideo
+ 功能描述：获得更多视频
+ 
+ 
+ @param limit 查询数量
+ @param page 分页
+ @param cid 视频类别
+ @param complete block
+ */
++ (void)getMoreVideoWithLimit:(NSNumber *)limit Page:(NSNumber *)page Cid:(NSNumber *)cid Complete:(completeBlock)complete{
+    LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
+    NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: limit,@"limit",page,@"page",cid,@"cid",nil];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/video/getvideo",BaseURL] parameters:paramters complete:complete];
 }
 @end

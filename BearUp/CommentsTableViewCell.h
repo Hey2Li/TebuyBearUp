@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CommentModel.h"
 
 @interface CommentsTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *headerImageView;
@@ -14,5 +15,5 @@
 @property (weak, nonatomic) IBOutlet UILabel *dateLabel;
 @property (weak, nonatomic) IBOutlet UILabel *commentLabel;
 @property (weak, nonatomic) IBOutlet UIButton *praiseBtn;
-
+@property (nonatomic, strong) CommentModel *model;
 @end

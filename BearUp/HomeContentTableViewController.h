@@ -11,4 +11,5 @@
 @interface HomeContentTableViewController : UITableViewController
 @property (nonatomic, assign) NSInteger index;
 @property (nonatomic, strong) NSString *name;
+@property (nonatomic, assign) NSNumber *categoryID;
 @end

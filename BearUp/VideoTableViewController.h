@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface VideoTableViewController : UITableViewController
-
+@property (nonatomic, assign) NSInteger index;
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, assign) NSNumber *categoryID;
 @end
