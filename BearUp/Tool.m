@@ -35,6 +35,10 @@ void SVProgressShowStuteText(NSString* text,BOOL isSucceed){
 void SVProgressHiden(){
     [SVProgressHUD dismiss];
 }
+void SVProgressShowErrorMessage(NSString *text){
+    [SVProgressHUD setMinimumDismissTimeInterval:1];
+    [SVProgressHUD showErrorWithStatus:text];
+}
 NSAttributedString *returnNumAttr(NSString *str,NSInteger fontSize){
     NSString *pattern = @"[0-9]{0,}";
     NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc]initWithString:str];
@@ -129,6 +133,14 @@ NSAttributedString *returnNumAttr(NSString *str,NSInteger fontSize){
     if (numbersOfMatch>0) return YES;
     
     return NO;
+    
+}
+
++ (BOOL)checkPassword:(NSString *) password{
+    NSString *regex = @"^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$";
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
+    BOOL isMatch = [pred evaluateWithObject:password];
+    return isMatch;
     
 }
 @end

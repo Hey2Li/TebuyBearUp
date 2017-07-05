@@ -21,11 +21,12 @@
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"BearUp" bundle:nil];
-    UIViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"loginViewController"];
-    self.window.rootViewController = [[UINavigationController alloc]initWithRootViewController:vc];
+//    UIViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"loginViewController"];
+    BaseTabBarViewController *tabVC = [BaseTabBarViewController new];
+//    self.window.rootViewController = [[UINavigationController alloc]initWithRootViewController:vc];
+    self.window.rootViewController = tabVC;
     [self.window makeKeyAndVisible];
     
     IQKeyboardManager *manager = [IQKeyboardManager sharedManager];

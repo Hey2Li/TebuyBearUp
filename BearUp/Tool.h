@@ -19,5 +19,5 @@ NSAttributedString *returnNumAttr(NSString *str,NSInteger fontSize);
 + (NSDictionary *)MD5Dictionary;
 + (NSString *)MD5:(NSString *)str;
 + (BOOL)judgePhoneNumber:(NSString *)phoneNum;
-
++ (BOOL)checkPassword:(NSString *) password;
 @end

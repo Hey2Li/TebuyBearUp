@@ -382,7 +382,8 @@ static NSString *commentCell = @"commentCell";
     }
 }
 - (void)lookForCommentWithBtnClick:(UIButton *)btn{
-
+    //看评论 
+    [self.myTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 - (void)collectWithBtnClick:(UIButton *)btn{
 

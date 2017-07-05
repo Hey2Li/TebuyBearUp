@@ -8,6 +8,7 @@
 
 #import "LTHttpManager.h"
 #import <MJExtension.h>
+#import "LoginViewController.h"
 
 @implementation LTHttpManager
 
@@ -21,9 +22,9 @@
  @param complete block回调
  */
 
-+ (void)registerWithMobile:(NSString *)mobile andPassword:(NSString *)password Complete:(completeBlock)complete{
++ (void)registerWithMobile:(NSString *)mobile andPassword:(NSString *)password andUUID:(NSString *)user_uuid Complete:(completeBlock)complete{
     LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
-    NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:mobile,@"mobile",password,@"password", nil];
+    NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:mobile,@"mobile",password,@"password",user_uuid,@"user_uuid", nil];
     [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/register/index",BaseURL] parameters:paramters complete:complete];
 }
@@ -54,9 +55,9 @@
  @param password  密码
  @param complete  block回调
  */
-+ (void)loginWithMobile:(NSString *)mobile andPassword:(NSString *) password Complete:(completeBlock)complete{
++ (void)loginWithMobile:(NSString *)mobile andPassword:(NSString *) password andUUID:(NSString *)user_uuid Complete:(completeBlock)complete{
     LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
-    NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:mobile,@"mobile",password,@"password", nil];
+    NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:mobile,@"mobile",password,@"password",user_uuid,@"user_uuid",nil];
     [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/login/index",BaseURL] parameters:paramters complete:complete];
 }
@@ -88,7 +89,7 @@
  @param limit 查询数量 要返回几个栏目
  @param value 查询字段 格式如：id,name 
  @param page 数据分页
- @param Nlimit 推荐内容查询数量 初始显示数量
+ @param nlimit 推荐内容查询数量 初始显示数量
  @param complete block
  */
 + (void)homeTitleWithLimit:(NSNumber *)limit Value:(NSString *)value  Page:(NSString *)page Nlimit:(NSString *)nlimit Complete:(completeBlock)complete{
@@ -188,12 +189,18 @@
  @param complete block
  */
 + (void)commentNewsWithId:(NSNumber *)ID Content:(NSString *)content Complete:(completeBlock)complete{
-    LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
-    NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:ID,@"id",
-                                      content,@"content",
-                                      nil];
-    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
-    [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/news/savecomment",BaseURL] parameters:paramters complete:complete];
+    if (USER_ID) {
+        LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
+        NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:ID,@"id",
+                                          content,@"content",
+                                          nil];
+        [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+        [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/news/savecomment",BaseURL] parameters:paramters complete:complete];
+    }else{
+        UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"BearUp" bundle:nil];
+        LoginViewController *lvc = [storyBoard instantiateViewControllerWithIdentifier:@"loginViewController"];
+        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:lvc animated:YES completion:nil];
+    }
 }
 
 
@@ -245,6 +252,7 @@
  @param content 评论内容
  @param complete block
  */
+/*
 + (void)commentViewWithId:(NSNumber *)ID Content:(NSString *)content Complete:(completeBlock)complete{
     LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
     NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:ID,@"id",
@@ -253,7 +261,7 @@
     [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/news/savecomment",BaseURL] parameters:paramters complete:complete];
 }
-
+*/
 
 /**
  个人中心主页
@@ -494,10 +502,16 @@
  @param complete block
  */
 + (void)focusCategoryWithCid:(NSNumber *)cid Complete:(completeBlock)complete{
-    LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
-    NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: cid,@"cid",nil];
-    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
-    [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/explore/attention",BaseURL] parameters:paramters complete:complete];
+    if (USER_ID) {
+        LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
+        NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: cid,@"cid",nil];
+        [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+        [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/explore/attention",BaseURL] parameters:paramters complete:complete];
+    }else{
+         UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"BearUp" bundle:nil];
+        LoginViewController *lvc = [storyBoard instantiateViewControllerWithIdentifier:@"loginViewController"];
+        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:lvc animated:YES completion:nil];
+    }
 }
 
 /**

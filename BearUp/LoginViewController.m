@@ -295,18 +295,19 @@
 - (void)loginClick:(UIButton *)btn{
     if ([Tool judgePhoneNumber:self.userNameTF.text]) {
         if (self.passwordTF.text.length > 5) {
-          [LTHttpManager loginWithMobile:self.userNameTF.text andPassword:self.passwordTF.text Complete:^(LTHttpResult result, NSString *message, id data) {
+          [LTHttpManager loginWithMobile:self.userNameTF.text andPassword:self.passwordTF.text andUUID:GETUUID Complete:^(LTHttpResult result, NSString *message, id data) {
               if (result == LTHttpResultSuccess) {
+                  SVProgressShowStuteText(@"登录成功", YES);
                   [self presentViewController:[BaseTabBarViewController new] animated:YES completion:nil];
               }else{
                  // [self.view makeToast:message];
               }
           }];
         }else{
-            [self.view makeToast:@"密码不正确"];
+            SVProgressShowStuteText(@"密码不正确", NO);
         }
     }else{
-        [self.view makeToast:@"请输入正确的手机号码"];
+        SVProgressShowStuteText(@"请输入正确的手机号码", NO);
     }
 //    if ([Tool judgePhoneNumber:self.userNameTF.text] && self.passwordTF.text.length > 6){
 //       
@@ -341,7 +342,7 @@
     [self getAuthWithUserInfoFromQQ];
 }
 - (void)visitorsToLogin:(id)sender {
-    [self presentViewController:[BaseTabBarViewController new] animated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 - (void)findPassword:(UIButton *)sender{
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"BearUp" bundle:nil];

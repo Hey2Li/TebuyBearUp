@@ -64,6 +64,7 @@ static NSString *videoCell = @"playerCell";
     [self footerLoadData];
     [self headerLoadData];
     [self.tableView registerClass:[VideoTableViewCell class] forCellReuseIdentifier:videoCell];
+    self.tableView.separatorStyle = NO;
     _pageNum = 1;
 }
 //下拉刷新

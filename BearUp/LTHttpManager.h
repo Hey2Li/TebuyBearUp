@@ -17,9 +17,10 @@
 
  @param mobile 手机号码
  @param password 密码
+ @param user_uuid uuid
  @param complete block回调
  */
-+ (void)registerWithMobile:(NSString *)mobile andPassword:(NSString *)password Complete:(completeBlock)complete;
++ (void)registerWithMobile:(NSString *)mobile andPassword:(NSString *)password andUUID:(NSString *)user_uuid Complete:(completeBlock)complete;
 
 /**
  发送验证码
@@ -37,9 +38,10 @@
  
  @param mobile 手机号码
  @param password  密码
+ @param user_uuid  UUID
  @param complete  block回调
  */
-+ (void)loginWithMobile:(NSString *)mobile andPassword:(NSString *) password Complete:(completeBlock)complete;
++ (void)loginWithMobile:(NSString *)mobile andPassword:(NSString *) password andUUID:(NSString *)user_uuid  Complete:(completeBlock)complete;
 
 
 /**

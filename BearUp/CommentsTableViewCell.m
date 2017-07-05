@@ -34,6 +34,11 @@
 - (void)praiseClick:(UIButton *)sender{
     NSLog(@"parsieclick");
     sender.selected = !sender.selected;
+    NSInteger num = [sender.titleLabel.text integerValue];
+    num++;
+    [sender setTitle:[NSString stringWithFormat:@"%ld",(long)num] forState:UIControlStateSelected];
+    NSString *uuid = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+    NSLog(@"%@",uuid);
 }
 - (void)setModel:(CommentModel *)model{
     _model = model;

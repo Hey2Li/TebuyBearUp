@@ -69,7 +69,7 @@
 
 - (void)findBtnClick:(UIButton *)sender{
     if ([Tool judgePhoneNumber:self.phoneTF.text]) {
-        if ([self.codeTF.text isEqualToString:@"1111"]) {
+//        if ([self.codeTF.text isEqualToString:@"1111"]) {
             if (self.inputPasswordTF.text.length > 7 && self.inputPasswordAgainTF.text.length > 7) {
                 if ([self.inputPasswordTF.text isEqualToString:self.inputPasswordAgainTF.text]) {
                     [LTHttpManager submitNewPasswordWithMobile:self.phoneTF.text Code:self.codeTF.text Password:self.inputPasswordTF.text Complete:^(LTHttpResult result, NSString *message, id data) {
@@ -86,9 +86,9 @@
             }else{
                 [self.view makeToast:@"请输入正确的密码"];
             }
-        }else{
-            [self.view makeToast:@"请输入正确的验证码"];
-        }
+//        }else{
+//            [self.view makeToast:@"请输入正确的验证码"];
+//        }
     }else{
         [self.view makeToast:@"请输入正确的手机号码"];
     }

@@ -100,10 +100,12 @@
 }
 - (IBAction)registerBtn:(id)sender {
     if ([Tool judgePhoneNumber:self.phoneTF.text]) {
-        if ([self.codeTF.text isEqualToString:@"1111"]) {
-            if (self.setPasswordTF.text.length > 5) {
-                [LTHttpManager registerWithMobile:self.phoneTF.text andPassword:self.setPasswordTF.text Complete:^(LTHttpResult result, NSString *message, id data) {
+//        if ([self.codeTF.text isEqualToString:@"1111"]) {
+            if ([Tool checkPassword:self.setPasswordTF.text]) {
+                [LTHttpManager registerWithMobile:self.phoneTF.text andPassword:self.setPasswordTF.text andUUID:GETUUID Complete:^(LTHttpResult result, NSString *message, id data) {
                     if (result == LTHttpResultSuccess) {
+                        [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"uid"] forKey:USERID_KEY];
+                        [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"user_token"]forKey:USERTOKEN_KEY];
                         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"注册成功，请登录" message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
                         [alertView show];
                     }else{
@@ -111,13 +113,13 @@
                     }
                 }];
             }else{
-                [self.view makeToast:@"请输入正确的密码"];
+                SVProgressShowStuteText(@"请输入正确的密码", NO);
             }
-        }else{
-            [self.view makeToast:@"请输入正确的验证码"];
-        }
+//        }else{
+//            SVProgressShowStuteText(@"请输入正确的验证码", NO);
+//        }
     }else{
-        [self.view makeToast:@"请输入正确的手机号码"];
+        SVProgressShowStuteText(@"请输入正确的手机号码", NO);
     }
 //    if ([Tool judgePhoneNumber:self.phoneTF.text] && self.setPasswordTF.text.length > 6 && self.codeTF.text.length == 4){
 //       
@@ -148,7 +150,7 @@
 
 }
 - (IBAction)readUserAgreement:(id)sender {
-    //时间
+    //
 }
 - (IBAction)hidePasswordBtn:(UIButton *)sender {
     sender.selected = !sender.selected;
