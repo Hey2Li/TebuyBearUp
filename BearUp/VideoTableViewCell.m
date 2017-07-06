@@ -173,6 +173,9 @@
 }
 - (void)praiseClick:(UIButton *)sender{
     sender.selected = !sender.selected;
+    NSInteger num = [sender.titleLabel.text integerValue];
+    num++;
+    [sender setTitle:[NSString stringWithFormat:@"%ld",(long)num] forState:UIControlStateSelected];
 }
 - (void)shareClick:(UIButton *)sender{
     if (self.shareBlock) {

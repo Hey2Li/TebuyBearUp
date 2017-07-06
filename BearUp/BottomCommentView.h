@@ -21,5 +21,5 @@
 @interface BottomCommentView : UIView
 - (instancetype)initWithFrame:(CGRect)frame;
 @property (nonatomic, weak) id<BottomCommentDelegate> delegate;
-
+@property (nonatomic, strong) UITextField *commendTextfield;
 @end

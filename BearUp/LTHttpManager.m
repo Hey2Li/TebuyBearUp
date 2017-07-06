@@ -193,13 +193,15 @@
         LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
         NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:ID,@"id",
                                           content,@"content",
+                                          USER_ID,@"user_id",
                                           nil];
         [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
         [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/news/savecomment",BaseURL] parameters:paramters complete:complete];
     }else{
         UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"BearUp" bundle:nil];
         LoginViewController *lvc = [storyBoard instantiateViewControllerWithIdentifier:@"loginViewController"];
-        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:lvc animated:YES completion:nil];
+        UINavigationController *navi = [[UINavigationController alloc]initWithRootViewController:lvc];
+        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:navi animated:YES completion:nil];
     }
 }
 
@@ -504,13 +506,14 @@
 + (void)focusCategoryWithCid:(NSNumber *)cid Complete:(completeBlock)complete{
     if (USER_ID) {
         LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
-        NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: cid,@"cid",nil];
+        NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: cid,@"cid",USER_ID,@"user_id",nil];
         [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
         [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/explore/attention",BaseURL] parameters:paramters complete:complete];
     }else{
          UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"BearUp" bundle:nil];
         LoginViewController *lvc = [storyBoard instantiateViewControllerWithIdentifier:@"loginViewController"];
-        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:lvc animated:YES completion:nil];
+        UINavigationController *navi = [[UINavigationController alloc]initWithRootViewController:lvc];
+        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:navi animated:YES completion:nil];
     }
 }
 

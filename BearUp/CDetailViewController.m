@@ -14,17 +14,19 @@
 #import "BottomCommentView.h"
 #import <UShareUI/UShareUI.h>
 #import "BarrageRenderer/BarrageRenderer.h"
+#import "CommentModel.h"
 
 @interface CDetailViewController ()<WKNavigationDelegate,WKUIDelegate,WKScriptMessageHandler, UITableViewDelegate, UITableViewDataSource,BottomCommentDelegate>
-{
-    NSInteger _index;
-}
+
 @property (nonatomic, strong) WKWebView *wkWebView;
 @property (nonatomic, strong) NSDictionary *htmlDict;
 @property (strong, nonatomic) NSMutableArray *imagesArr;
 @property (nonatomic, strong) UITableView *myTableView;
 @property (nonatomic, strong) BottomCommentView *bottomView;
 @property (nonatomic, strong) BarrageRenderer *render;
+@property (nonatomic, strong) NSMutableArray *commentDataArray;
+@property (nonatomic, assign) int pageNum;
+@property (nonatomic, strong) DataInfo *infoData;
 @end
 
 @implementation CDetailViewController
@@ -42,6 +44,7 @@ static NSString *commentCell = @"commentCell";
             make.height.equalTo(@44);
             make.bottom.equalTo(self.view.mas_bottom);
         }];
+        _bottomView.commendTextfield.tag = [self.cid integerValue];
         _bottomView.delegate = self;
     }
     return _bottomView;
@@ -78,14 +81,14 @@ static NSString *commentCell = @"commentCell";
     [self initWKWebView];
 //    [self getContentHtml];
     [self loadData];
-    self.myTableView.rowHeight = UITableViewAutomaticDimension;
-    self.myTableView.estimatedRowHeight = 130.5f;
+
     self.title = @"详情";
     [self footerLoadData];
     [self initBarrageRenderer];
     [self autoSendBarrage];
     [_render start];
     [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(autoSendBarrage) userInfo:nil repeats:YES];
+    _pageNum = 1;
 }
 - (void)loadData{
     WeakSelf
@@ -93,7 +96,15 @@ static NSString *commentCell = @"commentCell";
         if (LTHttpResultSuccess == result) {
             //
             DataInfo *model = [DataInfo mj_objectWithKeyValues:[data objectForKey:@"responseData"][@"info"]];
+            _infoData = model;
             [weakSelf loadingHtmlNews:model];
+            NSArray *array = data[@"responseData"][@"comment"];
+            [self.commentDataArray removeAllObjects];
+            for (NSDictionary *dic in array) {
+                CommentModel *model = [CommentModel mj_objectWithKeyValues:dic];
+                [self.commentDataArray addObject:model];
+            }
+            [self.myTableView reloadData];
         }else{
            // [self.view makeToast:message];
         }
@@ -108,13 +119,22 @@ static NSString *commentCell = @"commentCell";
 }
 - (void)footerLoadData{
     self.myTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
+        _pageNum++;
         WeakSelf
-        NSTimer *timer  =[NSTimer scheduledTimerWithTimeInterval:1.0 repeats:NO block:^(NSTimer * _Nonnull timer) {
-            [weakSelf.myTableView.mj_footer endRefreshing];
-            [timer invalidate];
-            timer = nil;
+        [LTHttpManager getMoreNewsCommentWithID:@([self.cid integerValue]) Page:@(_pageNum) Complete:^(LTHttpResult result, NSString *message, id data) {
+            if (LTHttpResultSuccess == result) {
+                NSArray *array = data[@"responseData"][@"comment"];
+                for (NSDictionary *dic in array) {
+                    CommentModel *model = [CommentModel mj_objectWithKeyValues:dic];
+                    [weakSelf.commentDataArray addObject:model];
+                }
+                [weakSelf.myTableView.mj_footer endRefreshing];
+                [weakSelf.myTableView reloadData];
+            }else{
+                [weakSelf.myTableView.mj_footer endRefreshing];
+                _pageNum--;
+            }
         }];
-        [[NSRunLoop mainRunLoop]addTimer:timer forMode:NSDefaultRunLoopMode];
     }];
 }
 
@@ -133,6 +153,8 @@ static NSString *commentCell = @"commentCell";
     self.myTableView.showsVerticalScrollIndicator = NO;
     self.wkWebView.scrollView.showsVerticalScrollIndicator = NO;
     [self.myTableView registerNib:[UINib nibWithNibName:@"CommentsTableViewCell" bundle:nil] forCellReuseIdentifier:commentCell];
+    self.myTableView.rowHeight = UITableViewAutomaticDimension;
+    self.myTableView.estimatedRowHeight = 130.5f;
 }
 - (void)initWKWebView{
     //创建一个WKWebView的配置对象
@@ -352,7 +374,7 @@ static NSString *commentCell = @"commentCell";
 {
     BarrageDescriptor * descriptor = [[BarrageDescriptor alloc]init];
     descriptor.spriteName = NSStringFromClass([BarrageWalkTextSprite class]);
-    descriptor.params[@"text"] = [NSString stringWithFormat:@"过场文字弹幕:%ld",(long)_index++];
+//    descriptor.params[@"text"] = ;
     descriptor.params[@"textColor"] = [UIColor blueColor];
     descriptor.params[@"speed"] = @(100 * (double)random()/RAND_MAX+50);
     descriptor.params[@"direction"] = @(direction);
@@ -394,59 +416,47 @@ static NSString *commentCell = @"commentCell";
     [UMSocialUIManager showShareMenuViewInWindowWithPlatformSelectionBlock:^(UMSocialPlatformType platformType, NSDictionary *userInfo) {
         // 根据获取的platformType确定所选平台进行下一步操作
         NSLog(@"%ld---%@",(long)platformType, userInfo);
-        [self shareImageAndTextToPlatformType:platformType];
-    }];
-//    [self shareWithUI];
-}
-- (void)shareWithUI {
-    //显示分享面板
-    [UMSocialUIManager showShareMenuViewInWindowWithPlatformSelectionBlock:^(UMSocialPlatformType platformType, NSDictionary *userInfo) {
-        // 根据获取的platformType确定所选平台进行下一步操作
-        
-        //创建分享消息对象
-        UMSocialMessageObject *messageObject = [UMSocialMessageObject messageObject];
-        //设置文本
-        messageObject.text = @"社会化组件UShare将各大社交平台接入您的应用，快速武装App。";
-        
-        //调用分享接口
-        [[UMSocialManager defaultManager] shareToPlatform:platformType messageObject:messageObject currentViewController:self completion:^(id data, NSError *error) {
-            if (error) {
-                NSLog(@"************Share fail with error %@*********",error);
-            }else{
-                NSLog(@"response data is %@",data);
-            }
-        }];
+        [self shareWebPageToPlatformType:platformType];
     }];
 }
-- (void)shareImageAndTextToPlatformType:(UMSocialPlatformType)platformType
+//网页分享
+- (void)shareWebPageToPlatformType:(UMSocialPlatformType)platformType
 {
+    
     //创建分享消息对象
     UMSocialMessageObject *messageObject = [UMSocialMessageObject messageObject];
     
-    //设置文本
-    messageObject.text = @"社会化组件UShare将各大社交平台接入您的应用，快速武装App。";
+    //创建网页内容对象
     
-    //创建图片内容对象
-    UMShareImageObject *shareObject = [[UMShareImageObject alloc] init];
-    //如果有缩略图，则设置缩略图
-    shareObject.thumbImage = [UIImage imageNamed:@"icon"];
-    [shareObject setShareImage:@"https://www.umeng.com/img/index/demo/1104.4b2f7dfe614bea70eea4c6071c72d7f5.jpg"];
+    UMShareWebpageObject *shareObject = [UMShareWebpageObject shareObjectWithTitle:_infoData.title descr:_infoData.title thumImage:_infoData.img];
+    //设置网页地址
+    shareObject.webpageUrl = @"http://mobile.umeng.com/social";
     
     //分享消息对象设置分享内容对象
     messageObject.shareObject = shareObject;
     
-    //调用分享接口
-    [[UMSocialManager defaultManager] shareToPlatform:platformType messageObject:messageObject currentViewController:self completion:^(id data, NSError *error) {
-        if (error) {
-            NSLog(@"************Share fail with error %@*********",error);
-        }else{
-            NSLog(@"response data is %@",data);
-        }
+
+        //调用分享接口
+        [[UMSocialManager defaultManager] shareToPlatform:platformType messageObject:messageObject currentViewController:self completion:^(id data, NSError *error) {
+            if (error) {
+                UMSocialLogInfo(@"************Share fail with error %@*********",error);
+            }else{
+                if ([data isKindOfClass:[UMSocialShareResponse class]]) {
+                    UMSocialShareResponse *resp = data;
+                    //分享结果消息
+                    UMSocialLogInfo(@"response message is %@",resp.message);
+                    //第三方原始返回的数据
+                    UMSocialLogInfo(@"response originalResponse data is %@",resp.originalResponse);
+                    
+                }else{
+                    UMSocialLogInfo(@"response data is %@",data);
+                }
+            }
     }];
 }
 #pragma mark - TableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 3;
+    return self.commentDataArray.count;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 44;
@@ -462,7 +472,7 @@ static NSString *commentCell = @"commentCell";
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     CommentsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:commentCell];
-    cell.commentLabel.text = @"一个不会动脑筋的人，他的成就必然有限，不要说写字这种精细的活儿，就是举重、百米跑这种看似只需要有肌肉有力量的项目，你不动脑筋去想办法提高，你不用心去体会动作技巧，你也很难达到相应的高度。";
+    cell.model = self.commentDataArray[indexPath.row];
     return cell;
 }
 #pragma mark - WKWebViewDelegate

@@ -29,6 +29,7 @@
 @property (nonatomic, strong) BarrageRenderer *render;
 @property (nonatomic, strong) NSMutableArray *commentDataArray;
 @property (nonatomic, strong) NSMutableDictionary *videoDataDic;
+@property (nonatomic, assign) int pageNum;
 @end
 
 @implementation VideoDetailViewController
@@ -94,6 +95,8 @@
     [self autoSendBarrage];
     [_render start];
     [self loadData];
+    _pageNum = 1;
+    [self footerLoadData];
 }
 - (void)loadData{
     [LTHttpManager videoDetailWithId:self.vid Complete:^(LTHttpResult result, NSString *message, id data) {
@@ -112,6 +115,24 @@
            // [self.view makeToast:message];
             [self.playerView resetPlayer];
         }
+    }];
+}
+- (void)footerLoadData{
+    self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
+        _pageNum++;
+        [LTHttpManager getMoreVideoCommentWithId:self.vid Page:@(_pageNum) Complete:^(LTHttpResult result, NSString *message, id data) {
+            if (LTHttpResultSuccess == result) {
+                NSArray *array = data[@"responseData"][@"comment"];
+                for (NSDictionary *dic in array) {
+                    CommentModel *model = [CommentModel mj_objectWithKeyValues:dic];
+                    [self.commentDataArray addObject:model];
+                }
+                [self.tableView reloadData];
+            }else{
+                [self.tableView.mj_footer endRefreshing];
+                _pageNum--;
+            }
+        }];
     }];
 }
 - (void)initBarrageRenderer{
@@ -303,36 +324,43 @@
     [UMSocialUIManager showShareMenuViewInWindowWithPlatformSelectionBlock:^(UMSocialPlatformType platformType, NSDictionary *userInfo) {
         // 根据获取的platformType确定所选平台进行下一步操作
         NSLog(@"%ld---%@",(long)platformType, userInfo);
-        [self shareImageAndTextToPlatformType:platformType];
+        [self shareVedioToPlatformType:platformType];
     }];
     //    [self shareWithUI];
 }
-- (void)shareImageAndTextToPlatformType:(UMSocialPlatformType)platformType
+//视频分享
+- (void)shareVedioToPlatformType:(UMSocialPlatformType)platformType
 {
     //创建分享消息对象
     UMSocialMessageObject *messageObject = [UMSocialMessageObject messageObject];
     
-    //设置文本
-    messageObject.text = @"社会化组件UShare将各大社交平台接入您的应用，快速武装App。";
-    
-    //创建图片内容对象
-    UMShareImageObject *shareObject = [[UMShareImageObject alloc] init];
-    //如果有缩略图，则设置缩略图
-    shareObject.thumbImage = [UIImage imageNamed:@"icon"];
-    [shareObject setShareImage:@"https://www.umeng.com/img/index/demo/1104.4b2f7dfe614bea70eea4c6071c72d7f5.jpg"];
+    UMShareVideoObject *shareObject = [UMShareVideoObject shareObjectWithTitle:self.videoDataDic[@"title"] descr:self.videoDataDic[@"introduct"] thumImage:self.videoDataDic[@"photo"]];
+    //设置视频网页播放地址
+    shareObject.videoUrl = @"http://video.sina.com.cn/p/sports/cba/v/2013-10-22/144463050817.html";
     
     //分享消息对象设置分享内容对象
     messageObject.shareObject = shareObject;
     
-    //调用分享接口
-    [[UMSocialManager defaultManager] shareToPlatform:platformType messageObject:messageObject currentViewController:self completion:^(id data, NSError *error) {
-        if (error) {
-            NSLog(@"************Share fail with error %@*********",error);
-        }else{
-            NSLog(@"response data is %@",data);
-        }
-    }];
+
+        //调用分享接口
+        [[UMSocialManager defaultManager] shareToPlatform:platformType messageObject:messageObject currentViewController:self completion:^(id data, NSError *error) {
+            if (error) {
+                UMSocialLogInfo(@"************Share fail with error %@*********",error);
+            }else{
+                if ([data isKindOfClass:[UMSocialShareResponse class]]) {
+                    UMSocialShareResponse *resp = data;
+                    //分享结果消息
+                    UMSocialLogInfo(@"response message is %@",resp.message);
+                    //第三方原始返回的数据
+                    UMSocialLogInfo(@"response originalResponse data is %@",resp.originalResponse);
+                    
+                }else{
+                    UMSocialLogInfo(@"response data is %@",data);
+                }
+            }
+        }];
 }
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

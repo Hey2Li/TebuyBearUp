@@ -24,6 +24,20 @@
 
 @implementation FindPasswordViewController
 
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.backIndicatorImage = [UIImage imageNamed:@"返回"];
+    self.navigationController.navigationBar.backIndicatorTransitionMaskImage = [UIImage imageNamed:@"返回"];
+    //去掉左边的title
+    [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60) forBarMetrics:UIBarMetricsDefault];
+    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    //自定义一个NavigationBar
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    //消除阴影
+    self.navigationController.navigationBar.shadowImage = [UIImage new];
+    //PingFangSC
+    self.navigationController.navigationBar.titleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"PingFangSC-Light" size:18],NSFontAttributeName, nil];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"找回密码";

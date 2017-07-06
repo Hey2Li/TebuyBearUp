@@ -22,6 +22,7 @@
 @property (nonatomic, strong) ZFPlayerView        *playerView;
 @property (nonatomic, strong) ZFPlayerControlView *controlView;
 @property (nonatomic, assign) int pageNum;
+@property (nonatomic, assign) int indexPath;
 @end
 static NSString *videoCell = @"playerCell";
 @implementation VideoTableViewController
@@ -197,12 +198,13 @@ static NSString *videoCell = @"playerCell";
         [weakSelf.playerView autoPlayTheVideo];
     };
     cell.shareBlock = ^(UIButton *btn){
+        _indexPath = indexPath.section;
         [UMSocialShareUIConfig shareInstance].sharePageGroupViewConfig.sharePageGroupViewPostionType = UMSocialSharePageGroupViewPositionType_Bottom;
         [UMSocialShareUIConfig shareInstance].sharePageScrollViewConfig.shareScrollViewPageItemStyleType = UMSocialPlatformItemViewBackgroudType_None;
         [UMSocialUIManager showShareMenuViewInWindowWithPlatformSelectionBlock:^(UMSocialPlatformType platformType, NSDictionary *userInfo) {
             // 根据获取的platformType确定所选平台进行下一步操作
             NSLog(@"%ld---%@",(long)platformType, userInfo);
-            [self shareImageAndTextToPlatformType:platformType];
+            [self shareVedioToPlatformType:platformType];
         }];
 
     };
@@ -215,29 +217,35 @@ static NSString *videoCell = @"playerCell";
     vc.vid = playerModel.ID;
     [self.navigationController pushViewController:vc animated:YES];
 }
-- (void)shareImageAndTextToPlatformType:(UMSocialPlatformType)platformType
+//视频分享
+- (void)shareVedioToPlatformType:(UMSocialPlatformType)platformType
 {
     //创建分享消息对象
     UMSocialMessageObject *messageObject = [UMSocialMessageObject messageObject];
-    
-    //设置文本
-    messageObject.text = @"社会化组件UShare将各大社交平台接入您的应用，快速武装App。";
-    
-    //创建图片内容对象
-    UMShareImageObject *shareObject = [[UMShareImageObject alloc] init];
-    //如果有缩略图，则设置缩略图
-    shareObject.thumbImage = [UIImage imageNamed:@"icon"];
-    [shareObject setShareImage:@"https://www.umeng.com/img/index/demo/1104.4b2f7dfe614bea70eea4c6071c72d7f5.jpg"];
+    VideoModel *model = self.dataSource[_indexPath];
+    UMShareVideoObject *shareObject = [UMShareVideoObject shareObjectWithTitle:model.title descr:model.introduct thumImage:model.photo];
+    //设置视频网页播放地址
+    shareObject.videoUrl = @"http://video.sina.com.cn/p/sports/cba/v/2013-10-22/144463050817.html";
     
     //分享消息对象设置分享内容对象
     messageObject.shareObject = shareObject;
     
+    
     //调用分享接口
     [[UMSocialManager defaultManager] shareToPlatform:platformType messageObject:messageObject currentViewController:self completion:^(id data, NSError *error) {
         if (error) {
-            NSLog(@"************Share fail with error %@*********",error);
+            UMSocialLogInfo(@"************Share fail with error %@*********",error);
         }else{
-            NSLog(@"response data is %@",data);
+            if ([data isKindOfClass:[UMSocialShareResponse class]]) {
+                UMSocialShareResponse *resp = data;
+                //分享结果消息
+                UMSocialLogInfo(@"response message is %@",resp.message);
+                //第三方原始返回的数据
+                UMSocialLogInfo(@"response originalResponse data is %@",resp.originalResponse);
+                
+            }else{
+                UMSocialLogInfo(@"response data is %@",data);
+            }
         }
     }];
 }

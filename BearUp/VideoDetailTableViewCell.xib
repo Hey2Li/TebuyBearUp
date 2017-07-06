@@ -16,7 +16,7 @@
             <rect key="frame" x="0.0" y="0.0" width="406" height="244"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="406" height="243.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="406" height="244"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="工作这么辛苦，老板有奖金发吗，我已经做了做了做了" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PmW-9n-duh">
@@ -64,6 +64,9 @@
                         <state key="normal" title="6268" image="点赞灰">
                             <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
+                        <connections>
+                            <action selector="praiseClick:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Edi-kh-21r"/>
+                        </connections>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3FA-W5-kdv">
                         <rect key="frame" x="170" y="173.5" width="70" height="20"/>

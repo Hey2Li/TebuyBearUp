@@ -8,6 +8,10 @@
 
 #import "BottomCommentView.h"
 
+@interface BottomCommentView ()<UITextFieldDelegate>
+
+@end
+
 @implementation BottomCommentView
 
 /*
@@ -52,8 +56,11 @@
         make.centerY.equalTo(bottomView.mas_centerY);
         make.width.equalTo(@(SCREEN_WIDTH/2));
     }];
+    commentTextField.delegate = self;
     commentTextField.placeholder = @"我也来一弹!";
     commentTextField.borderStyle = UITextBorderStyleRoundedRect;
+    commentTextField.keyboardAppearance = UIReturnKeyDone;
+    commentTextField.keyboardType = UIKeyboardTypeDefault;
     
     UIButton *lookForCommendBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [lookForCommendBtn setImage:[UIImage imageNamed:@"看评论灰"] forState:UIControlStateNormal];
@@ -87,6 +94,17 @@
         make.height.equalTo(@26);
         make.centerY.equalTo(bottomView.mas_centerY);
     }];
+    self.commendTextfield = commentTextField;
+}
+- (BOOL)textFieldShouldReturn:(UITextField *)textField{
+    [LTHttpManager commentNewsWithId:@(textField.tag) Content:textField.text Complete:^(LTHttpResult result, NSString *message, id data) {
+        if (LTHttpResultSuccess == result) {
+            SVProgressShowStuteText(@"评论成功", YES);
+        }else{
+            SVProgressShowStuteText(@"评论失败", NO);
+        }
+    }];
+    return YES;
 }
 - (void)shareWithBtnClick:(UIButton *)btn{
     [_delegate shareWithBtnClick:btn];

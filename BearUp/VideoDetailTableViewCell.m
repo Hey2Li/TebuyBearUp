@@ -19,6 +19,12 @@
     [self.praiseBtn.imageView setContentMode:UIViewContentModeScaleAspectFit];
     [self.commendBtn.imageView setContentMode:UIViewContentModeScaleAspectFit];
 }
+- (IBAction)praiseClick:(UIButton *)sender {
+    sender.selected = !sender.selected;
+    NSInteger num = [sender.titleLabel.text integerValue];
+    num++;
+    [sender setTitle:[NSString stringWithFormat:@"%ld",(long)num] forState:UIControlStateSelected];
+}
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
