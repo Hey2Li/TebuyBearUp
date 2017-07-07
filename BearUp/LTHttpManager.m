@@ -591,4 +591,46 @@
     [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/video/getvideo",BaseURL] parameters:paramters complete:complete];
 }
+/**
+ 收藏文章请求地址：api/news/collecnews
+ 
+ @param ID 文章ID
+ @param user_uuid UUID
+ @param user_id 用户ID
+ @param user_token token
+ */
++ (void)collectionNewsWithNewID:(NSNumber *)ID UUID:(NSString *)user_uuid User_id:(NSNumber *)user_id Token:(NSString *)user_token Complete:(completeBlock)complete{
+    LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
+    NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: ID,@"id",user_uuid,@"user_uuid",user_id,@"user_id",user_token,@"user_token",nil];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/news/collecnews",BaseURL] parameters:paramters complete:complete];
+}
+
+
+/**
+ 收藏视频请求地址：api/video/collecvideo
+ @param ID 视频ID
+ @param user_uuid UUID
+ @param user_id 用户ID
+ @param user_token token
+ */
++ (void)collectionVideoWithNewID:(NSNumber *)ID UUID:(NSString *)user_uuid User_id:(NSNumber *)user_id Token:(NSString *)user_token Complete:(completeBlock)complete{
+    LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
+    NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: ID,@"id",user_uuid,@"user_uuid",user_id,@"user_id",user_token,@"user_token",nil];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/video/collecvideo",BaseURL] parameters:paramters complete:complete];
+}
+
+
+/**
+ 第三方登录返回请求地址：api/register/thirdParty
+ 
+ @param uuid uuid
+ */
++ (void)thirdLoginReturnWithUUID:(NSString *)uuid Complete:(completeBlock)complete{
+    LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
+    NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: uuid,@"user_uuid",nil];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/register/thirdParty",BaseURL] parameters:paramters complete:complete];
+}
 @end

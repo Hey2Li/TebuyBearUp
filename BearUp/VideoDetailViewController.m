@@ -316,7 +316,14 @@
     
 }
 - (void)collectWithBtnClick:(UIButton *)btn{
-    
+    [LTHttpManager collectionVideoWithNewID:self.vid UUID:GETUUID User_id:USER_ID Token:USER_TOKEN Complete:^(LTHttpResult result, NSString *message, id data) {
+        if (LTHttpResultSuccess == result) {
+            SVProgressShowStuteText(@"收藏成功", YES);
+            [btn setImage:[UIImage imageNamed:@"收藏红"] forState:UIControlStateSelected];
+        }else{
+
+        }
+    }];
 }
 - (void)shareWithBtnClick:(UIButton *)btn{
     [UMSocialShareUIConfig shareInstance].sharePageGroupViewConfig.sharePageGroupViewPostionType = UMSocialSharePageGroupViewPositionType_Bottom;

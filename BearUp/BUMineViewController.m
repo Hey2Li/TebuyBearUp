@@ -12,6 +12,12 @@
 @interface BUMineViewController ()<UITableViewDelegate, UITableViewDataSource, WKNavigationDelegate,WKUIDelegate,WKScriptMessageHandler>
 @property (nonatomic, strong) UITableView *myTableView;
 @property (nonatomic, strong) UIView *headerView;
+@property (nonatomic, strong) UIButton *tempBtn;
+@property (nonatomic, strong) UILabel *line;
+@property (nonatomic, assign) NSInteger selectIndex;
+@property (nonatomic, strong) UITableView *leftTableView;
+@property (nonatomic, strong) UITableView *centerTableView;
+@property (nonatomic, strong) UITableView *rightTableView;
 @end
 
 @implementation BUMineViewController
@@ -128,27 +134,26 @@
     tableView.delegate = self;
     tableView.dataSource = self;
     tableView.separatorStyle = NO;
-//    tableView.backgroundColor = DRGBCOLOR;
     self.myTableView = tableView;
     
-    UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 272.5)];
+    UIView *headerView = [[UIView alloc]init];
     headerView.backgroundColor = DRGBCOLOR;
     self.headerView = headerView;
     self.myTableView.tableHeaderView = headerView;
     [headerView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.view.mas_left);
-        make.right.equalTo(self.view.mas_right);
-        make.height.equalTo(@(272.5));
-        make.width.equalTo(@(SCREEN_WIDTH));
+        make.left.equalTo(self.view);
+        make.right.equalTo(self.view);
+        make.height.equalTo(@(ceil(SCREEN_HEIGHT/3) + 70));
+        make.top.equalTo(self.myTableView);
     }];
-
+    
     UIImageView *headerImageView = [UIImageView new];
     [headerView addSubview:headerImageView];
     headerImageView.userInteractionEnabled = YES;
     headerImageView.image = [UIImage imageNamed:@"defaultUserIcon"];
     [headerImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(headerView.mas_left).offset(10);
-        make.top.equalTo(headerView.mas_top).offset(50);
+        make.centerY.equalTo(headerView).offset(-30);
+        make.centerX.equalTo(headerView);
         make.width.equalTo(@80);
         make.height.equalTo(@80);
     }];
@@ -166,42 +171,186 @@
     }];
     
     UILabel *nameLabel = [UILabel new];
-    nameLabel.text = @"昵称:快乐的小猴子";
+    nameLabel.font = [UIFont systemFontOfSize:20];
+    nameLabel.textAlignment = NSTextAlignmentCenter;
+    nameLabel.text = @"快乐的小猴子";
     [headerView addSubview:nameLabel];
     [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(headerBtn.mas_right).offset(5);
-        make.centerY.equalTo(headerBtn.mas_centerY).offset(-15);
-        make.right.equalTo(headerView.mas_right).offset(-5);
-        make.height.equalTo(@20);
+        make.top.equalTo(headerBtn.mas_bottom).offset(5);
+        make.left.equalTo(headerView.mas_left);
+        make.right.equalTo(headerView.mas_right);
+        make.height.equalTo(@35);
     }];
     
-    UILabel *rederNumLabel = [UILabel new];
-    rederNumLabel.text = @"您最近阅读了X篇文章，加油啊！";
-    [headerView addSubview:rederNumLabel];
-    [rederNumLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(nameLabel.mas_left);
-        make.right.equalTo(nameLabel.mas_right);
-        make.centerY.equalTo(headerBtn.mas_centerY).offset(15);
+    UILabel *readerNumLabel = [UILabel new];
+    readerNumLabel.textAlignment = NSTextAlignmentCenter;
+    readerNumLabel.font = [UIFont systemFontOfSize:14];
+    readerNumLabel.textColor = UIColorFromRGB(0xaeaeae);
+    readerNumLabel.text = @"您最近阅读了X篇文章，加油啊！";
+    [headerView addSubview:readerNumLabel];
+    [readerNumLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(nameLabel);
+        make.right.equalTo(nameLabel);
         make.height.equalTo(@20);
+        make.top.equalTo(nameLabel.mas_bottom).offset(5);
     }];
-    NSArray *array = @[@"点赞\n222",@"评论\n222",@"分享\n222",@"收藏\n222"];
-    for (int i = 0; i < array.count; i++) {
-        UIButton *button  =[UIButton buttonWithType:UIButtonTypeCustom];
-        button.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
-        [button setTitle:array[i] forState:UIControlStateNormal];
-        [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        button.backgroundColor = [UIColor whiteColor];
-        [headerView addSubview:button];
-        [button mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(headerView.mas_left).offset(SCREEN_WIDTH/4*i);
-            make.bottom.equalTo(headerView.mas_bottom);
-            make.width.equalTo(@(SCREEN_WIDTH/4));
-            make.height.equalTo(@80);
+    
+    UIView *centerClickView = [UIView new];
+    centerClickView.backgroundColor = [UIColor whiteColor];
+    [headerView addSubview:centerClickView];
+    [centerClickView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(headerView);
+        make.right.equalTo(headerView);
+        make.height.equalTo(@50);
+        make.bottom.equalTo(headerView);
+    }];
+    
+    UIButton *leftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [leftBtn setTitle:@"关注" forState:UIControlStateNormal];
+    [leftBtn setTitleColor:UIColorFromRGB(0x000000) forState:UIControlStateNormal];
+    [leftBtn setTitleColor:UIColorFromRGB(0xff4466) forState:UIControlStateSelected];
+    leftBtn.selected = YES;
+    _tempBtn = leftBtn;
+    [centerClickView addSubview:leftBtn];
+    [leftBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(centerClickView);
+        make.width.equalTo(@(SCREEN_WIDTH/3));
+        make.top.equalTo(centerClickView);
+        make.bottom.equalTo(centerClickView);
+    }];
+    
+    UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [rightBtn setTitle:@"收藏" forState:UIControlStateNormal];
+    [rightBtn setTitleColor:UIColorFromRGB(0x000000) forState:UIControlStateNormal];
+    [rightBtn setTitleColor:UIColorFromRGB(0xff4466) forState:UIControlStateSelected];
+    [centerClickView addSubview:rightBtn];
+    [rightBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(leftBtn);
+        make.bottom.equalTo(leftBtn);
+        make.width.equalTo(leftBtn);
+        make.right.equalTo(centerClickView);
+    }];
+    
+    UIButton *centerBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [centerBtn setTitle:@"我的动态" forState:UIControlStateNormal];
+    [centerBtn setTitleColor:UIColorFromRGB(0x000000) forState:UIControlStateNormal];
+    [centerBtn setTitleColor:UIColorFromRGB(0xff4466) forState:UIControlStateSelected];
+    [centerClickView addSubview:centerBtn];
+    [centerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(leftBtn.mas_right);
+        make.right.equalTo(rightBtn.mas_left);
+        make.top.equalTo(leftBtn);
+        make.bottom.equalTo(leftBtn);
+    }];
+
+    UILabel *line = [UILabel new];
+    line.backgroundColor = UIColorFromRGB(0xff4466);
+    [centerClickView addSubview:line];
+    [line mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.equalTo(@50);
+        make.height.equalTo(@1);
+        make.centerX.equalTo(leftBtn.mas_centerX);
+        make.bottom.equalTo(leftBtn);
+    }];
+    self.line = line;
+    [leftBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
+    [rightBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
+    [centerBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
+    leftBtn.tag = 1001;
+    centerBtn.tag = 1002;
+    rightBtn.tag = 1003;
+    
+    UITableView *leftTableView = [UITableView new];
+    leftTableView.delegate = self;
+    leftTableView.dataSource = self;
+    leftTableView.separatorStyle = NO;
+    [self.myTableView addSubview:leftTableView];
+    [leftTableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.myTableView);
+        make.right.equalTo(self.myTableView);
+        make.top.equalTo(self.myTableView.tableHeaderView.mas_bottom);
+        make.bottom.equalTo(self.myTableView.mas_bottom);
+    }];
+    self.leftTableView = leftTableView;
+    
+    UITableView *rightTableView = [UITableView new];
+    rightTableView.delegate = self;
+    rightTableView.dataSource = self;
+    rightTableView.separatorStyle = NO;
+    [self.myTableView addSubview:rightTableView];
+    [rightTableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.myTableView);
+        make.right.equalTo(self.myTableView);
+        make.top.equalTo(self.myTableView.tableHeaderView.mas_bottom);
+        make.bottom.equalTo(self.myTableView.mas_bottom);
+    }];
+    self.rightTableView = rightTableView;
+    self.rightTableView.hidden = YES;
+    
+    UITableView *centerTableView = [UITableView new];
+    centerTableView.delegate = self;
+    centerTableView.dataSource = self;
+    centerTableView.separatorStyle = NO;
+    [self.myTableView addSubview:centerTableView];
+    [centerTableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.myTableView);
+        make.right.equalTo(self.myTableView);
+        make.top.equalTo(self.myTableView.tableHeaderView.mas_bottom);
+        make.bottom.equalTo(self.myTableView.mas_bottom);
+    }];
+    self.centerTableView = centerTableView;
+    self.centerTableView.hidden = YES;
+    
+    self.leftTableView.backgroundColor = [UIColor redColor];
+    self.centerTableView.backgroundColor = [UIColor greenColor];
+    self.rightTableView.backgroundColor = [UIColor blueColor];
+}
+
+- (void)btnClick:(UIButton *)btn{
+    if (_tempBtn == nil) {
+        btn.selected = YES;
+        _tempBtn = btn;
+    }else if (_tempBtn != nil && _tempBtn == btn){
+        btn.selected = YES;
+    }else if (_tempBtn != nil && _tempBtn != btn){
+        btn.selected = YES;
+        _tempBtn.selected = NO;
+        _tempBtn = btn;
+    }
+    if (btn.selected) {
+        [self.line mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.width.equalTo(@50);
+            make.height.equalTo(@1);
+            make.centerX.equalTo(btn.mas_centerX);
+            make.bottom.equalTo(btn);
         }];
-        button.tag = i;
-        [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
+        [self.line mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.width.equalTo(@50);
+            make.height.equalTo(@1);
+            make.centerX.equalTo(btn.mas_centerX);
+            make.bottom.equalTo(btn);
+        }];
+        [UIView animateWithDuration:0.2 animations:^{
+            [self.line.superview layoutIfNeeded];
+        }];
+        _selectIndex = btn.tag;
+        [self.myTableView reloadData];
+    }
+    if (btn.tag == 1001) {
+        self.leftTableView.hidden = NO;
+        self.centerTableView.hidden = YES;
+        self.rightTableView.hidden = YES;
+    }else if (btn.tag == 1002){
+        self.leftTableView.hidden = YES;
+        self.centerTableView.hidden = NO;
+        self.rightTableView.hidden = YES;
+    }else if (btn.tag == 1003){
+        self.leftTableView.hidden = YES;
+        self.centerTableView.hidden = YES;
+        self.rightTableView.hidden = NO;
     }
 }
+
 - (void)headerBtnClick:(UIButton *)btn{
     NSLog(@"headerBtnClick");
 }
@@ -210,17 +359,24 @@
 }
 #pragma mark - TableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if (tableView == self.leftTableView) {
+        return 1;
+    }else if (tableView == self.centerTableView){
+        return 2;
+    }else if (tableView == self.rightTableView){
+        return 3;
+    }
     return 2;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-    if (indexPath.row == 0) {
-        cell.textLabel.text = @"我的主页";
-    }else if (indexPath.row == 1){
-        cell.textLabel.text = @"我的消息";
-    }else if (indexPath.row == 2){
-        cell.textLabel.text = @"缓存清理";
-    }
+//    if (indexPath.row == 0) {
+//        cell.textLabel.text = @"我的主页";
+//    }else if (indexPath.row == 1){
+//        cell.textLabel.text = @"我的消息";
+//    }else if (indexPath.row == 2){
+//        cell.textLabel.text = @"缓存清理";
+//    }
     return cell;
 }
 

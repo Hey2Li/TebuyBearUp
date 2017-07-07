@@ -62,8 +62,10 @@ NSString *const kKeyModelList = @"modellist";
         NSHTTPURLResponse *response = (NSHTTPURLResponse *)task.response;
         if (response.statusCode == 200) {
             complete(LTHttpResultFailure, kParseResponseError, nil);
+            SVProgressShowStuteText(kParseResponseError, NO);
         }else{
             complete(LTHttpResultFailure, kHttpRequestFailure, nil);
+            SVProgressShowStuteText(kHttpRequestFailure, NO);
         }
     }];
 }

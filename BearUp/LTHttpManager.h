@@ -382,4 +382,39 @@
  @param complete block
  */
 + (void)getMoreVideoWithLimit:(NSNumber *)limit Page:(NSNumber *)page Cid:(NSNumber *)cid Complete:(completeBlock)complete;
+
+/**
+ 收藏文章请求地址：api/news/collecnews
+
+ @param ID 文章ID
+ @param user_uuid UUID
+ @param user_id 用户ID
+ @param user_token token
+ @param complete block
+
+ */
++ (void)collectionNewsWithNewID:(NSNumber *)ID UUID:(NSString *)user_uuid User_id:(NSNumber *)user_id Token:(NSString *)user_token Complete:(completeBlock)complete;
+
+
+/**
+ 收藏视频请求地址：api/video/collecvideo
+
+ @param ID 视频ID
+ @param user_uuid UUID
+ @param user_id 用户ID
+ @param user_token token
+ @param complete block
+
+ */
++ (void)collectionVideoWithNewID:(NSNumber *)ID UUID:(NSString *)user_uuid User_id:(NSNumber *)user_id Token:(NSString *)user_token Complete:(completeBlock)complete;
+
+
+/**
+ 第三方登录返回
+
+ @param uuid uuid
+ @param complete block
+
+ */
++ (void)thirdLoginReturnWithUUID:(NSString *)uuid Complete:(completeBlock)complete;
 @end
