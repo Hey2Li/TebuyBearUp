@@ -12,6 +12,7 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    self.selectionStyle = NO;
     // Initialization code
     [self.leftImageView.layer setMasksToBounds:YES];
     [self.leftImageView.layer setCornerRadius:10];
@@ -41,6 +42,13 @@
     if (self.focusCategoryClick) {
         self.focusCategoryClick(btn);
     }
+}
+- (void)setModel:(FocusModel *)model{
+    _model = model;
+    [self.leftImageView sd_setImageWithURL:[NSURL URLWithString:model.photo] placeholderImage:[UIImage imageNamed:@"游客登录默认"]];
+    self.categoryNameLabel.text = model.name;
+    self.introducelabel.hidden = YES;
+    self.subTitleLabel.hidden = YES;
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

@@ -24,6 +24,7 @@
     [super viewDidLoad];
     [self initWithView];
     self.title = @"";
+    self.view.backgroundColor = [UIColor whiteColor];;
 }
 - (void)initWithView{
     UIImageView *topImageView = [UIImageView new];
@@ -298,6 +299,9 @@
           [LTHttpManager loginWithMobile:self.userNameTF.text andPassword:self.passwordTF.text andUUID:GETUUID Complete:^(LTHttpResult result, NSString *message, id data) {
               if (result == LTHttpResultSuccess) {
                   SVProgressShowStuteText(@"登录成功", YES);
+                  [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"user_id"] forKey:USERID_KEY];
+                  [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"user_token"]forKey:USERTOKEN_KEY];
+                   [[NSUserDefaults standardUserDefaults] synchronize];
                   [self presentViewController:[BaseTabBarViewController new] animated:YES completion:nil];
               }else{
                  // [self.view makeToast:message];

@@ -16,7 +16,7 @@
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     [self layoutIfNeeded];
     self.backgroundColor = UIColorFromRGB(0xf5f5f5);
-    [self.headerImageView setImage:[UIImage imageNamed:@"defaultUserIcon"]];
+    [self.headerImageView setImage:[UIImage imageNamed:@"用户默认头像"]];
     [self cutRoundView:self.headerImageView];
     [self.praiseBtn setImage:[UIImage imageNamed:@"点赞灰"] forState:UIControlStateNormal];
     [self.praiseBtn setImage:[UIImage imageNamed:@"点赞红"] forState:UIControlStateSelected];
@@ -42,7 +42,7 @@
     _model = model;
     self.commentLabel.text = [NSString stringWithFormat:@"%@",model.content];
     self.dateLabel.text = [NSString stringWithFormat:@"%@",model.time];
-    [self.headerImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",model.photo]] placeholderImage:[UIImage imageNamed:@"defaultUserIcon"]];
+    [self.headerImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",model.photo]] placeholderImage:[UIImage imageNamed:@"用户默认头像"]];
     [self.praiseBtn setTitle:[NSString stringWithFormat:@"%@",model.agree] forState:UIControlStateNormal];
     self.userName.text = [NSString stringWithFormat:@"%@",model.nickname];
 }

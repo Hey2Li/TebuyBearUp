@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1C0580401F02348600EAD755 /* SubCategoryCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C05803F1F02348600EAD755 /* SubCategoryCollectionViewCell.m */; };
 		1C0580431F024B7400EAD755 /* AdvertisingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C0580421F024B7400EAD755 /* AdvertisingTableViewCell.m */; };
+		1C09D2A11F1641E800C3317B /* MessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C09D2A01F1641E800C3317B /* MessageViewController.m */; };
 		1C1EDBC91EBC43BE0099D115 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C1EDBC81EBC43BE0099D115 /* main.m */; };
 		1C1EDBCC1EBC43BE0099D115 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C1EDBCB1EBC43BE0099D115 /* AppDelegate.m */; };
 		1C1EDBCF1EBC43BE0099D115 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C1EDBCE1EBC43BE0099D115 /* ViewController.m */; };
@@ -63,6 +64,10 @@
 		1C54540E1F03572000E9E74A /* CategoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1C54540C1F03572000E9E74A /* CategoryTableViewCell.xib */; };
 		1C5625071EFCA9D1000F8808 /* VideoDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C5625051EFCA9D1000F8808 /* VideoDetailTableViewCell.m */; };
 		1C5625081EFCA9D1000F8808 /* VideoDetailTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1C5625061EFCA9D1000F8808 /* VideoDetailTableViewCell.xib */; };
+		1C6573DF1F132D1D008C8484 /* MyStateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C6573DD1F132D1D008C8484 /* MyStateTableViewCell.m */; };
+		1C6573E01F132D1D008C8484 /* MyStateTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1C6573DE1F132D1D008C8484 /* MyStateTableViewCell.xib */; };
+		1C6573E41F13514E008C8484 /* MIneCollectionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C6573E21F13514E008C8484 /* MIneCollectionTableViewCell.m */; };
+		1C6573E51F13514E008C8484 /* MIneCollectionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1C6573E31F13514E008C8484 /* MIneCollectionTableViewCell.xib */; };
 		1C724D041EE7FA2600528FDC /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C724D031EE7FA2600528FDC /* RegisterViewController.m */; };
 		1C724D071EE9365900528FDC /* FindPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C724D061EE9365900528FDC /* FindPasswordViewController.m */; };
 		1C75E1B51EEF7E5A00BC59B5 /* ASValuePopUpView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C75E1961EEF7E5A00BC59B5 /* ASValuePopUpView.m */; };
@@ -81,6 +86,12 @@
 		1C75E1C21EEF7E5A00BC59B5 /* ZFPlayerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C75E1B21EEF7E5A00BC59B5 /* ZFPlayerModel.m */; };
 		1C75E1C31EEF7E5A00BC59B5 /* ZFPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C75E1B41EEF7E5A00BC59B5 /* ZFPlayerView.m */; };
 		1C75E1C61EF0CB6F00BC59B5 /* VideoDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C75E1C51EF0CB6F00BC59B5 /* VideoDetailViewController.m */; };
+		1C8F9F831F146C6C005088E8 /* FocusModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C8F9F821F146C6C005088E8 /* FocusModel.m */; };
+		1C8F9F861F146E13005088E8 /* MyCollectionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C8F9F851F146E13005088E8 /* MyCollectionModel.m */; };
+		1C8F9F891F147361005088E8 /* MyStateModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C8F9F881F147361005088E8 /* MyStateModel.m */; };
+		1C8F9F8C1F14D279005088E8 /* SettingTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C8F9F8B1F14D279005088E8 /* SettingTableViewController.m */; };
+		1C8F9F951F1613D3005088E8 /* InfoSettingTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C8F9F931F1613D3005088E8 /* InfoSettingTableViewController.m */; };
+		1C8F9F961F1613D3005088E8 /* InfoSettingTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1C8F9F941F1613D3005088E8 /* InfoSettingTableViewController.xib */; };
 		1C9590331EE52421001E0DF0 /* HorizontalTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C9590321EE52421001E0DF0 /* HorizontalTableViewCell.m */; };
 		1C9590361EE64879001E0DF0 /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C9590351EE64879001E0DF0 /* ListViewController.m */; };
 		1C9590391EE64891001E0DF0 /* CategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C9590381EE64891001E0DF0 /* CategoryViewController.m */; };
@@ -115,6 +126,8 @@
 		1C05803F1F02348600EAD755 /* SubCategoryCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubCategoryCollectionViewCell.m; sourceTree = "<group>"; };
 		1C0580411F024B7400EAD755 /* AdvertisingTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdvertisingTableViewCell.h; sourceTree = "<group>"; };
 		1C0580421F024B7400EAD755 /* AdvertisingTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdvertisingTableViewCell.m; sourceTree = "<group>"; };
+		1C09D29F1F1641E800C3317B /* MessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageViewController.h; sourceTree = "<group>"; };
+		1C09D2A01F1641E800C3317B /* MessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageViewController.m; sourceTree = "<group>"; };
 		1C1EDBC41EBC43BE0099D115 /* BearUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BearUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C1EDBC81EBC43BE0099D115 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		1C1EDBCA1EBC43BE0099D115 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -210,6 +223,12 @@
 		1C5625041EFCA9D1000F8808 /* VideoDetailTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoDetailTableViewCell.h; sourceTree = "<group>"; };
 		1C5625051EFCA9D1000F8808 /* VideoDetailTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoDetailTableViewCell.m; sourceTree = "<group>"; };
 		1C5625061EFCA9D1000F8808 /* VideoDetailTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VideoDetailTableViewCell.xib; sourceTree = "<group>"; };
+		1C6573DC1F132D1D008C8484 /* MyStateTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyStateTableViewCell.h; sourceTree = "<group>"; };
+		1C6573DD1F132D1D008C8484 /* MyStateTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyStateTableViewCell.m; sourceTree = "<group>"; };
+		1C6573DE1F132D1D008C8484 /* MyStateTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyStateTableViewCell.xib; sourceTree = "<group>"; };
+		1C6573E11F13514E008C8484 /* MIneCollectionTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIneCollectionTableViewCell.h; sourceTree = "<group>"; };
+		1C6573E21F13514E008C8484 /* MIneCollectionTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIneCollectionTableViewCell.m; sourceTree = "<group>"; };
+		1C6573E31F13514E008C8484 /* MIneCollectionTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MIneCollectionTableViewCell.xib; sourceTree = "<group>"; };
 		1C724D021EE7FA2600528FDC /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
 		1C724D031EE7FA2600528FDC /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
 		1C724D051EE9365900528FDC /* FindPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindPasswordViewController.h; sourceTree = "<group>"; };
@@ -247,6 +266,17 @@
 		1C75E1B41EEF7E5A00BC59B5 /* ZFPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFPlayerView.m; sourceTree = "<group>"; };
 		1C75E1C41EF0CB6F00BC59B5 /* VideoDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoDetailViewController.h; sourceTree = "<group>"; };
 		1C75E1C51EF0CB6F00BC59B5 /* VideoDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoDetailViewController.m; sourceTree = "<group>"; };
+		1C8F9F811F146C6C005088E8 /* FocusModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FocusModel.h; sourceTree = "<group>"; };
+		1C8F9F821F146C6C005088E8 /* FocusModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FocusModel.m; sourceTree = "<group>"; };
+		1C8F9F841F146E13005088E8 /* MyCollectionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCollectionModel.h; sourceTree = "<group>"; };
+		1C8F9F851F146E13005088E8 /* MyCollectionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCollectionModel.m; sourceTree = "<group>"; };
+		1C8F9F871F147361005088E8 /* MyStateModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyStateModel.h; sourceTree = "<group>"; };
+		1C8F9F881F147361005088E8 /* MyStateModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyStateModel.m; sourceTree = "<group>"; };
+		1C8F9F8A1F14D279005088E8 /* SettingTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingTableViewController.h; sourceTree = "<group>"; };
+		1C8F9F8B1F14D279005088E8 /* SettingTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingTableViewController.m; sourceTree = "<group>"; };
+		1C8F9F921F1613D3005088E8 /* InfoSettingTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoSettingTableViewController.h; sourceTree = "<group>"; };
+		1C8F9F931F1613D3005088E8 /* InfoSettingTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfoSettingTableViewController.m; sourceTree = "<group>"; };
+		1C8F9F941F1613D3005088E8 /* InfoSettingTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InfoSettingTableViewController.xib; sourceTree = "<group>"; };
 		1C9590311EE52421001E0DF0 /* HorizontalTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HorizontalTableViewCell.h; sourceTree = "<group>"; };
 		1C9590321EE52421001E0DF0 /* HorizontalTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HorizontalTableViewCell.m; sourceTree = "<group>"; };
 		1C9590341EE64879001E0DF0 /* ListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListViewController.h; sourceTree = "<group>"; };
@@ -422,6 +452,8 @@
 		1C1EDC041EBC46030099D115 /* Mine */ = {
 			isa = PBXGroup;
 			children = (
+				1C6573DB1F132CD2008C8484 /* Model */,
+				1C6573DA1F132CC8008C8484 /* View */,
 				1C1EDE1F1ECD816F0099D115 /* ViewController */,
 			);
 			name = Mine;
@@ -642,6 +674,13 @@
 			children = (
 				1C1EDC0E1EBC46500099D115 /* BUMineViewController.h */,
 				1C1EDC0F1EBC46500099D115 /* BUMineViewController.m */,
+				1C8F9F8A1F14D279005088E8 /* SettingTableViewController.h */,
+				1C8F9F8B1F14D279005088E8 /* SettingTableViewController.m */,
+				1C8F9F921F1613D3005088E8 /* InfoSettingTableViewController.h */,
+				1C8F9F931F1613D3005088E8 /* InfoSettingTableViewController.m */,
+				1C8F9F941F1613D3005088E8 /* InfoSettingTableViewController.xib */,
+				1C09D29F1F1641E800C3317B /* MessageViewController.h */,
+				1C09D2A01F1641E800C3317B /* MessageViewController.m */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -707,6 +746,32 @@
 				1C1EDE421ED562E30099D115 /* ZFPVideoResolution.m */,
 				1CF49EEF1F0B721A0041D11F /* VideoModel.h */,
 				1CF49EF01F0B721A0041D11F /* VideoModel.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		1C6573DA1F132CC8008C8484 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1C6573DC1F132D1D008C8484 /* MyStateTableViewCell.h */,
+				1C6573DD1F132D1D008C8484 /* MyStateTableViewCell.m */,
+				1C6573DE1F132D1D008C8484 /* MyStateTableViewCell.xib */,
+				1C6573E11F13514E008C8484 /* MIneCollectionTableViewCell.h */,
+				1C6573E21F13514E008C8484 /* MIneCollectionTableViewCell.m */,
+				1C6573E31F13514E008C8484 /* MIneCollectionTableViewCell.xib */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		1C6573DB1F132CD2008C8484 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				1C8F9F811F146C6C005088E8 /* FocusModel.h */,
+				1C8F9F821F146C6C005088E8 /* FocusModel.m */,
+				1C8F9F841F146E13005088E8 /* MyCollectionModel.h */,
+				1C8F9F851F146E13005088E8 /* MyCollectionModel.m */,
+				1C8F9F871F147361005088E8 /* MyStateModel.h */,
+				1C8F9F881F147361005088E8 /* MyStateModel.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -886,14 +951,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C8F9F961F1613D3005088E8 /* InfoSettingTableViewController.xib in Resources */,
 				1C1EDC521EC2EA960099D115 /* UMSocialSDKPromptResources.bundle in Resources */,
 				1C1EDE141ECADD250099D115 /* newDetail.css in Resources */,
 				1C5625081EFCA9D1000F8808 /* VideoDetailTableViewCell.xib in Resources */,
 				1C54540E1F03572000E9E74A /* CategoryTableViewCell.xib in Resources */,
+				1C6573E51F13514E008C8484 /* MIneCollectionTableViewCell.xib in Resources */,
 				1C1EDE481ED7B5B80099D115 /* CommentsTableViewCell.xib in Resources */,
 				1C1EDBD71EBC43BE0099D115 /* LaunchScreen.storyboard in Resources */,
 				1C75E1C01EEF7E5A00BC59B5 /* ZFPlayer.bundle in Resources */,
 				1C1EDBD41EBC43BE0099D115 /* Assets.xcassets in Resources */,
+				1C6573E01F132D1D008C8484 /* MyStateTableViewCell.xib in Resources */,
 				1C1EDC541EC2EA960099D115 /* UMSocialSDKResources.bundle in Resources */,
 				1C1EDE151ECADD250099D115 /* newDetail.js in Resources */,
 				1C1EDC5B1EC3FDF20099D115 /* BearUp.storyboard in Resources */,
@@ -975,20 +1043,26 @@
 				1C5625071EFCA9D1000F8808 /* VideoDetailTableViewCell.m in Sources */,
 				1C724D041EE7FA2600528FDC /* RegisterViewController.m in Sources */,
 				1C75E1C31EEF7E5A00BC59B5 /* ZFPlayerView.m in Sources */,
+				1C8F9F861F146E13005088E8 /* MyCollectionModel.m in Sources */,
 				1C75E1B51EEF7E5A00BC59B5 /* ASValuePopUpView.m in Sources */,
 				1C0580431F024B7400EAD755 /* AdvertisingTableViewCell.m in Sources */,
 				1C1EDC181EC00F650099D115 /* LTHttpManager.m in Sources */,
 				1C2A11B71EEF702A00B0BC45 /* VideoTableViewController.m in Sources */,
 				1C1EDC301EC1B7500099D115 /* BUTitleLabel.m in Sources */,
 				1C9590331EE52421001E0DF0 /* HorizontalTableViewCell.m in Sources */,
+				1C09D2A11F1641E800C3317B /* MessageViewController.m in Sources */,
+				1C8F9F831F146C6C005088E8 /* FocusModel.m in Sources */,
 				1C95903C1EE6926C001E0DF0 /* SubCategoryViewController.m in Sources */,
 				1C1EDC171EC00F650099D115 /* LTHTTPSessionManager.m in Sources */,
+				1C8F9F951F1613D3005088E8 /* InfoSettingTableViewController.m in Sources */,
 				1C1EDC0A1EBC462D0099D115 /* BUVideoViewController.m in Sources */,
 				1C1EDE1B1ECC217E0099D115 /* NSString+Extension.m in Sources */,
 				1C9590361EE64879001E0DF0 /* ListViewController.m in Sources */,
+				1C8F9F891F147361005088E8 /* MyStateModel.m in Sources */,
 				1C1EDE431ED562E30099D115 /* ZFPVideoResolution.m in Sources */,
 				1C75E1BD1EEF7E5A00BC59B5 /* UIWindow+CurrentViewController.m in Sources */,
 				1C724D071EE9365900528FDC /* FindPasswordViewController.m in Sources */,
+				1C6573DF1F132D1D008C8484 /* MyStateTableViewCell.m in Sources */,
 				1C75E1B91EEF7E5A00BC59B5 /* UINavigationController+ZFPlayerRotation.m in Sources */,
 				1C1EDE351ED3C06E0099D115 /* ScrollBannerTableViewCell.m in Sources */,
 				1C1EDC201EC15BF50099D115 /* Tool.m in Sources */,
@@ -1013,6 +1087,7 @@
 				1CF49EEB1F0B27AC0041D11F /* HomeModel.m in Sources */,
 				1CF49EF11F0B721A0041D11F /* VideoModel.m in Sources */,
 				1C1EDDC51EC9A8650099D115 /* DetailViewController.m in Sources */,
+				1C6573E41F13514E008C8484 /* MIneCollectionTableViewCell.m in Sources */,
 				1C1EDC071EBC46200099D115 /* BUHomeViewController.m in Sources */,
 				1C75E1C61EF0CB6F00BC59B5 /* VideoDetailViewController.m in Sources */,
 				1C1EDC231EC1635F0099D115 /* UIView+Toast.m in Sources */,
@@ -1025,6 +1100,7 @@
 				1C75E1C21EEF7E5A00BC59B5 /* ZFPlayerModel.m in Sources */,
 				1CF49EF41F0B8AA00041D11F /* CommentModel.m in Sources */,
 				1C54540D1F03572000E9E74A /* CategoryTableViewCell.m in Sources */,
+				1C8F9F8C1F14D279005088E8 /* SettingTableViewController.m in Sources */,
 				1C1EDBFD1EBC450F0099D115 /* BaseNaviViewController.m in Sources */,
 				1C1EDE181ECBF4100099D115 /* BUTopTitleBar.m in Sources */,
 				1C75E1B61EEF7E5A00BC59B5 /* ASValueTrackingSlider.m in Sources */,

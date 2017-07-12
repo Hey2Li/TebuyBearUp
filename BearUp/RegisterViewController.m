@@ -104,8 +104,9 @@
             if ([Tool checkPassword:self.setPasswordTF.text]) {
                 [LTHttpManager registerWithMobile:self.phoneTF.text andPassword:self.setPasswordTF.text andUUID:GETUUID Complete:^(LTHttpResult result, NSString *message, id data) {
                     if (result == LTHttpResultSuccess) {
-                        [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"uid"] forKey:USERID_KEY];
+                        [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"user_id"] forKey:USERID_KEY];
                         [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"user_token"]forKey:USERTOKEN_KEY];
+                        [[NSUserDefaults standardUserDefaults] synchronize];
                         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"注册成功，请登录" message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
                         [alertView show];
                     }else{

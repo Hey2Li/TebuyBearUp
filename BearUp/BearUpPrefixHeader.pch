@@ -47,4 +47,8 @@
 #define USERID_KEY @"user_id"
 #define USERTOKEN_KEY @"user_token"
 #define GETUUID [[[UIDevice currentDevice] identifierForVendor] UUIDString]
+#define USER_MOBILE @"user_mobile"
+#define USER_PHOTO @"user_photo"
+#define USER_NICKNAME @"user_nickname"
+#define USER_SEX @"user_sex"
 #endif /* BearUpPrefixHeader_pch */

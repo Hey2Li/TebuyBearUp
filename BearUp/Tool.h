@@ -16,7 +16,7 @@ void SVProgressShowStuteText(NSString *text, BOOL isSucceed);//成功或失败�
 void SVProgressHiden();
 
 NSAttributedString *returnNumAttr(NSString *str,NSInteger fontSize);
-+ (NSDictionary *)MD5Dictionary;
++ (NSDictionary *)MD5Dictionary:(NSMutableDictionary *)dic;
 + (NSString *)MD5:(NSString *)str;
 + (BOOL)judgePhoneNumber:(NSString *)phoneNum;
 + (BOOL)checkPassword:(NSString *) password;

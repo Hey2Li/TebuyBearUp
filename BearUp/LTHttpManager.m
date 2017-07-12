@@ -25,7 +25,7 @@
 + (void)registerWithMobile:(NSString *)mobile andPassword:(NSString *)password andUUID:(NSString *)user_uuid Complete:(completeBlock)complete{
     LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
     NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:mobile,@"mobile",password,@"password",user_uuid,@"user_uuid", nil];
-    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/register/index",BaseURL] parameters:paramters complete:complete];
 }
 
@@ -41,7 +41,7 @@
     NSMutableDictionary *paramters = [NSMutableDictionary dictionaryWithObjectsAndKeys:mobile,@"mobile",
                                       type,@"type",
                                       nil];
-    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/register/sendmsg",BaseURL] parameters:paramters complete:complete];
 
 }
@@ -58,7 +58,7 @@
 + (void)loginWithMobile:(NSString *)mobile andPassword:(NSString *) password andUUID:(NSString *)user_uuid Complete:(completeBlock)complete{
     LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
     NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:mobile,@"mobile",password,@"password",user_uuid,@"user_uuid",nil];
-    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/login/index",BaseURL] parameters:paramters complete:complete];
 }
 
@@ -76,7 +76,7 @@
                                      code,@"code",
                                      password,@"password",
                                       nil];
-    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/register/checkcode",BaseURL] parameters:paramters complete:complete];
 }
 
@@ -99,7 +99,7 @@
                                       page,@"page",
                                       nlimit,@"nlimit",
                                       nil];
-    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/index",BaseURL] parameters:paramters complete:complete];
 }
 
@@ -119,7 +119,7 @@
     NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:limit,@"limit",
                                       value,@"value",
                                       nil];
-    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/news/index",BaseURL] parameters:paramters complete:complete];
 }
 
@@ -138,7 +138,7 @@
     NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:page,@"page",
                                       limit,@"limit",
                                       nil];
-    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/index/nextpage",BaseURL] parameters:paramters complete:complete];
 
 }
@@ -155,7 +155,7 @@
     NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:page,@"page",
                                       limit,@"limit",
                                       nil];
-    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/index/getmore",BaseURL] parameters:paramters complete:complete];
 
 }
@@ -175,7 +175,7 @@
     NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:ID,@"id",
                                       value,@"value",
                                       nil];
-    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/news/show",BaseURL] parameters:paramters complete:complete];
 }
 
@@ -195,7 +195,7 @@
                                           content,@"content",
                                           USER_ID,@"user_id",
                                           nil];
-        [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+        [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
         [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/news/savecomment",BaseURL] parameters:paramters complete:complete];
     }else{
         UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"BearUp" bundle:nil];
@@ -221,7 +221,7 @@
     NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:limit,@"limit",
                                       value,@"value",
                                       nil];
-    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/video/index",BaseURL] parameters:paramters complete:complete];
 }
 
@@ -239,7 +239,7 @@
     LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
     NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:ID,@"id",
                                     nil];
-    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/video/show",BaseURL] parameters:paramters complete:complete];
 
 }
@@ -260,7 +260,7 @@
     NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:ID,@"id",
                                       content,@"content",
                                       nil];
-    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/news/savecomment",BaseURL] parameters:paramters complete:complete];
 }
 */
@@ -276,7 +276,7 @@
 + (void)userInfoComplete:(completeBlock)complete{
     LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
     NSMutableDictionary *paramters  =[NSMutableDictionary dictionary];
-    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/user/index",BaseURL] parameters:paramters complete:complete];
 }
 
@@ -295,7 +295,7 @@
     LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
     NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:limit,@"limit",
                                     nil];
-    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/user/syslist",BaseURL] parameters:paramters complete:complete];
 }
 
@@ -313,7 +313,7 @@
     LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
     NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:ID,@"id",
                                       nil];
-    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/user/sysinfo",BaseURL] parameters:paramters complete:complete];
 }
 
@@ -330,27 +330,27 @@
  */
 + (void)saveUserOpinionWithMobile:(NSNumber *)mobile Content:(NSString *)content Complete:(completeBlock)complete{
     LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
-    NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:mobile,@"mobile",
+    NSMutableDictionary *paramters = [NSMutableDictionary dictionaryWithObjectsAndKeys:mobile,@"mobile",
                                       content,@"content",
                                       nil];
-    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/user/saveopinion",BaseURL] parameters:paramters complete:complete];
 }
 
 
 /**
  用户订阅管理
- 请求地址:api/user/subscrip
+ 请求地址:api/user/myatten
  请求方式:POST
  
  
  @param complete block
  */
-+ (void)userSubscripComplete:(completeBlock)complete{
-    LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
-    NSMutableDictionary *paramters  =[NSMutableDictionary dictionary];
-    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
-    [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/user/subscrip",BaseURL] parameters:paramters complete:complete];
++ (void)userSubscripWithUser_uuid:(NSString *)user_uuid User_id:(NSString *)user_id User_token:(NSString *)user_token Complete:(completeBlock)complete{    LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
+    NSMutableDictionary *paramters = [NSMutableDictionary dictionaryWithObjectsAndKeys:user_uuid,@"user_uuid",user_id,@"user_id",user_token,@"user_token"
+,                                      nil];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
+    [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/user/myatten",BaseURL] parameters:paramters complete:complete];
 }
 
 
@@ -366,7 +366,7 @@
 + (void)userCommodityComplete:(completeBlock)complete{
     LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
     NSMutableDictionary *paramters  =[NSMutableDictionary dictionary];
-    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/user/commodity",BaseURL] parameters:paramters complete:complete];
 }
 
@@ -384,7 +384,7 @@
     LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
     NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:ID,@"id",
                                       nil];
-    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/user/comminfo",BaseURL] parameters:paramters complete:complete];
 }
 
@@ -412,7 +412,7 @@
                                       city,@"city",
                                       address,@"address",
                                       nil];
-    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/user/buycommodity",BaseURL] parameters:paramters complete:complete];
 }
 
@@ -432,7 +432,7 @@
     NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:type,@"type",
                                      page,@"page",
                                       nil];
-    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/user/getcmment",BaseURL] parameters:paramters complete:complete];
 
 }
@@ -445,7 +445,7 @@
 + (void)foundIndexComplete:(completeBlock)complete{
     LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
     NSMutableDictionary *paramters  =[NSMutableDictionary dictionary];
-    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/explore/index",BaseURL] parameters:paramters complete:complete];
 }
 
@@ -460,7 +460,7 @@
 + (void)topListWithType:(NSString *)type Limit:(NSNumber *)limit Complete:(completeBlock)complete{
     LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
     NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:type,@"type", limit,@"limit",nil];
-    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/explore/toplist",BaseURL] parameters:paramters complete:complete];
 }
 
@@ -475,7 +475,7 @@
 + (void)hotCategoryWithLimit:(NSNumber *)limit Complete:(completeBlock)complete{
     LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
     NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: limit,@"limit",nil];
-    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/explore/hotcolumn",BaseURL] parameters:paramters complete:complete];
 }
 
@@ -491,7 +491,7 @@
 + (void)categoryDetailWithLimit:(NSNumber *)limit ID:(NSNumber *)ID Complete:(completeBlock)complete{
     LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
     NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: limit,@"limit",ID,@"id",nil];
-    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/explore/getcolumn",BaseURL] parameters:paramters complete:complete];
 }
 
@@ -507,7 +507,7 @@
     if (USER_ID) {
         LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
         NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: cid,@"cid",USER_ID,@"user_id",nil];
-        [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+        [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
         [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/explore/attention",BaseURL] parameters:paramters complete:complete];
     }else{
          UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"BearUp" bundle:nil];
@@ -530,7 +530,7 @@
 + (void)getMoreNewsCommentWithID:(NSNumber *)ID Page:(NSNumber *)page Complete:(completeBlock)complete{
     LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
     NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: ID,@"id",page,@"page",nil];
-    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/news/getMore",BaseURL] parameters:paramters complete:complete];
 
 }
@@ -550,7 +550,7 @@
 + (void)getMoreNewsWithLimit:(NSNumber *)limit Page:(NSNumber *)page Cid:(NSNumber *)cid Complete:(completeBlock)complete{
     LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
     NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: limit,@"limit",page,@"page",cid,@"cid",nil];
-    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/news/getnews",BaseURL] parameters:paramters complete:complete];
 
 }
@@ -569,7 +569,7 @@
 + (void)getMoreVideoCommentWithId:(NSNumber *) ID Page:(NSNumber *)page Complete:(completeBlock)complete{
     LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
     NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: ID,@"id",page,@"page",nil];
-    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/video/getMore",BaseURL] parameters:paramters complete:complete];
 }
 
@@ -588,7 +588,7 @@
 + (void)getMoreVideoWithLimit:(NSNumber *)limit Page:(NSNumber *)page Cid:(NSNumber *)cid Complete:(completeBlock)complete{
     LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
     NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: limit,@"limit",page,@"page",cid,@"cid",nil];
-    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/video/getvideo",BaseURL] parameters:paramters complete:complete];
 }
 /**
@@ -602,7 +602,7 @@
 + (void)collectionNewsWithNewID:(NSNumber *)ID UUID:(NSString *)user_uuid User_id:(NSNumber *)user_id Token:(NSString *)user_token Complete:(completeBlock)complete{
     LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
     NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: ID,@"id",user_uuid,@"user_uuid",user_id,@"user_id",user_token,@"user_token",nil];
-    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/news/collecnews",BaseURL] parameters:paramters complete:complete];
 }
 
@@ -617,7 +617,7 @@
 + (void)collectionVideoWithNewID:(NSNumber *)ID UUID:(NSString *)user_uuid User_id:(NSNumber *)user_id Token:(NSString *)user_token Complete:(completeBlock)complete{
     LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
     NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: ID,@"id",user_uuid,@"user_uuid",user_id,@"user_id",user_token,@"user_token",nil];
-    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/video/collecvideo",BaseURL] parameters:paramters complete:complete];
 }
 
@@ -630,7 +630,126 @@
 + (void)thirdLoginReturnWithUUID:(NSString *)uuid Complete:(completeBlock)complete{
     LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
     NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: uuid,@"user_uuid",nil];
-    [paramters addEntriesFromDictionary:[Tool MD5Dictionary]];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/register/thirdParty",BaseURL] parameters:paramters complete:complete];
+}
+
+/**
+ 分享文章返回 api/news/share
+ 
+ @param Id 文章ID
+ @param user_uuid UUID
+ @param user_id 用户ID
+ @param user_token token
+ */
++ (void)shareNewsWithId:(NSNumber *)Id UUID:(NSString *)user_uuid User_id:(NSNumber *)user_id Token:(NSString *)user_token Complete:(completeBlock)complete{
+    LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
+    NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: user_uuid,@"user_uuid",Id,@"id",user_id,@"user_id",user_token,@"user_token",nil];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
+    [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/news/share",BaseURL] parameters:paramters complete:complete];
+}
+
+/**
+ 分享文章返回 api/video/share
+ 
+ @param Id 文章ID
+ @param user_uuid UUID
+ @param user_id 用户ID
+ @param user_token token
+ */
++ (void)shareVideoWithId:(NSNumber *)Id UUID:(NSString *)user_uuid User_id:(NSNumber *)user_id Token:(NSString *)user_token Complete:(completeBlock)complete{
+    LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
+    NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: user_uuid,@"user_uuid",Id,@"id",user_id,@"user_id",user_token,@"user_token",nil];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
+    [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/video/share",BaseURL] parameters:paramters complete:complete];
+}
+
+/**
+ 我的动态
+ 请求地址:api/user/mynotices
+ 
+ @param limit 每页数量
+ @param user_token Token
+ @param user_id 会员id
+ @param user_uuid 设备号
+ @param complete blcok
+ */
++ (void)myStateWithLimit:(NSNumber *)limit Token:(NSString *)user_token User_id:(NSString *)user_id User_uuid:(NSString *)user_uuid Complete:(completeBlock)complete{
+    LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
+    NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: limit,@"limit",user_uuid,@"user_uuid",user_id,@"user_id",user_token,@"user_token",nil];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
+    [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/user/mynotices",BaseURL] parameters:paramters complete:complete];
+}
+
+
+/**
+ 更多动态
+ 请求地址:api/user/morenotices
+ 
+ @param limit 每页数量
+ @param page 所属分页 初始数字2
+ @param user_token Token
+ @param user_id 会员id
+ @param user_uuid 设备号
+ @param complete block
+ */
++ (void)myStateMoreWithLimit:(NSNumber *)limit Page:(NSNumber *)page Token:(NSString *)user_token User_id:(NSString *)user_id User_uuid:(NSString *)user_uuid Complete:(completeBlock)complete{
+    LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
+    NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: limit,@"limit",page,@"page",user_uuid,@"user_uuid",user_id,@"user_id",user_token,@"user_token",nil];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
+    [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/user/morenotices",BaseURL] parameters:paramters complete:complete];
+}
+
+
+/**
+ 我的收藏
+ 请求地址:api/user/mycollecs
+ 
+ @param limit 每页数量
+ @param user_token Token
+ @param user_id 会员id
+ @param user_uuid 设备号
+ @param complete block
+ */
++ (void)myCollectionsWithLimit:(NSNumber *)limit User_token:(NSString *)user_token User_id:(NSNumber *)user_id User_uuid:(NSString *)user_uuid Complete:(completeBlock)complete{
+    LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
+    NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: limit,@"limit",user_uuid,@"user_uuid",user_id,@"user_id",user_token,@"user_token",nil];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
+    [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/user/mycollecs",BaseURL] parameters:paramters complete:complete];
+}
+
+
+/**
+ 更多收藏
+ 请求地址:api/user/morecollecs
+ 
+ @param limit 每页数量
+ @param page 所属分页
+ @param user_token Token
+ @param user_id 会员id
+ @param user_uuid 设备号
+ @param complete block
+ */
++ (void)myCollectionsMoreWithLimit:(NSNumber *)limit Page:(NSNumber *)page User_token:(NSString *)user_token User_id:(NSNumber *)user_id User_uuid:(NSString *)user_uuid Complete:(completeBlock)complete{
+    LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
+    NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: limit,@"limit",page,@"page",user_uuid,@"user_uuid",user_id,@"user_id",user_token,@"user_token",nil];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
+    [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/user/morecollecs",BaseURL] parameters:paramters complete:complete];
+}
+/**
+ 保存个人信息
+ 请求地址:api/user/saveinfo
+ 
+ @param sex 性别
+ @param nickname 昵称
+ @param user_token token
+ @param user_id ID
+ @param user_uuid UUID
+ */
++ (void)saveUserInfoWithSex:(NSNumber *)sex Nickname:(NSString *)nickname User_token:(NSString *)user_token User_id:(NSString *)user_id User_uuid:(NSString *)user_uuid Complete:(completeBlock)complete{
+    LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
+    NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: sex,@"sex",nickname,@"nickname",user_token,@"user_token",user_id,@"user_id",user_uuid,@"user_uuid",nil];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
+    [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/user/saveinfo",BaseURL] parameters:paramters complete:complete];
 }
 @end

@@ -54,17 +54,18 @@ NSAttributedString *returnNumAttr(NSString *str,NSInteger fontSize){
     }];
     return attrStr;
 }
-+ (NSDictionary *)MD5Dictionary{
++ (NSDictionary *)MD5Dictionary:(NSMutableDictionary *)dic{
     NSDate *date =[NSDate date];
     NSDateFormatter  *dateformatter = [[NSDateFormatter alloc] init];
     //设置获取时间的格式
     [dateformatter setDateFormat:@"yyyyMMddHHmmss"];
     NSString *dateString =[dateformatter stringFromDate:date];
-    NSDictionary *dic = @{
+    NSDictionary *dics = @{
                           @"app_key":@"201706",
-                          @"sign_method":@"MD5",
+                          @"sign_method":@"md5",
                           @"timestamp":dateString
                           };
+    [dic addEntriesFromDictionary:dics];
     //排序
     NSArray *keyArray = [dic allKeys];
     NSArray *sortArray = [keyArray sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
@@ -85,7 +86,7 @@ NSAttributedString *returnNumAttr(NSString *str,NSInteger fontSize){
     NSDictionary *params = @{@"app_key":@"201706",
                              @"sign":md5Str,
                              @"timestamp":dateString,
-                             @"sign_method":@"MD5"};
+                             @"sign_method":@"md5"};
     NSLog(@"signStr=%@,\nMD5=%@\n",signStr,md5Str);
     return params;
 }

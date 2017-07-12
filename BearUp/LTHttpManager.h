@@ -216,13 +216,13 @@
 
 /**
  用户订阅管理
- 请求地址:api/user/subscrip
+ 请求地址:api/user/myatten
  请求方式:POST
 
 
  @param complete block
  */
-+ (void)userSubscripComplete:(completeBlock)complete;
++ (void)userSubscripWithUser_uuid:(NSString *)user_uuid User_id:(NSString *)user_id User_token:(NSString *)user_token Complete:(completeBlock)complete;
 
 
 
@@ -417,4 +417,93 @@
 
  */
 + (void)thirdLoginReturnWithUUID:(NSString *)uuid Complete:(completeBlock)complete;
+
+
+/**
+ 分享文章返回 api/news/share
+
+ @param Id 文章ID
+ @param user_uuid UUID
+ @param user_id 用户ID
+ @param user_token token
+ */
++ (void)shareNewsWithId:(NSNumber *)Id UUID:(NSString *)user_uuid User_id:(NSNumber *)user_id Token:(NSString *)user_token Complete:(completeBlock)complete;
+
+/**
+ 分享文章返回 api/video/share
+ 
+ @param Id 文章ID
+ @param user_uuid UUID
+ @param user_id 用户ID
+ @param user_token token
+ */
++ (void)shareVideoWithId:(NSNumber *)Id UUID:(NSString *)user_uuid User_id:(NSNumber *)user_id Token:(NSString *)user_token Complete:(completeBlock)complete;
+
+
+/**
+ 我的动态
+ 请求地址:api/user/mynotices
+
+ @param limit 每页数量
+ @param user_token Token
+ @param user_id 会员id
+ @param user_uuid 设备号
+ @param complete blcok
+ */
++ (void)myStateWithLimit:(NSNumber *)limit Token:(NSString *)user_token User_id:(NSString *)user_id User_uuid:(NSString *)user_uuid Complete:(completeBlock)complete;
+
+
+/**
+ 更多动态
+ 请求地址:api/user/morenotices
+
+ @param limit 每页数量
+ @param page 所属分页 初始数字2
+ @param user_token Token
+ @param user_id 会员id
+ @param user_uuid 设备号
+ @param complete block
+ */
++ (void)myStateMoreWithLimit:(NSNumber *)limit Page:(NSNumber *)page Token:(NSString *)user_token User_id:(NSString *)user_id User_uuid:(NSString *)user_uuid Complete:(completeBlock)complete;
+
+
+/**
+ 我的收藏
+ 请求地址:api/user/mycollecs
+
+ @param limit 每页数量
+ @param user_token Token
+ @param user_id 会员id
+ @param user_uuid 设备号
+ @param complete block
+ */
++ (void)myCollectionsWithLimit:(NSNumber *)limit User_token:(NSString *)user_token User_id:(NSNumber *)user_id User_uuid:(NSString *)user_uuid Complete:(completeBlock)complete;
+
+
+/**
+ 更多收藏
+ 请求地址:api/user/morecollecs
+
+ @param limit 每页数量
+ @param page 所属分页
+ @param user_token Token
+ @param user_id 会员id
+ @param user_uuid 设备号
+ @param complete block
+ */
++ (void)myCollectionsMoreWithLimit:(NSNumber *)limit Page:(NSNumber *)page User_token:(NSString *)user_token User_id:(NSNumber *)user_id User_uuid:(NSString *)user_uuid Complete:(completeBlock)complete;
+
+
+
+/**
+ 保存个人信息
+ 请求地址:api/user/saveinfo
+
+ @param sex 性别
+ @param nickname 昵称
+ @param user_token token
+ @param user_id ID
+ @param user_uuid UUID
+ */
++ (void)saveUserInfoWithSex:(NSNumber *)sex Nickname:(NSString *)nickname User_token:(NSString *)user_token User_id:(NSString *)user_id User_uuid:(NSString *)user_uuid Complete:(completeBlock)complete;
 @end
