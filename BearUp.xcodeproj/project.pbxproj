@@ -10,6 +10,10 @@
 		1C0580401F02348600EAD755 /* SubCategoryCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C05803F1F02348600EAD755 /* SubCategoryCollectionViewCell.m */; };
 		1C0580431F024B7400EAD755 /* AdvertisingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C0580421F024B7400EAD755 /* AdvertisingTableViewCell.m */; };
 		1C09D2A11F1641E800C3317B /* MessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C09D2A01F1641E800C3317B /* MessageViewController.m */; };
+		1C09D2A51F1710FE00C3317B /* MineMsgTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C09D2A31F1710FE00C3317B /* MineMsgTableViewCell.m */; };
+		1C09D2A61F1710FE00C3317B /* MineMsgTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1C09D2A41F1710FE00C3317B /* MineMsgTableViewCell.xib */; };
+		1C09D2AA1F17148A00C3317B /* SysMsgTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C09D2A81F17148A00C3317B /* SysMsgTableViewCell.m */; };
+		1C09D2AB1F17148A00C3317B /* SysMsgTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1C09D2A91F17148A00C3317B /* SysMsgTableViewCell.xib */; };
 		1C1EDBC91EBC43BE0099D115 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C1EDBC81EBC43BE0099D115 /* main.m */; };
 		1C1EDBCC1EBC43BE0099D115 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C1EDBCB1EBC43BE0099D115 /* AppDelegate.m */; };
 		1C1EDBCF1EBC43BE0099D115 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C1EDBCE1EBC43BE0099D115 /* ViewController.m */; };
@@ -128,6 +132,12 @@
 		1C0580421F024B7400EAD755 /* AdvertisingTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdvertisingTableViewCell.m; sourceTree = "<group>"; };
 		1C09D29F1F1641E800C3317B /* MessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageViewController.h; sourceTree = "<group>"; };
 		1C09D2A01F1641E800C3317B /* MessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageViewController.m; sourceTree = "<group>"; };
+		1C09D2A21F1710FE00C3317B /* MineMsgTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineMsgTableViewCell.h; sourceTree = "<group>"; };
+		1C09D2A31F1710FE00C3317B /* MineMsgTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineMsgTableViewCell.m; sourceTree = "<group>"; };
+		1C09D2A41F1710FE00C3317B /* MineMsgTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MineMsgTableViewCell.xib; sourceTree = "<group>"; };
+		1C09D2A71F17148A00C3317B /* SysMsgTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SysMsgTableViewCell.h; sourceTree = "<group>"; };
+		1C09D2A81F17148A00C3317B /* SysMsgTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SysMsgTableViewCell.m; sourceTree = "<group>"; };
+		1C09D2A91F17148A00C3317B /* SysMsgTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SysMsgTableViewCell.xib; sourceTree = "<group>"; };
 		1C1EDBC41EBC43BE0099D115 /* BearUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BearUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C1EDBC81EBC43BE0099D115 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		1C1EDBCA1EBC43BE0099D115 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -759,6 +769,12 @@
 				1C6573E11F13514E008C8484 /* MIneCollectionTableViewCell.h */,
 				1C6573E21F13514E008C8484 /* MIneCollectionTableViewCell.m */,
 				1C6573E31F13514E008C8484 /* MIneCollectionTableViewCell.xib */,
+				1C09D2A21F1710FE00C3317B /* MineMsgTableViewCell.h */,
+				1C09D2A31F1710FE00C3317B /* MineMsgTableViewCell.m */,
+				1C09D2A41F1710FE00C3317B /* MineMsgTableViewCell.xib */,
+				1C09D2A71F17148A00C3317B /* SysMsgTableViewCell.h */,
+				1C09D2A81F17148A00C3317B /* SysMsgTableViewCell.m */,
+				1C09D2A91F17148A00C3317B /* SysMsgTableViewCell.xib */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -951,6 +967,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C09D2AB1F17148A00C3317B /* SysMsgTableViewCell.xib in Resources */,
 				1C8F9F961F1613D3005088E8 /* InfoSettingTableViewController.xib in Resources */,
 				1C1EDC521EC2EA960099D115 /* UMSocialSDKPromptResources.bundle in Resources */,
 				1C1EDE141ECADD250099D115 /* newDetail.css in Resources */,
@@ -963,6 +980,7 @@
 				1C1EDBD41EBC43BE0099D115 /* Assets.xcassets in Resources */,
 				1C6573E01F132D1D008C8484 /* MyStateTableViewCell.xib in Resources */,
 				1C1EDC541EC2EA960099D115 /* UMSocialSDKResources.bundle in Resources */,
+				1C09D2A61F1710FE00C3317B /* MineMsgTableViewCell.xib in Resources */,
 				1C1EDE151ECADD250099D115 /* newDetail.js in Resources */,
 				1C1EDC5B1EC3FDF20099D115 /* BearUp.storyboard in Resources */,
 				1C1EDE3F1ED561430099D115 /* videoData.json in Resources */,
@@ -1099,9 +1117,11 @@
 				1C1EDBC91EBC43BE0099D115 /* main.m in Sources */,
 				1C75E1C21EEF7E5A00BC59B5 /* ZFPlayerModel.m in Sources */,
 				1CF49EF41F0B8AA00041D11F /* CommentModel.m in Sources */,
+				1C09D2AA1F17148A00C3317B /* SysMsgTableViewCell.m in Sources */,
 				1C54540D1F03572000E9E74A /* CategoryTableViewCell.m in Sources */,
 				1C8F9F8C1F14D279005088E8 /* SettingTableViewController.m in Sources */,
 				1C1EDBFD1EBC450F0099D115 /* BaseNaviViewController.m in Sources */,
+				1C09D2A51F1710FE00C3317B /* MineMsgTableViewCell.m in Sources */,
 				1C1EDE181ECBF4100099D115 /* BUTopTitleBar.m in Sources */,
 				1C75E1B61EEF7E5A00BC59B5 /* ASValueTrackingSlider.m in Sources */,
 			);

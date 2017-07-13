@@ -36,5 +36,9 @@ typedef void(^completeBlock)(LTHttpResult result, NSString *message, id data);
                                  parameters:(id)parameters
                                    complete:(completeBlock)complete;
 
+- (NSURLSessionDataTask *)UPLOADWithParameters:(NSString *)url
+                                    parameters:(id)parameters
+                                    photoArray:(NSArray *)photoArray
+                                      complete:(completeBlock)complete;
 
 @end

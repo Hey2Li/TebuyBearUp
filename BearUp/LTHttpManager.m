@@ -748,8 +748,23 @@
  */
 + (void)saveUserInfoWithSex:(NSNumber *)sex Nickname:(NSString *)nickname User_token:(NSString *)user_token User_id:(NSString *)user_id User_uuid:(NSString *)user_uuid Complete:(completeBlock)complete{
     LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
-    NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: sex,@"sex",nickname,@"nickname",user_token,@"user_token",user_id,@"user_id",user_uuid,@"user_uuid",nil];
+    NSMutableDictionary *paramters = [NSMutableDictionary dictionaryWithObjectsAndKeys: sex,@"sex",nickname,@"nickname",user_token,@"user_token",user_id,@"user_id",user_uuid,@"user_uuid",nil];
     [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/user/saveinfo",BaseURL] parameters:paramters complete:complete];
+}
+
+/**
+ 保存头像
+ 
+ @param user_token user_token
+ @param user_id id
+ @param user_uuid uuid
+ @param complete block
+ */
++ (void)uploadPhotoWithPhotoArray:(NSArray *)array User_token:(NSString *)user_token User_id:(NSString *)user_id User_uuid:(NSString *)user_uuid Complete:(completeBlock)complete{
+    LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
+    NSMutableDictionary *paramters = [NSMutableDictionary dictionaryWithObjectsAndKeys: user_token,@"user_token",user_id,@"user_id",user_uuid,@"user_uuid",nil];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
+    [manager UPLOADWithParameters:[NSString stringWithFormat:@"%@api/user/savephoto",BaseURL] parameters:paramters photoArray:array complete:complete];
 }
 @end

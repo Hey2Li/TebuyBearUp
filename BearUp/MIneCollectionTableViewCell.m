@@ -20,6 +20,7 @@
     [self.articleImageView sd_setImageWithURL:[NSURL URLWithString:model.photo] placeholderImage:[UIImage imageNamed:@"游客登录默认"]];
     self.articleDetail.text = model.title;
 }
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 

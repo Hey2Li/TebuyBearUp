@@ -488,7 +488,7 @@
         
         
         [self.centerTableView registerNib:[UINib nibWithNibName:@"MyStateTableViewCell" bundle:nil] forCellReuseIdentifier:@"myStateCell"];
-        self.centerTableView.estimatedRowHeight = 150.0f;
+
         
         [self.leftTableView registerNib:[UINib nibWithNibName:@"CategoryTableViewCell" bundle:nil] forCellReuseIdentifier:@"focusCell"];
         self.leftTableView.estimatedRowHeight = 100.f;
@@ -621,9 +621,13 @@
     if (tableView == self.leftTableView) {
         return 100;
     }else if (tableView == self.centerTableView){
-        return 150;
+        self.centerTableView.estimatedRowHeight = 150.0f;
+        self.centerTableView.rowHeight = UITableViewAutomaticDimension;
+        return self.centerTableView.rowHeight;
     }else{
-        return 60;
+        self.rightTableView.estimatedRowHeight = 60.0f;
+        self.rightTableView.rowHeight = UITableViewAutomaticDimension;
+        return self.rightTableView.rowHeight;
     }
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{

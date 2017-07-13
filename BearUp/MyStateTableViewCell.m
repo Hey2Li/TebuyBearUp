@@ -29,6 +29,7 @@
      self.timeLabel.textColor = UIColorFromRGB(0xaeaeae);
     self.articleTitleLabel.textColor = UIColorFromRGB(0xaeaeae);
 }
+
 - (void)layoutSubviews{
     [super layoutSubviews];
     if (_myStateCellStyle == MyStateCellStyleShare) {

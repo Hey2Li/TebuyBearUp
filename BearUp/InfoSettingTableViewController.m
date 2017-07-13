@@ -31,48 +31,13 @@
         if ([_sex integerValue] == 1 || [_sex integerValue] == 2) {
             [LTHttpManager saveUserInfoWithSex:_sex Nickname:self.nickNameTextFiled.text User_token:USER_TOKEN User_id:USER_ID User_uuid:GETUUID Complete:^(LTHttpResult result, NSString *message, id data) {
                 if (LTHttpResultSuccess == result) {
-                    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-                    manager.requestSerializer.timeoutInterval = 20;
-                    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain", @"multipart/form-data", @"application/json", @"text/html", @"image/jpeg", @"image/png", @"application/octet-stream", @"text/json", nil];
-                    // 在parameters里存放照片以外的对象
-                    [manager POST:@"http://www.example.com/Project/upload.php" parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
-                        // formData: 专门用于拼接需要上传的数据,在此位置生成一个要上传的数据体
-                        // 这里的_photoArr是你存放图片的数组
-                        for (int i = 0; i < _photosArr.count; i++) {
-                            UIImage *image = _photosArr[i];
-                            NSData *imageData = UIImageJPEGRepresentation(image, 0.5);
-                            // 在网络开发中，上传文件时，是文件不允许被覆盖，文件重名
-                            // 要解决此问题，
-                            // 可以在上传时使用当前的系统事件作为文件名
-                            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-                            // 设置时间格式
-                            [formatter setDateFormat:@"yyyyMMddHHmmss"];
-                            NSString *dateString = [formatter stringFromDate:[NSDate date]];
-                            NSString *fileName = [NSString  stringWithFormat:@"%@.jpg", dateString];
-                            /*
-                             *该方法的参数
-                             1. appendPartWithFileData：要上传的照片[二进制流]
-                             2. name：对应网站上[upload.php中]处理文件的字段（比如upload）
-                             3. fileName：要保存在服务器上的文件名
-                             4. mimeType：上传的文件的类型
-                             */
-                            [formData appendPartWithFileData:imageData name:@"upload" fileName:fileName mimeType:@"image/jpeg"]; //
+                    [LTHttpManager uploadPhotoWithPhotoArray:_photosArr User_token:USER_TOKEN User_id:USER_ID User_uuid:GETUUID Complete:^(LTHttpResult result, NSString *message, id data) {
+                        if (LTHttpResultSuccess == result) {
+                            SVProgressShowStuteText(@"保存成功", YES);
+                            [self.navigationController popViewControllerAnimated:YES];
+                        }else{
+                             SVProgressShowStuteText(@"保存失败", NO);
                         }
-                        
-                    } progress:^(NSProgress * _Nonnull uploadProgress) {
-                        
-                        NSLog(@"---上传进度--- %@",uploadProgress);
-                        
-                    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                        
-                        NSLog(@"```上传成功``` %@",responseObject);
-                        SVProgressShowStuteText(@"保存成功", YES);
-                        [self.navigationController popViewControllerAnimated:YES];
-                        
-                    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                        
-                        NSLog(@"xxx上传失败xxx %@", error);
-                        
                     }];
                 }
             }];

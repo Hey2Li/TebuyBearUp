@@ -506,4 +506,15 @@
  @param user_uuid UUID
  */
 + (void)saveUserInfoWithSex:(NSNumber *)sex Nickname:(NSString *)nickname User_token:(NSString *)user_token User_id:(NSString *)user_id User_uuid:(NSString *)user_uuid Complete:(completeBlock)complete;
+
+
+/**
+ 保存头像
+
+ @param user_token user_token
+ @param user_id id
+ @param user_uuid uuid
+ @param complete block
+ */
++ (void)uploadPhotoWithPhotoArray:(NSArray *)array User_token:(NSString *)user_token User_id:(NSString *)user_id User_uuid:(NSString *)user_uuid Complete:(completeBlock)complete;
 @end
