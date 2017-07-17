@@ -9,6 +9,7 @@
 #import "CategoryViewController.h"
 #import "SubCategoryViewController.h"
 #import "CategoryTableViewCell.h"
+#import "HotCategoryModel.h"
 
 @interface CategoryViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UITableView *tableView;
@@ -33,7 +34,12 @@ static NSString *CATECELL = @"categoryCell";
 - (void)loadData{
     [LTHttpManager hotCategoryWithLimit:@10 Complete:^(LTHttpResult result, NSString *message, id data) {
         if (LTHttpResultSuccess == result) {
-            self.hotCategoryArray = [NSMutableArray arrayWithArray:data[@"responseData"]];
+            NSArray *array = data[@"responseData"];
+            [self.hotCategoryArray removeAllObjects];
+            for (NSDictionary *dic in array) {
+                HotCategoryModel *model = [HotCategoryModel mj_objectWithKeyValues:dic];
+                [self.hotCategoryArray addObject:model];
+            }
             [self.tableView reloadData];
         }else{
            // [self.view makeToast:message];
@@ -70,15 +76,16 @@ static NSString *CATECELL = @"categoryCell";
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     CategoryTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CATECELL forIndexPath:indexPath];
-    [cell.leftImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.hotCategoryArray[indexPath.section][@"photo"]]]];
-    WeakSelf
+    cell.hotCategoryModel = self.hotCategoryArray[indexPath.section];
     cell.focusCategoryClick = ^(UIButton *btn) {
-        [LTHttpManager focusCategoryWithCid:weakSelf.hotCategoryArray[indexPath.section][@"photo"] Complete:^(LTHttpResult result, NSString *message, id data) {
+        HotCategoryModel *model = self.hotCategoryArray[indexPath.section];
+        [LTHttpManager focusCategoryWithCid:model.ID Complete:^(LTHttpResult result, NSString *message, id data) {
             if (LTHttpResultSuccess == result) {
                 btn.selected = YES;
                 btn.userInteractionEnabled = NO;
                 [SVProgressHUD setMinimumDismissTimeInterval:1];
-                [SVProgressHUD showSuccessWithStatus:@"关注成功"];                btn.backgroundColor = [UIColor whiteColor];
+                [SVProgressHUD showSuccessWithStatus:@"关注成功"];
+                btn.backgroundColor = [UIColor whiteColor];
                 [btn.layer setBorderColor:UIColorFromRGB(0xaeaeae).CGColor];
             }else{
                 btn.selected = NO;
@@ -89,13 +96,12 @@ static NSString *CATECELL = @"categoryCell";
             }
         }];
     };
-    cell.categoryNameLabel.text = [NSString stringWithFormat:@"%@",self.hotCategoryArray[indexPath.section][@"name"]];
-    
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     SubCategoryViewController *vc = [SubCategoryViewController new];
-    vc.cid = [NSNumber numberWithInteger:[self.hotCategoryArray[indexPath.section][@"id"] integerValue]];
+    HotCategoryModel *model = self.hotCategoryArray[indexPath.section];
+    vc.cid = model.ID;
     [self.navigationController pushViewController:vc animated:YES];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

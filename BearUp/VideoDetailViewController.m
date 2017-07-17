@@ -313,7 +313,12 @@
     }
 }
 - (void)lookForCommentWithBtnClick:(UIButton *)btn{
-    
+    //看评论
+    if (self.commentDataArray.count > 0) {
+        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    }else{
+        SVProgressShowStuteText(@"暂无评论", NO);
+    }
 }
 - (void)collectWithBtnClick:(UIButton *)btn{
     [LTHttpManager collectionVideoWithNewID:self.vid UUID:GETUUID User_id:USER_ID Token:USER_TOKEN Complete:^(LTHttpResult result, NSString *message, id data) {

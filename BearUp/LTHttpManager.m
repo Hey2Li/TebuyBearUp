@@ -172,11 +172,23 @@
  */
 + (void)newsDetailWithId:(NSNumber *)ID Value:(NSString *)value Complete:(completeBlock)complete{
     LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
-    NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:ID,@"id",
-                                      value,@"value",
-                                      nil];
-    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
-    [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/news/show",BaseURL] parameters:paramters complete:complete];
+    if (![USER_ID isEqual:[NSNull null]]) {
+        NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:ID,@"id",
+                                          value,@"value",
+                                          USER_ID,@"user_id",
+                                          USER_TOKEN,@"user_token",
+                                          nil];
+        [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
+        [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/news/show",BaseURL] parameters:paramters complete:complete];
+
+    }else{
+        NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:ID,@"id",
+                                          value,@"value",
+                                          nil];
+        [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
+        [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/news/show",BaseURL] parameters:paramters complete:complete];
+
+    }
 }
 
 
@@ -473,9 +485,16 @@
  */
 + (void)hotCategoryWithLimit:(NSNumber *)limit Complete:(completeBlock)complete{
     LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
-    NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: limit,@"limit",nil];
-    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
-    [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/explore/hotcolumn",BaseURL] parameters:paramters complete:complete];
+    if (USER_ID) {
+        NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: limit,@"limit",USER_ID,@"user_id",USER_TOKEN,@"user_token",GETUUID,@"user_uuid",nil];
+        [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
+        [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/explore/hotcolumn",BaseURL] parameters:paramters complete:complete];
+    }else{
+        NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: limit,@"limit",nil];
+        [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
+        [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/explore/hotcolumn",BaseURL] parameters:paramters complete:complete];
+    }
+
 }
 
 
@@ -489,9 +508,15 @@
  */
 + (void)categoryDetailWithLimit:(NSNumber *)limit ID:(NSNumber *)ID Complete:(completeBlock)complete{
     LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
-    NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: limit,@"limit",ID,@"id",nil];
-    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
-    [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/explore/getcolumn",BaseURL] parameters:paramters complete:complete];
+    if (USER_ID) {
+        NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: limit,@"limit",ID,@"id",USER_ID,@"user_id",USER_TOKEN,@"user_token",GETUUID,@"user_uuid",nil];
+        [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
+        [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/explore/getcolumn",BaseURL] parameters:paramters complete:complete];
+    }else{
+        NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: limit,@"limit",ID,@"id",nil];
+        [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
+        [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/explore/getcolumn",BaseURL] parameters:paramters complete:complete];
+    }
 }
 
 
@@ -505,7 +530,7 @@
 + (void)focusCategoryWithCid:(NSNumber *)cid Complete:(completeBlock)complete{
     if (USER_ID) {
         LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
-        NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: cid,@"cid",USER_ID,@"user_id",nil];
+        NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: cid,@"cid",USER_ID,@"user_id",USER_TOKEN,@"user_token",GETUUID,@"user_uuid",nil];
         [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
         [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/explore/attention",BaseURL] parameters:paramters complete:complete];
     }else{
@@ -629,11 +654,12 @@
  @param openid openID
  @param name name
  @param gender gender
+ @param type 登录来源 2微信3QQ4新浪
  @param complete block
  */
-+ (void)thirdLoginReturnWithUUID:(NSString *)user_uuid OpenId:(NSString *)openid Name:(NSString *)name Gender:(NSString *)gender Icon:(NSString *)iconurl Complete:(completeBlock)complete{
++ (void)thirdLoginReturnWithUUID:(NSString *)user_uuid OpenId:(NSString *)openid Name:(NSString *)name Gender:(NSString *)gender Icon:(NSString *)iconurl Type:(NSNumber *)type Complete:(completeBlock)complete{
     LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
-    NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: gender,@"gender",user_uuid,@"user_uuid",openid,@"openid",name,@"name",iconurl,@"iconurl",nil];
+    NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: gender,@"gender",user_uuid,@"user_uuid",openid,@"openid",name,@"name",iconurl,@"iconurl",type,@"type",nil];
     [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/register/thirdparty",BaseURL] parameters:paramters complete:complete];
 }

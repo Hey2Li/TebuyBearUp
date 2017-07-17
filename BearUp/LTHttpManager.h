@@ -418,9 +418,10 @@
  @param openid openID
  @param name name
  @param gender gender
+ @param type 登录来源 2微信3QQ4新浪
  @param complete block
  */
-+ (void)thirdLoginReturnWithUUID:(NSString *)user_uuid OpenId:(NSString *)openid Name:(NSString *)name Gender:(NSString *)gender Icon:(NSString *)iconurl Complete:(completeBlock)complete;
++ (void)thirdLoginReturnWithUUID:(NSString *)user_uuid OpenId:(NSString *)openid Name:(NSString *)name Gender:(NSString *)gender Icon:(NSString *)iconurl Type:(NSNumber *)type Complete:(completeBlock)complete;
 
 
 /**

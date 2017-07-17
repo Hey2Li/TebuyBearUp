@@ -22,22 +22,26 @@
     self.title = @"设置";
 }
 - (void)initWithView{
-    UIButton *quitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.tableView addSubview:quitBtn];
-    [quitBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.tableView);
-        make.height.equalTo(@36);
-        make.width.equalTo(@200);
-        make.bottom.equalTo(self.tableView.mas_bottom).offset(500);
-    }];
-    [quitBtn setTitle:@"退出登录" forState:UIControlStateNormal];
-    [quitBtn.layer setMasksToBounds:YES];
-    [quitBtn.layer setCornerRadius:18];
-    quitBtn.titleLabel.font = [UIFont systemFontOfSize:16];
-    [quitBtn setBackgroundColor:UIColorFromRGB(0xff4466)];
-    [quitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [quitBtn addTarget:self action:@selector(quitLogin) forControlEvents:UIControlEventTouchUpInside];
+    if (USER_ID) {
+        UIButton *quitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.tableView addSubview:quitBtn];
+        [quitBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.tableView);
+            make.height.equalTo(@36);
+            make.width.equalTo(@200);
+            make.bottom.equalTo(self.tableView.mas_bottom).offset(500);
+        }];
+        [quitBtn setTitle:@"退出登录" forState:UIControlStateNormal];
+        [quitBtn.layer setMasksToBounds:YES];
+        [quitBtn.layer setCornerRadius:18];
+        quitBtn.titleLabel.font = [UIFont systemFontOfSize:16];
+        [quitBtn setBackgroundColor:UIColorFromRGB(0xff4466)];
+        [quitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [quitBtn addTarget:self action:@selector(quitLogin) forControlEvents:UIControlEventTouchUpInside];
 
+    }else{
+        
+    }
 }
 - (void)quitLogin{
     if (USER_ID) {

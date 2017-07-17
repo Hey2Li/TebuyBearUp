@@ -30,6 +30,7 @@
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) ZFPlayerView        *playerView;
 @property (nonatomic, strong) ZFPlayerControlView *controlView;
+@property (nonatomic, strong) UIButton *focusButton;
 @end
 
 @implementation SubCategoryViewController
@@ -127,6 +128,17 @@
             //分类详情
             self.dataDic = [NSMutableDictionary dictionaryWithDictionary:data[@"responseData"][@"info"]];
             [self navigtionBar];
+            if ([self.dataDic[@"atten"] isEqual:@1]) {
+                //未关注
+            }else if ([self.dataDic[@"atten"] isEqualToString:@"2"]){
+                [self.focusButton setTitle:@"已关注" forState:UIControlStateSelected];
+                [self.focusButton setTitleColor:UIColorFromRGB(0xaeaeae) forState:UIControlStateSelected];
+                self.focusButton.selected = YES;
+                self.focusButton.backgroundColor = [UIColor whiteColor];
+                [self.focusButton.layer setBorderWidth:1];
+                [self.focusButton.layer setBorderColor:UIColorFromRGB(0xaeaeae).CGColor];
+                self.focusButton.userInteractionEnabled = NO;
+            }
             self.naviTitle.text = [NSString stringWithFormat:@"%@",self.dataDic[@"name"]];
             [self.categoryBackgroundImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.dataDic[@"photo"]]]];
             [self.categoryHederBtn sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.dataDic[@"photo"]]] forState:UIControlStateNormal];
@@ -295,6 +307,7 @@
     self.categoryDetailLabel = detailLabel;
     self.categoryBackgroundImageView = backgroundImageView;
     self.focusPeopleLabel = focusNum;
+    self.focusButton = focusBtn;
     return tableViewHeaderView;
 }
 - (void)focusCategory:(UIButton *)btn{
@@ -379,36 +392,7 @@
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (_selectIndex == 1001) {
-//        if ([self.dataArray[indexPath.section][@"show_type"] isEqual:@1]) {
-//            VideoTableViewCell *cell  =[[VideoTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-//            __block ZFVideoModel *model = self.updateDataArray[indexPath.section];
-//            //赋值model
-//            cell.model = model;
-//            __block NSIndexPath *weakIndexPath = indexPath;
-//            __block VideoTableViewCell *weakCell = cell;
-//            __weak typeof(self)  weakSelf = self;
-//            //点击播放的回调
-//            cell.playBlock = ^(UIButton *btn){
-//                ZFPlayerModel *playerModel = [[ZFPlayerModel alloc]init];
-//                playerModel.fatherViewTag = weakCell.picView.tag;
-//                playerModel.videoURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@",model.url]];
-//                playerModel.scrollView = weakSelf.myTableView;
-//                playerModel.indexPath = weakIndexPath;
-//                [weakSelf.playerView playerControlView:self.controlView playerModel:playerModel];
-//                [weakSelf.playerView autoPlayTheVideo];
-//            };
-//            return cell;
-//        }else{
-//            HomePageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-//            if (!cell) {
-//                cell = [[HomePageTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
-//            }
-//            [cell.contentImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", [NSString stringWithFormat:@"%@",self.dataArray[indexPath.section][@"photo"]]]]];
-//            cell.titleLabel.text = [NSString stringWithFormat:@"%@",self.dataArray[indexPath.section][@"title"]];
-//            cell.hotImageView.hidden = YES;
-//            cell.hotNumLabel.hidden = YES;
-//            return cell;
-//        }
+
         HomePageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
         if (!cell) {
             cell = [[HomePageTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];

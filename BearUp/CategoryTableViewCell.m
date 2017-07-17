@@ -50,6 +50,21 @@
     self.introducelabel.hidden = YES;
     self.subTitleLabel.hidden = YES;
 }
+- (void)setHotCategoryModel:(HotCategoryModel *)model{
+    _hotCategoryModel = model;
+    [self.leftImageView sd_setImageWithURL:[NSURL URLWithString:model.photo] placeholderImage:[UIImage imageNamed:@"游客登录默认"]];
+    if ([model.atten isEqual:@1]) {
+        //未关注
+    }else if ([model.atten isEqual:@2]){
+        [self.focusBtn setTitle:@"已关注" forState:UIControlStateSelected];
+        [self.focusBtn setTitleColor:UIColorFromRGB(0xaeaeae) forState:UIControlStateSelected];
+        self.focusBtn.selected = YES;
+        self.focusBtn.userInteractionEnabled = NO;
+        self.focusBtn.backgroundColor = [UIColor whiteColor];
+        [self.focusBtn.layer setBorderColor:UIColorFromRGB(0xaeaeae).CGColor];
+    }
+    self.categoryNameLabel.text = [NSString stringWithFormat:@"%@",model.name];
+}
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 

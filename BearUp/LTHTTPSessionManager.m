@@ -153,7 +153,6 @@ NSString *const kKeyModelList = @"modellist";
     }];
 }
 - (NSURLSessionDataTask *)UPLOADWithParameters:(NSString *)url parameters:(id)parameters photoArray:(NSArray *)photoArray complete:(completeBlock)complete{
-    self.responseSerializer = [AFHTTPResponseSerializer serializer];
     self.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain", @"multipart/form-data", @"application/json", @"text/html", @"image/jpeg", @"image/png", @"application/octet-stream", @"text/json", nil];
     // 在此 添加网络加载动画
     SVProgressShowText(@"正在加载...");

@@ -164,13 +164,21 @@
     otherLabel.textColor = UIColorFromRGB(0xaeaeae);
     otherLabel.font = [UIFont systemFontOfSize:18];
     [self.view addSubview:otherLabel];
-    [otherLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.view.mas_centerX);
-        make.top.equalTo(registerBtn.mas_bottom).offset(120);
-        make.width.equalTo(@120);
-        make.height.equalTo(@30);
-    }];
-    
+    if (UI_IS_IPHONE5) {
+        [otherLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.view.mas_centerX);
+            make.top.equalTo(registerBtn.mas_bottom).offset(50);
+            make.width.equalTo(@120);
+            make.height.equalTo(@30);
+        }];
+    }else{
+        [otherLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.view.mas_centerX);
+            make.top.equalTo(registerBtn.mas_bottom).offset(120);
+            make.width.equalTo(@120);
+            make.height.equalTo(@30);
+        }];
+    }
     UILabel *lineLeft = [UILabel new];
     lineLeft.backgroundColor = UIColorFromRGB(0xaeaeae);
     [self.view addSubview:lineLeft];
@@ -391,7 +399,7 @@
             
             // 第三方平台SDK源数据
             NSLog(@"Sina originalResponse: %@", resp.originalResponse);
-            [LTHttpManager thirdLoginReturnWithUUID:GETUUID OpenId:resp.uid Name:resp.name Gender:resp.gender Icon:resp.iconurl Complete:^(LTHttpResult result, NSString *message, id data) {
+            [LTHttpManager thirdLoginReturnWithUUID:GETUUID OpenId:resp.uid Name:resp.name Gender:resp.gender Icon:resp.iconurl Type:@4 Complete:^(LTHttpResult result, NSString *message, id data) {
                 if (LTHttpResultSuccess == result) {
                     [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"user_id"] forKey:USERID_KEY];
                     [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"user_token"]forKey:USERTOKEN_KEY];
@@ -431,7 +439,7 @@
             
             // 第三方平台SDK源数据
             NSLog(@"QQ originalResponse: %@", resp.originalResponse);
-            [LTHttpManager thirdLoginReturnWithUUID:GETUUID OpenId:resp.openid Name:resp.name Gender:resp.gender Icon:resp.iconurl Complete:^(LTHttpResult result, NSString *message, id data) {
+            [LTHttpManager thirdLoginReturnWithUUID:GETUUID OpenId:resp.openid Name:resp.name Gender:resp.gender Icon:resp.iconurl Type:@3 Complete:^(LTHttpResult result, NSString *message, id data) {
                 if (LTHttpResultSuccess == result) {
                     [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"user_id"] forKey:USERID_KEY];
                     [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"user_token"]forKey:USERTOKEN_KEY];
@@ -472,7 +480,7 @@
             
             // 第三方平台SDK源数据
             NSLog(@"Wechat originalResponse: %@", resp.originalResponse);
-            [LTHttpManager thirdLoginReturnWithUUID:GETUUID OpenId:resp.uid Name:resp.name Gender:resp.gender Icon:resp.iconurl Complete:^(LTHttpResult result, NSString *message, id data) {
+            [LTHttpManager thirdLoginReturnWithUUID:GETUUID OpenId:resp.uid Name:resp.name Gender:resp.gender Icon:resp.iconurl Type:@2 Complete:^(LTHttpResult result, NSString *message, id data) {
                 if (LTHttpResultSuccess == result) {
                     [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"user_id"] forKey:USERID_KEY];
                     [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"user_token"]forKey:USERTOKEN_KEY];

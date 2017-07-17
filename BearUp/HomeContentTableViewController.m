@@ -15,6 +15,7 @@
 #import "ZFVideoModel.h"
 #import "ZFVideoResolution.h"
 #import "HomeModel.h"
+#import "BURefreshGifHeader.h"
 
 static NSString *homepageCell = @"HOMEPAGECELL";
 static NSString *scrollBannerCell = @"SCROLLBANNERCELL";
@@ -87,7 +88,8 @@ static NSString *videoCell = @"playerCell";
 }
 //下拉刷新
 - (void)headerLoadData{
-    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+    
+    BURefreshGifHeader *header = [BURefreshGifHeader headerWithRefreshingBlock:^{
         WeakSelf
         //首页推荐
         if (self.index == 0) {
@@ -127,7 +129,11 @@ static NSString *videoCell = @"playerCell";
             }];
         }
     }];
-    [self.tableView.mj_header beginRefreshing];
+    header.lastUpdatedTimeLabel.hidden = YES;
+    header.stateLabel.hidden = YES;
+    [header beginRefreshing];
+    
+    self.tableView.mj_header = header;
 }
 - (void)footerLoadData{
     WeakSelf

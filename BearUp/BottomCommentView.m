@@ -95,6 +95,7 @@
         make.centerY.equalTo(bottomView.mas_centerY);
     }];
     self.commendTextfield = commentTextField;
+    self.commendTextfield.returnKeyType =UIReturnKeyDone;
 }
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
     [LTHttpManager commentNewsWithId:@(textField.tag) Content:textField.text Complete:^(LTHttpResult result, NSString *message, id data) {
