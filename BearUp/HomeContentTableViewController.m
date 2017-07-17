@@ -268,11 +268,11 @@ static NSString *videoCell = @"playerCell";
 //    vc.cid = [NSString stringWithFormat:@"%@",self.dataArray[indexPath.section][@"id"]];
     if (self.index == 0) {
         HomeModel *model = self.dataArray[indexPath.section-1];
-        vc.cid = model.ID;
+        vc.cid = model.nid;
         [self.navigationController pushViewController:vc animated:YES];
     }else{
         HomeModel *model = self.dataArray[indexPath.section];
-        vc.cid = model.ID;
+        vc.cid = model.nid;
         [self.navigationController pushViewController:vc animated:YES];
     }
    }

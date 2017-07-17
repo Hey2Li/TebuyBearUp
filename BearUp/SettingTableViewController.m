@@ -43,10 +43,20 @@
     if (USER_ID) {
         [[NSUserDefaults standardUserDefaults]removeObjectForKey:USERID_KEY];
         [[NSUserDefaults standardUserDefaults]removeObjectForKey:USERTOKEN_KEY];
+        [[NSUserDefaults standardUserDefaults]removeObjectForKey:USER_PHOTO];
+        [[NSUserDefaults standardUserDefaults]removeObjectForKey:USER_MOBILE];
+        [[NSUserDefaults standardUserDefaults]removeObjectForKey:USER_NICKNAME];
+        [[NSUserDefaults standardUserDefaults]removeObjectForKey:USER_READNUM];
+        [[NSUserDefaults standardUserDefaults]removeObjectForKey:USER_SEX];
+
         SVProgressShowStuteText(@"退出成功", YES);
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"userquit" object:nil];
     }else{
         SVProgressShowStuteText(@"请先登录", NO);
     }
+}
+- (void)dealloc{
+    [[NSNotificationCenter defaultCenter]removeObserver:self];
 }
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];

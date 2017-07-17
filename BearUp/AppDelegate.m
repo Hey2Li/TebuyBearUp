@@ -23,7 +23,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"BearUp" bundle:nil];
-//    UIViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"loginViewController"];
+    UIViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"loginViewController"];
     BaseTabBarViewController *tabVC = [BaseTabBarViewController new];
 //    self.window.rootViewController = [[UINavigationController alloc]initWithRootViewController:vc];
     self.window.rootViewController = tabVC;
@@ -115,7 +115,6 @@
     }
     return result;
 }
-
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

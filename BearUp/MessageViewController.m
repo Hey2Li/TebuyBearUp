@@ -13,10 +13,25 @@
 @interface MessageViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UITableView *MineMsgTableView;
 @property (nonatomic, strong) UITableView *SysMsgTableView;
+@property (nonatomic, strong) NSMutableArray *mineMsgArray;
+@property (nonatomic, strong) NSMutableArray *sysMsgArray;
 @end
 
 @implementation MessageViewController
 
+- (NSMutableArray *)mineMsgArray{
+    if (!_mineMsgArray) {
+        _mineMsgArray = [NSMutableArray array];
+    }
+    return _mineMsgArray;
+}
+
+- (NSMutableArray *)sysMsgArray{
+    if (!_sysMsgArray) {
+        _sysMsgArray = [NSMutableArray array];
+    }
+    return _sysMsgArray;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -27,6 +42,31 @@
     self.SysMsgTableView.backgroundColor = UIColorFromRGB(0xeeeeee);;
     self.MineMsgTableView.separatorStyle = NO;
     self.SysMsgTableView.separatorStyle = NO;
+    [self loadData];
+//    [self loadFooterData];
+}
+- (void)loadFooterData{
+
+}
+- (void)loadData{
+   [LTHttpManager sysMessageListWithLimit:@10 User_uuid:GETUUID User_id:USER_ID User_token:USER_TOKEN Complete:^(LTHttpResult result, NSString *message, id data) {
+       if (LTHttpResultSuccess == result) {
+           NSArray *dataArray = data[@"responseData"][@"data"];
+           self.sysMsgArray = [NSMutableArray arrayWithArray:dataArray];
+           [self.SysMsgTableView reloadData];
+        }else{
+           
+       }
+   }];
+    [LTHttpManager myMessageWithLimit:@10 User_token:USER_TOKEN User_id:USER_ID User_uuid:GETUUID Complete:^(LTHttpResult result, NSString *message, id data) {
+        if (LTHttpResultSuccess == result) {
+            NSArray *dataArray = data[@"responseData"][@"data"];
+            self.mineMsgArray = [NSMutableArray arrayWithArray:dataArray];
+            [self.MineMsgTableView reloadData];
+        }else{
+            
+        }
+    }];
 }
 - (void)initWithView{
     UIView *topView = [UIView new];
@@ -39,7 +79,7 @@
         make.height.equalTo(@60);
     }];
     
-    UISegmentedControl *segment = [[UISegmentedControl alloc]initWithItems:@[@"系统通知",@"我的收藏"]];
+    UISegmentedControl *segment = [[UISegmentedControl alloc]initWithItems:@[@"系统通知",@"我的消息"]];
     segment.tintColor = UIColorFromRGB(0xff4466);
     [topView addSubview:segment];
     [segment mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -47,8 +87,7 @@
         make.height.equalTo(@30);
         make.width.equalTo(@210);
     }];
-    [segment.layer setMasksToBounds:YES];
-    [segment.layer setCornerRadius:5];
+
     segment.selectedSegmentIndex = 0;
     [segment addTarget:self action:@selector(messageChange:) forControlEvents:UIControlEventValueChanged];
     
@@ -59,7 +98,7 @@
     [leftTableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view);
         make.right.equalTo(self.view);
-        make.bottom.equalTo(self.view);
+        make.bottom.equalTo(self.view).offset(-44);
         make.top.equalTo(topView.mas_bottom);
     }];
     
@@ -70,7 +109,7 @@
     [rightTableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view);
         make.right.equalTo(self.view);
-        make.bottom.equalTo(self.view);
+        make.bottom.equalTo(self.view).offset(-44);
         make.top.equalTo(topView.mas_bottom);
     }];
     self.SysMsgTableView = leftTableView;
@@ -100,7 +139,6 @@
     label.backgroundColor = RGBCOLOR(182, 183, 184);
     [label.layer setMasksToBounds:YES];
     [label.layer setCornerRadius:8];
-    label.text = @"20170203";
     label.font = [UIFont systemFontOfSize:10];
     label.textAlignment = NSTextAlignmentCenter;
     [view addSubview:label];
@@ -109,10 +147,22 @@
         make.width.equalTo(@70);
         make.height.equalTo(@16);
     }];
+    if (tableView == self.MineMsgTableView) {
+        label.text  = [NSString stringWithFormat:@"%@",self.mineMsgArray[section][@"time"]];
+    }else{
+        label.text  = [NSString stringWithFormat:@"%@",self.sysMsgArray[section][@"time"]];
+    }
     return view;
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 3;
+    if (tableView == self.MineMsgTableView) {
+        return self.mineMsgArray.count;
+
+    }else if (tableView == self.SysMsgTableView){
+        return self.sysMsgArray.count;
+    }else{
+        return 0;
+    }
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 1;
@@ -134,11 +184,25 @@
     if (tableView == self.SysMsgTableView) {
         SysMsgTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"sysmsgcell"];
         cell.backgroundColor = [UIColor whiteColor];
+        [cell.headerImageView sd_setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:@"用户默认头像"]];
+        cell.contentLabel.text = self.sysMsgArray[indexPath.section][@"title"];
+        cell.userName.text = self.sysMsgArray[indexPath.section][@"nickname"];
         return cell;
     }else{
         MineMsgTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"minemsgcell"];
         cell.backgroundColor = [UIColor whiteColor];
+        [cell.headerImaegVIew sd_setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:@"用户默认头像"]];
+        cell.contentLabel.text = @"";
+        cell.userName.text = self.mineMsgArray[indexPath.section][@"nickname"];
         return cell;
+    }
+}
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    CGFloat sectionHeaderHeight = 40;
+    if (scrollView.contentOffset.y<=sectionHeaderHeight&&scrollView.contentOffset.y>=0) {
+        scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0);
+    } else if (scrollView.contentOffset.y>=sectionHeaderHeight) {
+        scrollView.contentInset = UIEdgeInsetsMake(-sectionHeaderHeight, 0, 0, 0);
     }
 }
 - (void)didReceiveMemoryWarning {

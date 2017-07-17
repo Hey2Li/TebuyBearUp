@@ -927,8 +927,8 @@
 				TargetAttributes = {
 					1C1EDBC31EBC43BE0099D115 = {
 						CreatedOnToolsVersion = 8.3;
-						DevelopmentTeam = 5VFC77CT8S;
-						ProvisioningStyle = Automatic;
+						DevelopmentTeam = 2S69QY28US;
+						ProvisioningStyle = Manual;
 					};
 					1C1EDBDC1EBC43BF0099D115 = {
 						CreatedOnToolsVersion = 8.3;
@@ -1267,7 +1267,10 @@
 			baseConfigurationReference = 6BF61575B082E4169D6B8293 /* Pods-BearUp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 5VFC77CT8S;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 2S69QY28US;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/BearUp/UMSocial/UMSocialSDK",
@@ -1286,8 +1289,10 @@
 					"$(PROJECT_DIR)/BearUp/UMSocial/UMSocialSDKPlugin",
 				);
 				OTHER_LIBTOOLFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.tebuy.BearUp;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.tw-mall.BearUpTest";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "e0428288-3970-4da9-aaa1-519e43dc6474";
+				PROVISIONING_PROFILE_SPECIFIER = BearUpTest;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};
 			name = Debug;
@@ -1297,7 +1302,10 @@
 			baseConfigurationReference = B51AF650A1AC20A003F12B9A /* Pods-BearUp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 5VFC77CT8S;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 2S69QY28US;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/BearUp/UMSocial/UMSocialSDK",
@@ -1316,8 +1324,10 @@
 					"$(PROJECT_DIR)/BearUp/UMSocial/UMSocialSDKPlugin",
 				);
 				OTHER_LIBTOOLFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.tebuy.BearUp;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.tw-mall.BearUpTest";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "e0428288-3970-4da9-aaa1-519e43dc6474";
+				PROVISIONING_PROFILE_SPECIFIER = BearUpTest;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};
 			name = Release;

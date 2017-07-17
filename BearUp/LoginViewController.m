@@ -15,7 +15,7 @@
 @interface LoginViewController ()<UITextFieldDelegate>
 @property (strong, nonatomic) UITextField *userNameTF;
 @property (strong, nonatomic) UITextField *passwordTF;
-
+@property (strong, nonatomic) UIImageView *headerImageView;
 @end
 
 @implementation LoginViewController
@@ -40,7 +40,7 @@
     UIImageView *headerView = [UIImageView new];
     [headerView.layer setCornerRadius:50];
     [headerView.layer setMasksToBounds:YES];
-    headerView.backgroundColor = DRGBCOLOR;
+    headerView.image = [UIImage imageNamed:@"用户默认头像"];
     [topImageView addSubview:headerView];
     [headerView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.equalTo(@100);
@@ -139,7 +139,7 @@
         make.centerX.equalTo(self.view.mas_centerX);
         make.height.equalTo(@36);
         make.width.equalTo(@(SCREEN_WIDTH/3*2));
-        make.top.equalTo(line2.mas_bottom).offset(20);
+        make.top.equalTo(line2.mas_bottom).offset(30);
     }];
     
     UIButton *registerBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -265,6 +265,7 @@
     self.passwordTF = passwordTF;
     self.userNameTF.delegate = self;
     self.passwordTF.delegate = self;
+    self.headerImageView = headerView;
 }
 #pragma mark UITextFieldDelegate
 
@@ -288,6 +289,10 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:YES];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if (USER_ID) {
+             [self.headerImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[userDefaults objectForKey:USER_PHOTO] ]] placeholderImage:[UIImage imageNamed:@"用户默认头像"]];
+    }
 }
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
@@ -301,9 +306,16 @@
                   SVProgressShowStuteText(@"登录成功", YES);
                   [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"user_id"] forKey:USERID_KEY];
                   [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"user_token"]forKey:USERTOKEN_KEY];
+                   [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"photo"] forKey:USER_PHOTO];
+                  [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"mobile"] forKey:USER_MOBILE];
+                  [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"nickname"] forKey:USER_NICKNAME];
+                  [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"read_num"] forKey:USER_READNUM];
+                  [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"sex"] forKey:USER_SEX];
                    [[NSUserDefaults standardUserDefaults] synchronize];
+                  
                   [self presentViewController:[BaseTabBarViewController new] animated:YES completion:nil];
               }else{
+                  SVProgressShowStuteText(@"登录失败", YES);
                  // [self.view makeToast:message];
               }
           }];
@@ -334,6 +346,7 @@
 - (void)registerClick:(UIButton *)sender{
     UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"BearUp" bundle:nil];
     UIViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"RegisterViewController"];
+//    UINavigationController *naviVc = [[UINavigationController alloc]initWithRootViewController:vc];
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)loginForWechat:(id)sender {
@@ -378,6 +391,22 @@
             
             // 第三方平台SDK源数据
             NSLog(@"Sina originalResponse: %@", resp.originalResponse);
+            [LTHttpManager thirdLoginReturnWithUUID:GETUUID OpenId:resp.uid Name:resp.name Gender:resp.gender Icon:resp.iconurl Complete:^(LTHttpResult result, NSString *message, id data) {
+                if (LTHttpResultSuccess == result) {
+                    [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"user_id"] forKey:USERID_KEY];
+                    [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"user_token"]forKey:USERTOKEN_KEY];
+                    [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"photo"] forKey:USER_PHOTO];
+                    [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"mobile"] forKey:USER_MOBILE];
+                    [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"nickname"] forKey:USER_NICKNAME];
+                    [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"read_num"] forKey:USER_READNUM];
+                    [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"sex"] forKey:USER_SEX];
+                    [[NSUserDefaults standardUserDefaults] synchronize];
+                    SVProgressShowStuteText(@"登录成功", YES);
+                    [self dismissViewControllerAnimated:YES completion:nil];
+                }else{
+                    SVProgressShowStuteText(@"登录失败", NO);
+                }
+            }];
         }
     }];
 }
@@ -402,6 +431,22 @@
             
             // 第三方平台SDK源数据
             NSLog(@"QQ originalResponse: %@", resp.originalResponse);
+            [LTHttpManager thirdLoginReturnWithUUID:GETUUID OpenId:resp.openid Name:resp.name Gender:resp.gender Icon:resp.iconurl Complete:^(LTHttpResult result, NSString *message, id data) {
+                if (LTHttpResultSuccess == result) {
+                    [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"user_id"] forKey:USERID_KEY];
+                    [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"user_token"]forKey:USERTOKEN_KEY];
+                    [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"photo"] forKey:USER_PHOTO];
+                    [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"mobile"] forKey:USER_MOBILE];
+                    [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"nickname"] forKey:USER_NICKNAME];
+                    [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"read_num"] forKey:USER_READNUM];
+                    [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"sex"] forKey:USER_SEX];
+                    [[NSUserDefaults standardUserDefaults] synchronize];
+                    SVProgressShowStuteText(@"登录成功", YES);
+                    [self dismissViewControllerAnimated:YES completion:nil];
+                }else{
+                    SVProgressShowStuteText(@"登录失败", YES);
+                }
+            }];
         }
     }];
 }
@@ -427,6 +472,22 @@
             
             // 第三方平台SDK源数据
             NSLog(@"Wechat originalResponse: %@", resp.originalResponse);
+            [LTHttpManager thirdLoginReturnWithUUID:GETUUID OpenId:resp.uid Name:resp.name Gender:resp.gender Icon:resp.iconurl Complete:^(LTHttpResult result, NSString *message, id data) {
+                if (LTHttpResultSuccess == result) {
+                    [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"user_id"] forKey:USERID_KEY];
+                    [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"user_token"]forKey:USERTOKEN_KEY];
+                    [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"photo"] forKey:USER_PHOTO];
+                    [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"mobile"] forKey:USER_MOBILE];
+                    [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"nickname"] forKey:USER_NICKNAME];
+                    [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"read_num"] forKey:USER_READNUM];
+                    [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"sex"] forKey:USER_SEX];
+                    [[NSUserDefaults standardUserDefaults] synchronize];
+                    SVProgressShowStuteText(@"登录成功", YES);
+                    [self dismissViewControllerAnimated:YES completion:nil];
+                }else{
+                    SVProgressShowStuteText(@"登录失败", NO);
+                }
+            }];
         }
     }];
 }

@@ -186,7 +186,7 @@
  @param limit 查询数量
  @param complete block
  */
-+ (void)sysMessageListWithLimit:(NSNumber *)limit Complete:(completeBlock)complete;
++ (void)sysMessageListWithLimit:(NSNumber *)limit User_uuid:(NSString *)user_uuid User_id:(NSString *)user_id User_token:(NSString *)user_token  Complete:(completeBlock)complete;
 
 
 /**
@@ -198,7 +198,7 @@
  @param ID 消息id
  @param complete block
  */
-+ (void)sysMessageInfoWithId:(NSNumber *)ID Complete:(completeBlock)complete;
++ (void)sysMessageInfoWithId:(NSNumber *)ID User_uuid:(NSString *)user_uuid User_id:(NSString *)user_id User_token:(NSString *)user_token Complete:(completeBlock)complete;
 
 
 /**
@@ -409,14 +409,18 @@
 + (void)collectionVideoWithNewID:(NSNumber *)ID UUID:(NSString *)user_uuid User_id:(NSNumber *)user_id Token:(NSString *)user_token Complete:(completeBlock)complete;
 
 
+
 /**
- 第三方登录返回
+ 第三方登录
+ api/register/thirdparty
 
- @param uuid uuid
+ @param user_uuid UUID
+ @param openid openID
+ @param name name
+ @param gender gender
  @param complete block
-
  */
-+ (void)thirdLoginReturnWithUUID:(NSString *)uuid Complete:(completeBlock)complete;
++ (void)thirdLoginReturnWithUUID:(NSString *)user_uuid OpenId:(NSString *)openid Name:(NSString *)name Gender:(NSString *)gender Icon:(NSString *)iconurl Complete:(completeBlock)complete;
 
 
 /**
@@ -517,4 +521,28 @@
  @param complete block
  */
 + (void)uploadPhotoWithPhotoArray:(NSArray *)array User_token:(NSString *)user_token User_id:(NSString *)user_id User_uuid:(NSString *)user_uuid Complete:(completeBlock)complete;
+
+
+/**
+ 我的消息 api/user/mymsgs
+
+ @param limit 每页数量
+ @param user_token token
+ @param user_id ID
+ @param user_uuid UUID
+ @param complete block
+ */
++ (void)myMessageWithLimit:(NSNumber *)limit User_token:(NSString *)user_token User_id:(NSString *)user_id User_uuid:(NSString *)user_uuid Complete:(completeBlock)complete;
+
+/**
+ 我的消息 api/user/moremsgs
+ 
+ @param page 所属分页 初始2
+ @param limit 每页数量
+ @param user_token token
+ @param user_id ID
+ @param user_uuid UUID
+ @param complete block
+ */
++ (void)myMoreMessageWithPage:(NSNumber *)page Limit:(NSNumber *)limit User_token:(NSString *)user_token User_id:(NSString *)user_id User_uuid:(NSString *)user_uuid Complete:(completeBlock)complete;
 @end

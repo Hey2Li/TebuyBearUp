@@ -51,4 +51,5 @@
 #define USER_PHOTO @"user_photo"
 #define USER_NICKNAME @"user_nickname"
 #define USER_SEX @"user_sex"
+#define USER_READNUM @"read_num"
 #endif /* BearUpPrefixHeader_pch */

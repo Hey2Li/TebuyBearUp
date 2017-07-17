@@ -447,6 +447,7 @@ static NSString *commentCell = @"commentCell";
         [[UMSocialManager defaultManager] shareToPlatform:platformType messageObject:messageObject currentViewController:self completion:^(id data, NSError *error) {
             if (error) {
                 UMSocialLogInfo(@"************Share fail with error %@*********",error);
+                SVProgressShowStuteText(@"分享失败", NO);
             }else{
                 if ([data isKindOfClass:[UMSocialShareResponse class]]) {
                     UMSocialShareResponse *resp = data;
@@ -454,6 +455,7 @@ static NSString *commentCell = @"commentCell";
                     UMSocialLogInfo(@"response message is %@",resp.message);
                     //第三方原始返回的数据
                     UMSocialLogInfo(@"response originalResponse data is %@",resp.originalResponse);
+                    SVProgressShowStuteText(@"分享成功", YES);
                     
                 }else{
                     UMSocialLogInfo(@"response data is %@",data);

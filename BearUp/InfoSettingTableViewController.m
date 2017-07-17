@@ -33,6 +33,11 @@
                 if (LTHttpResultSuccess == result) {
                     [LTHttpManager uploadPhotoWithPhotoArray:_photosArr User_token:USER_TOKEN User_id:USER_ID User_uuid:GETUUID Complete:^(LTHttpResult result, NSString *message, id data) {
                         if (LTHttpResultSuccess == result) {
+                            NSDictionary *infoDic = data[@"responseData"][@"info"];
+                            [[NSUserDefaults standardUserDefaults]setObject:infoDic[@"read_num"] forKey:USER_READNUM];
+                            [[NSUserDefaults standardUserDefaults]setObject:infoDic[@"mobile"] forKey:USER_MOBILE];
+                            [[NSUserDefaults standardUserDefaults]setObject:infoDic[@"sex"] forKey:USER_SEX];
+                            [[NSUserDefaults standardUserDefaults]synchronize];
                             SVProgressShowStuteText(@"保存成功", YES);
                             [self.navigationController popViewControllerAnimated:YES];
                         }else{

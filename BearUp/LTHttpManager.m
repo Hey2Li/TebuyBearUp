@@ -291,10 +291,10 @@
  @param limit 查询数量
  @param complete block
  */
-+ (void)sysMessageListWithLimit:(NSNumber *)limit Complete:(completeBlock)complete{
++ (void)sysMessageListWithLimit:(NSNumber *)limit User_uuid:(NSString *)user_uuid User_id:(NSString *)user_id User_token:(NSString *)user_token Complete:(completeBlock)complete{
     LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
-    NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:limit,@"limit",
-                                    nil];
+    NSMutableDictionary *paramters = [NSMutableDictionary dictionaryWithObjectsAndKeys:limit,@"limit",user_uuid,@"user_uuid",user_id,@"user_id",user_token,@"user_token"
+                                      ,                                      nil];
     [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/user/syslist",BaseURL] parameters:paramters complete:complete];
 }
@@ -309,10 +309,9 @@
  @param ID 消息id
  @param complete block
  */
-+ (void)sysMessageInfoWithId:(NSNumber *)ID Complete:(completeBlock)complete{
++ (void)sysMessageInfoWithId:(NSNumber *)ID User_uuid:(NSString *)user_uuid User_id:(NSString *)user_id User_token:(NSString *)user_token  Complete:(completeBlock)complete{
     LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
-    NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:ID,@"id",
-                                      nil];
+    NSMutableDictionary *paramters = [NSMutableDictionary dictionaryWithObjectsAndKeys:ID,@"id",user_uuid,@"user_uuid",user_id,@"user_id",user_token,@"user_token",                                      nil];
     [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/user/sysinfo",BaseURL] parameters:paramters complete:complete];
 }
@@ -623,15 +622,20 @@
 
 
 /**
- 第三方登录返回请求地址：api/register/thirdParty
+ 第三方登录
+ api/register/thirdparty
  
- @param uuid uuid
+ @param user_uuid UUID
+ @param openid openID
+ @param name name
+ @param gender gender
+ @param complete block
  */
-+ (void)thirdLoginReturnWithUUID:(NSString *)uuid Complete:(completeBlock)complete{
++ (void)thirdLoginReturnWithUUID:(NSString *)user_uuid OpenId:(NSString *)openid Name:(NSString *)name Gender:(NSString *)gender Icon:(NSString *)iconurl Complete:(completeBlock)complete{
     LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
-    NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: uuid,@"user_uuid",nil];
+    NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: gender,@"gender",user_uuid,@"user_uuid",openid,@"openid",name,@"name",iconurl,@"iconurl",nil];
     [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
-    [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/register/thirdParty",BaseURL] parameters:paramters complete:complete];
+    [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/register/thirdparty",BaseURL] parameters:paramters complete:complete];
 }
 
 /**
@@ -766,5 +770,39 @@
     NSMutableDictionary *paramters = [NSMutableDictionary dictionaryWithObjectsAndKeys: user_token,@"user_token",user_id,@"user_id",user_uuid,@"user_uuid",nil];
     [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
     [manager UPLOADWithParameters:[NSString stringWithFormat:@"%@api/user/savephoto",BaseURL] parameters:paramters photoArray:array complete:complete];
+}
+
+/**
+ 我的消息 api/user/mymsgs
+ 
+ @param limit 每页数量
+ @param user_token token
+ @param user_id ID
+ @param user_uuid UUID
+ @param complete block
+ */
++ (void)myMessageWithLimit:(NSNumber *)limit User_token:(NSString *)user_token User_id:(NSString *)user_id User_uuid:(NSString *)user_uuid Complete:(completeBlock)complete{
+    LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
+
+    NSMutableDictionary *paramters = [NSMutableDictionary dictionaryWithObjectsAndKeys:limit,@"limit", user_token,@"user_token",user_id,@"user_id",user_uuid,@"user_uuid",nil];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
+    [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/user/mymsgs",BaseURL] parameters:paramters complete:complete];
+}
+
+/**
+ 我的消息 api/user/moremsgs
+ 
+ @param page 所属分页 初始2
+ @param limit 每页数量
+ @param user_token token
+ @param user_id ID
+ @param user_uuid UUID
+ @param complete block
+ */
++ (void)myMoreMessageWithPage:(NSNumber *)page Limit:(NSNumber *)limit User_token:(NSString *)user_token User_id:(NSString *)user_id User_uuid:(NSString *)user_uuid Complete:(completeBlock)complete{
+    LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
+    NSMutableDictionary *paramters = [NSMutableDictionary dictionaryWithObjectsAndKeys:page,@"page",limit,@"limit", user_token,@"user_token",user_id,@"user_id",user_uuid,@"user_uuid",nil];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
+    [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/user/moremsgs",BaseURL] parameters:paramters complete:complete];
 }
 @end

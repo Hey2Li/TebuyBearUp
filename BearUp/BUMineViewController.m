@@ -18,6 +18,7 @@
 #import "LoginViewController.h"
 #import "InfoSettingTableViewController.h"
 #import "MessageViewController.h"
+#import "SubCategoryViewController.h"
 
 #define HederHeight ceil(SCREEN_HEIGHT/3) + 70
 @interface BUMineViewController ()<UITableViewDelegate, UITableViewDataSource>
@@ -45,6 +46,7 @@
 @property (nonatomic, strong) UIButton *headerBtn;
 @property (nonatomic, strong) UIImageView *headerImageView;
 @property (nonatomic, assign) int loadIndex;
+@property (nonatomic, strong) UIImageView *notLoginImageView;
 @end
 
 @implementation BUMineViewController
@@ -240,43 +242,73 @@
     [self.navigationController pushViewController:[SettingTableViewController new] animated:YES];
 }
 - (void)messageClick{
-    [self.navigationController pushViewController:[MessageViewController new] animated:YES];
+//    SVProgressShowStuteText(@"暂无消息", NO);
+//    return;
+    if (USER_ID) {
+             [self.navigationController pushViewController:[MessageViewController new] animated:YES];
+    }else{
+        SVProgressShowStuteText(@"请先登录", NO);
+    }
 }
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:animated];
     
     if (USER_ID) {
-        if (_loadIndex != 1) {
+        if (![[[NSUserDefaults standardUserDefaults]objectForKey:@"loadIndex"] isEqualToString:@"1"] || _loadIndex != 1) {
             [self headerLoadData];
             [self footerLoadData];
             _loadIndex = 1;
+            [[NSUserDefaults standardUserDefaults]setObject:@"1" forKey:@"loadIndex"];
+            [self.notLoginImageView removeFromSuperview];
+        }else{
+            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+            [self.headerImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[userDefaults objectForKey:USER_PHOTO] ]] placeholderImage:[UIImage imageNamed:@"用户默认头像"]];
+            self.userNameLabel.text = [NSString stringWithFormat:@"%@",[userDefaults objectForKey:USER_NICKNAME]];
+            self.readNumLabel.text = [NSString stringWithFormat:@"你最近阅读了%@篇文章，加油哦",[userDefaults objectForKey:USER_READNUM]];
+            if ([[userDefaults objectForKey:USER_SEX] isEqual:@1]) {
+                self.headerView.backgroundColor = RGBCOLOR(228, 235, 243);
+            }else if ([[userDefaults objectForKey:USER_SEX] isEqual:@2]){
+                self.headerView.backgroundColor = RGBCOLOR(255, 240, 243);
+            }else{
+                self.headerView.backgroundColor = RGBCOLOR(255, 240, 243);
+            }
         }
         self.leftBtn.userInteractionEnabled = YES;
         self.centerBtn.userInteractionEnabled = YES;
         self.rightBtn.userInteractionEnabled = YES;
         self.scrollView.scrollEnabled = YES;
+        [self.notLoginImageView removeFromSuperview];
+        [self.scrollView sendSubviewToBack:self.notLoginImageView];
     }else{
-        UIImageView *imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"未登录提示图"]];
-        [self.scrollView addSubview:imageView];
-        imageView.backgroundColor = [UIColor whiteColor];
-        self.scrollView.scrollEnabled = NO;
-        [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.center.equalTo(self.scrollView);
-            make.width.equalTo(self.scrollView);
-            make.height.equalTo(self.scrollView);
-        }];
-        imageView.contentMode = UIViewContentModeCenter;
-        self.leftBtn.userInteractionEnabled = NO;
-        self.centerBtn.userInteractionEnabled = NO;
-        self.rightBtn.userInteractionEnabled = NO;
-        
-        self.userNameLabel.text = @"去登录";
-        self.readNumLabel.text = @"你最近阅读了0篇文章，加油哦";
-        self.headerImageView.image = [UIImage imageNamed:@"用户默认头像"];
-        [self.headerBtn addTarget:self action:@selector(gotoLogin:) forControlEvents:UIControlEventTouchUpInside];
-        self.headerView.backgroundColor = RGBCOLOR(237, 238, 239);
+        [self notLogin];
     }
+}
+- (void)notLogin{
+    self.notLoginImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"未登录提示图"]];
+    [self.scrollView addSubview:self.notLoginImageView];
+    [self.centerTableView removeFromSuperview];
+    [self.leftTableView removeFromSuperview];
+    [self.rightTableView removeFromSuperview];
+
+    self.notLoginImageView.backgroundColor = [UIColor whiteColor];
+    self.scrollView.scrollEnabled = NO;
+    [self.notLoginImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(self.scrollView);
+        make.width.equalTo(self.scrollView);
+        make.height.equalTo(self.scrollView);
+    }];
+    self.notLoginImageView.contentMode = UIViewContentModeCenter;
+    [self btnClick:self.leftBtn];
+    self.leftBtn.userInteractionEnabled = NO;
+    self.centerBtn.userInteractionEnabled = NO;
+    self.rightBtn.userInteractionEnabled = NO;
+    
+    self.userNameLabel.text = @"去登录";
+    self.readNumLabel.text = @"你最近阅读了0篇文章，加油哦";
+    self.headerImageView.image = [UIImage imageNamed:@"用户默认头像"];
+    [self.headerBtn addTarget:self action:@selector(gotoLogin:) forControlEvents:UIControlEventTouchUpInside];
+    self.headerView.backgroundColor = RGBCOLOR(237, 238, 239);
 }
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
@@ -297,12 +329,16 @@
     [self headerView];
     [self initWithView];
     self.view.backgroundColor = [UIColor whiteColor];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(notLogin) name:@"userquit" object:nil];
 }
 - (void)gotoLogin:(UIButton *)btn{
     if (USER_ID) {
         [self.navigationController pushViewController:[InfoSettingTableViewController new] animated:YES];
     }else{
-        [self presentViewController:[LoginViewController new] animated:YES completion:nil];
+        UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"BearUp" bundle:nil];
+        LoginViewController *lvc = [storyBoard instantiateViewControllerWithIdentifier:@"loginViewController"];
+        UINavigationController *navi = [[UINavigationController alloc]initWithRootViewController:lvc];
+        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:navi animated:YES completion:nil];
     }
 }
 - (void)headerLoadData{
@@ -311,30 +347,28 @@
             if (LTHttpResultSuccess == result) {
                 NSDictionary *infoDic = data[@"responseData"][@"info"];
                 if (![infoDic[@"photo"] isEqual:[NSNull null]]) {
-                      [self.headerImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",infoDic[@"photo"]]] placeholderImage:[UIImage imageNamed:@"未登录提示图"]];
+                      [self.headerImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",infoDic[@"photo"]]] placeholderImage:[UIImage imageNamed:@"用户默认头像"]];
                     [[NSUserDefaults standardUserDefaults]setObject:infoDic[@"photo"] forKey:USER_PHOTO];
 
                 }
                 if (infoDic[@"nickname"]) {
                     self.userNameLabel.text = [NSString stringWithFormat:@"%@",infoDic[@"nickname"]];
+                     [[NSUserDefaults standardUserDefaults]setObject:infoDic[@"nickname"] forKey:USER_NICKNAME];
                 }else{
                     if (infoDic[@"mobile"]) {
                         self.userNameLabel.text = [NSString stringWithFormat:@"%@",infoDic[@"mobile"]];
+                        [[NSUserDefaults standardUserDefaults]setObject:infoDic[@"mobile"] forKey:USER_MOBILE];
+                        [[NSUserDefaults standardUserDefaults]setObject:infoDic[@"nickname"] forKey:USER_NICKNAME];
                     }
                 }
                 self.readNumLabel.text = [NSString stringWithFormat:@"你最近阅读了%@篇文章，加油哦",infoDic[@"read_num"]];
+                [[NSUserDefaults standardUserDefaults]setObject:infoDic[@"read_num"] forKey:USER_READNUM];
                 [[NSUserDefaults standardUserDefaults]setObject:infoDic[@"mobile"] forKey:USER_MOBILE];
-                [[NSUserDefaults standardUserDefaults]setObject:infoDic[@"nickname"] forKey:USER_NICKNAME];
                 [[NSUserDefaults standardUserDefaults]setObject:infoDic[@"sex"] forKey:USER_SEX];
                 [[NSUserDefaults standardUserDefaults]synchronize];
-                if ([infoDic[@"sex"] isEqual:@1]) {
-                    self.headerView.backgroundColor = RGBCOLOR(228, 235, 243);
-                }else if ([infoDic[@"sex"]isEqual:@2]){
-                    self.headerView.backgroundColor = RGBCOLOR(255, 240, 243);
-                }else{
-                    self.headerView.backgroundColor = RGBCOLOR(255, 240, 243);
-                }
-
+                
+                
+            
                 [self.focusArray removeAllObjects];
                 NSArray *array = data[@"responseData"][@"rows"];
                 for (NSDictionary *dic in array) {
@@ -654,7 +688,36 @@
     }
     return 0;
 }
-
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (tableView == self.leftTableView) {
+        FocusModel *model = self.focusArray[indexPath.row];
+        SubCategoryViewController *vc = [SubCategoryViewController new];
+        vc.cid = model.cid;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else if (tableView == self.centerTableView){
+        MyStateModel *model = self.stateArray[indexPath.row];
+        if ([model.type  isEqual: @1]) {
+            CDetailViewController *vc =[CDetailViewController new];
+            vc.cid = [NSString stringWithFormat:@"%@",model.nid];
+            [self.navigationController pushViewController:vc animated:YES];
+        }else if ([model.type  isEqual: @2]){
+            VideoDetailViewController *vc = [VideoDetailViewController new];
+            vc.vid = model.nid;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+    }else if (tableView == self.rightTableView){
+        MyCollectionModel *model = self.collectionDic[self.collectionHeaderTitleArray[indexPath.section]][indexPath.row];
+        if ([model.type  isEqual: @1]) {
+            CDetailViewController *vc =[CDetailViewController new];
+            vc.cid = [NSString stringWithFormat:@"%@",model.nid];
+            [self.navigationController pushViewController:vc animated:YES];
+        }else if ([model.type  isEqual: @2]){
+            VideoDetailViewController *vc = [VideoDetailViewController new];
+            vc.vid = model.nid;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+    }
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

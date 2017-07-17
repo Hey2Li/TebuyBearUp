@@ -13,6 +13,10 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+    self.backgroundColor = UIColorFromRGB(0xeeeeee);
+    [self.mineMsgBKView.layer setMasksToBounds:YES];
+    [self.mineMsgBKView.layer setCornerRadius:5];
+    self.selectionStyle = NO;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
