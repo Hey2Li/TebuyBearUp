@@ -95,12 +95,14 @@
         make.centerY.equalTo(bottomView.mas_centerY);
     }];
     self.commendTextfield = commentTextField;
-    self.commendTextfield.returnKeyType =UIReturnKeyDone;
+    self.commendTextfield.returnKeyType = UIReturnKeyDone;
 }
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
     [LTHttpManager commentNewsWithId:@(textField.tag) Content:textField.text Complete:^(LTHttpResult result, NSString *message, id data) {
         if (LTHttpResultSuccess == result) {
             SVProgressShowStuteText(@"评论成功", YES);
+            [self.commendTextfield resignFirstResponder];
+            self.commendTextfield.text = nil;
         }else{
             SVProgressShowStuteText(@"评论失败", NO);
         }

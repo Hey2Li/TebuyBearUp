@@ -206,6 +206,8 @@
         NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:ID,@"id",
                                           content,@"content",
                                           USER_ID,@"user_id",
+                                          USER_TOKEN,@"user_token",
+                                          GETUUID,@"user_uuid",
                                           nil];
         [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
         [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/news/savecomment",BaseURL] parameters:paramters complete:complete];

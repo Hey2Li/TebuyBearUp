@@ -47,6 +47,7 @@
 @property (nonatomic, strong) UIImageView *headerImageView;
 @property (nonatomic, assign) int loadIndex;
 @property (nonatomic, strong) UIImageView *notLoginImageView;
+@property (nonatomic, strong) UIImageView *headerImageBK;
 @end
 
 @implementation BUMineViewController
@@ -115,13 +116,24 @@
         }];
         [settingBtn addTarget:self action:@selector(settingClick) forControlEvents:UIControlEventTouchUpInside];
         
+        UIImageView *headerImageBK = [UIImageView new];
+        headerImageBK.image = [UIImage imageNamed:@"男标示"];
+        [headerView addSubview:headerImageBK];
+        [headerImageBK mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(headerView).offset(-30);
+            make.centerX.equalTo(headerView);
+            make.width.equalTo(@110);
+            make.height.equalTo(@110);
+        }];
+        self.headerImageBK = headerImageBK;
+        
         UIImageView *headerImageView = [UIImageView new];
-        [headerView addSubview:headerImageView];
+        [headerImageBK addSubview:headerImageView];
         headerImageView.userInteractionEnabled = YES;
         headerImageView.image = [UIImage imageNamed:@"用户默认头像"];
         [headerImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(headerView).offset(-30);
-            make.centerX.equalTo(headerView);
+            make.centerY.equalTo(headerImageBK).offset(10);
+            make.centerX.equalTo(headerImageBK).offset(-1);
             make.width.equalTo(@80);
             make.height.equalTo(@80);
         }];
@@ -130,7 +142,9 @@
         self.headerImageView = headerImageView;
         
         UIButton *headerBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [headerImageView addSubview:headerBtn];
+        [headerImageBK addSubview:headerBtn];
+        [headerImageBK bringSubviewToFront:headerBtn];
+        headerImageBK.userInteractionEnabled = YES;
         [headerBtn addTarget:self action:@selector(gotoLogin:) forControlEvents:UIControlEventTouchUpInside];
         [headerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(headerImageView.mas_left);
@@ -188,7 +202,7 @@
             make.left.equalTo(centerClickView);
             make.width.equalTo(@(SCREEN_WIDTH/3));
             make.top.equalTo(centerClickView);
-            make.bottom.equalTo(centerClickView);
+            make.bottom.equalTo(centerClickView).offset(-1);
         }];
         
         UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -228,6 +242,18 @@
             make.bottom.equalTo(leftBtn);
         }];
         self.line = line;
+        
+        UILabel *line1 = [UILabel new];
+        line1.backgroundColor = UIColorFromRGB(0xeeeeee);
+        [centerClickView addSubview:line1];
+        [line1 mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(centerClickView);
+            make.right.equalTo(centerClickView);
+            make.height.equalTo(@1);
+            make.top.equalTo(line.mas_bottom);
+        }];
+        
+        
         [leftBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
         [rightBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
         [centerBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -261,6 +287,20 @@
             _loadIndex = 1;
             [[NSUserDefaults standardUserDefaults]setObject:@"1" forKey:@"loadIndex"];
             [self.notLoginImageView removeFromSuperview];
+            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+            [self.headerImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[userDefaults objectForKey:USER_PHOTO] ]] placeholderImage:[UIImage imageNamed:@"用户默认头像"]];
+            self.userNameLabel.text = [NSString stringWithFormat:@"%@",[userDefaults objectForKey:USER_NICKNAME]];
+            self.readNumLabel.text = [NSString stringWithFormat:@"你最近阅读了%@篇文章，加油哦",[userDefaults objectForKey:USER_READNUM]];
+            if ([[userDefaults objectForKey:USER_SEX] isEqual:@1]) {
+                self.headerView.backgroundColor = RGBCOLOR(228, 235, 243);
+                self.headerImageBK.image = [UIImage imageNamed:@"男标示"];
+            }else if ([[userDefaults objectForKey:USER_SEX] isEqual:@2]){
+                self.headerView.backgroundColor = RGBCOLOR(255, 240, 243);
+                self.headerImageBK.image = [UIImage imageNamed:@"女生标示"];
+            }else{
+                self.headerView.backgroundColor = RGBCOLOR(255, 240, 243);
+                self.headerImageBK.image = [UIImage imageNamed:@"男标示"];
+            }
         }else{
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
             [self.headerImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[userDefaults objectForKey:USER_PHOTO] ]] placeholderImage:[UIImage imageNamed:@"用户默认头像"]];
@@ -268,10 +308,13 @@
             self.readNumLabel.text = [NSString stringWithFormat:@"你最近阅读了%@篇文章，加油哦",[userDefaults objectForKey:USER_READNUM]];
             if ([[userDefaults objectForKey:USER_SEX] isEqual:@1]) {
                 self.headerView.backgroundColor = RGBCOLOR(228, 235, 243);
+                self.headerImageBK.image = [UIImage imageNamed:@"男标示"];
             }else if ([[userDefaults objectForKey:USER_SEX] isEqual:@2]){
                 self.headerView.backgroundColor = RGBCOLOR(255, 240, 243);
+                self.headerImageBK.image = [UIImage imageNamed:@"女生标示"];
             }else{
                 self.headerView.backgroundColor = RGBCOLOR(255, 240, 243);
+                self.headerImageBK.image = [UIImage imageNamed:@"男标示"];
             }
         }
         self.leftBtn.userInteractionEnabled = YES;
@@ -309,10 +352,11 @@
     self.headerImageView.image = [UIImage imageNamed:@"用户默认头像"];
     [self.headerBtn addTarget:self action:@selector(gotoLogin:) forControlEvents:UIControlEventTouchUpInside];
     self.headerView.backgroundColor = RGBCOLOR(237, 238, 239);
+    self.headerImageBK.image = [UIImage imageNamed:@"男标示"];
 }
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
 }
 //设置状态栏颜色
 - (void)setStatusBarBackgroundColor:(UIColor *)color {
@@ -361,7 +405,7 @@
                         [[NSUserDefaults standardUserDefaults]setObject:infoDic[@"nickname"] forKey:USER_NICKNAME];
                     }
                 }
-                self.readNumLabel.text = [NSString stringWithFormat:@"你最近阅读了%@篇文章，加油哦",infoDic[@"read_num"]];
+//                self.readNumLabel.text = [NSString stringWithFormat:@"你最近阅读了%@篇文章，加油哦",infoDic[@"read_num"]];
                 [[NSUserDefaults standardUserDefaults]setObject:infoDic[@"read_num"] forKey:USER_READNUM];
                 [[NSUserDefaults standardUserDefaults]setObject:infoDic[@"mobile"] forKey:USER_MOBILE];
                 [[NSUserDefaults standardUserDefaults]setObject:infoDic[@"sex"] forKey:USER_SEX];
@@ -375,7 +419,19 @@
                     FocusModel *model = [FocusModel mj_objectWithKeyValues:dic];
                     [self.focusArray addObject:model];
                 }
-                [self.leftTableView reloadData];
+                if (self.focusArray.count < 1) {
+                    UIImageView *imageView  =[UIImageView new];
+                    imageView.image = [UIImage imageNamed:@"没有关注"];
+                    imageView.contentMode = UIViewContentModeCenter;
+                    [self.leftTableView addSubview:imageView];
+                    [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+                        make.center.equalTo(self.leftTableView);
+                        make.width.equalTo(self.leftTableView);
+                        make.height.equalTo(self.leftTableView);
+                    }];
+                }else{
+                    [self.leftTableView reloadData];
+                }
                 [self.leftTableView.mj_header endRefreshing];
             }else{
                 [self.leftTableView.mj_header endRefreshing];
@@ -392,7 +448,19 @@
                     MyStateModel *model = [MyStateModel mj_objectWithKeyValues:dic];
                     [self.stateArray addObject:model];
                 }
-                [self.centerTableView reloadData];
+                if (self.stateArray.count < 1) {
+                    UIImageView *imageView  =[UIImageView new];
+                    imageView.image = [UIImage imageNamed:@"没有动态"];
+                    imageView.contentMode = UIViewContentModeCenter;
+                    [self.centerTableView addSubview:imageView];
+                    [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+                        make.center.equalTo(self.centerTableView);
+                        make.width.equalTo(self.centerTableView);
+                        make.height.equalTo(self.centerTableView);
+                    }];
+                }else{
+                    [self.centerTableView reloadData];
+                }
                 [self.centerTableView.mj_header endRefreshing];
             }else{
                 [self.centerTableView.mj_header endRefreshing];
@@ -405,7 +473,25 @@
             if (LTHttpResultSuccess == result) {
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                     NSDictionary *collectionDics = data[@"responseData"][@"rows"];
-                    self.collectionHeaderTitleArray = [NSMutableArray arrayWithArray:[collectionDics allKeys]];
+                    NSArray *titleArrays = [collectionDics allKeys];
+
+                    [titleArrays sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+                        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+                        [formatter setDateFormat:@"yyyy-MM-dd"];
+                        if (obj1 == [NSNull null]) {
+                            obj1 = @"0000-00-00";
+                        }
+                        if (obj2 == [NSNull null]) {
+                            obj2 = @"0000-00-00";
+                        }
+                        NSDate *date1 = [formatter dateFromString:obj1];
+                        NSDate *date2 = [formatter dateFromString:obj2];
+                        NSComparisonResult result = [date1 compare:date2];
+                        return result == NSOrderedDescending;
+                    }];
+                    
+                    self.collectionHeaderTitleArray = [NSMutableArray arrayWithArray:titleArrays];
+                    NSLog(@"%@,%@",titleArrays,self.collectionHeaderTitleArray);
                     [self.collectionDic removeAllObjects];
                     NSMutableArray *muArr = [NSMutableArray array];
                     [muArr removeAllObjects];
@@ -418,7 +504,19 @@
                         [self.collectionDic setObject:muArr.mutableCopy forKey:self.collectionHeaderTitleArray[i]];
                     }
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        [self.rightTableView reloadData];
+                        if (titleArrays.count <= 1 && ![titleArrays[0] isEqualToString:@" "]) {
+                            UIImageView *imageView  =[UIImageView new];
+                            imageView.image = [UIImage imageNamed:@"没有收藏"];
+                            imageView.contentMode = UIViewContentModeCenter;
+                            [self.rightTableView addSubview:imageView];
+                            [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+                                make.center.equalTo(self.rightTableView);
+                                make.width.equalTo(self.rightTableView);
+                                make.height.equalTo(self.rightTableView);
+                            }];
+                        }else{
+                            [self.rightTableView reloadData];
+                        }
                         [self.rightTableView.mj_header endRefreshing];
                     });
                 });
@@ -455,7 +553,24 @@
             if (LTHttpResultSuccess == result) {
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                     NSDictionary *collectionDics = data[@"responseData"];
-                    self.collectionHeaderTitleArray = [NSMutableArray arrayWithArray:[collectionDics allKeys]];
+                    
+                    NSArray *titleArrays = [collectionDics allKeys];
+                    [self.collectionHeaderTitleArray addObjectsFromArray:titleArrays];
+                    [self.collectionHeaderTitleArray sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+                        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+                        [formatter setDateFormat:@"yyyy-MM-dd"];
+                        if (obj1 == [NSNull null]) {
+                            obj1 = @"0000-00-00";
+                        }
+                        if (obj2 == [NSNull null]) {
+                            obj2 = @"0000-00-00";
+                        }
+                        NSDate *date1 = [formatter dateFromString:obj1];
+                        NSDate *date2 = [formatter dateFromString:obj2];
+                        NSComparisonResult result = [date1 compare:date2];
+                        return result == NSOrderedDescending;
+                    }];
+                    NSLog(@"%@",self.collectionHeaderTitleArray);
                     NSMutableArray *muArr = [NSMutableArray array];
                     [muArr removeAllObjects];
                     for (int i = 0; i < [collectionDics allKeys].count; i++) {
@@ -639,7 +754,7 @@
         return self.stateArray.count;
     }else if (tableView == self.rightTableView){
         NSArray *array = self.collectionDic[self.collectionHeaderTitleArray[section]];
-        return array.count;
+      return array.count;
     }else{
         return 0;
     }
@@ -694,6 +809,7 @@
         SubCategoryViewController *vc = [SubCategoryViewController new];
         vc.cid = model.cid;
         [self.navigationController pushViewController:vc animated:YES];
+        [self.navigationController setNavigationBarHidden:YES animated:YES];
     }else if (tableView == self.centerTableView){
         MyStateModel *model = self.stateArray[indexPath.row];
         if ([model.type  isEqual: @1]) {

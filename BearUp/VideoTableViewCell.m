@@ -24,7 +24,7 @@
 }
 - (void)initWithCell{
     UIImageView *picView = [UIImageView new];
-    picView.image = [UIImage imageNamed:@"index_shipin"];
+    picView.image = [UIImage imageNamed:@"未加载好图片长"];
     [self.contentView addSubview:picView];
     [picView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.contentView.mas_left);

@@ -26,6 +26,14 @@
     UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithTitle:@"保存" style:UIBarButtonItemStyleDone target:self action:@selector(saveBtn:)];
     self.navigationItem.rightBarButtonItem = item;
 }
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
+}
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
+}
 - (void)saveBtn:(UIButton *)btn{
     if (self.nickNameTextFiled.text.length > 0) {
         if ([_sex integerValue] == 1 || [_sex integerValue] == 2) {
@@ -79,17 +87,22 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
     cell.selectionStyle = NO;
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     if (indexPath.row == 0) {
         UIButton *headerBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [cell.contentView addSubview:headerBtn];
-        [headerBtn setImage:[UIImage imageNamed:@"用户默认头像"] forState:UIControlStateNormal];
+        [headerBtn sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[userDefaults objectForKey:USER_PHOTO] ]]  forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"用户默认头像"]];
         [headerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.center.equalTo(cell.contentView);
             make.height.equalTo(@100);
             make.width.equalTo(@100);
         }];
+        [headerBtn.layer setMasksToBounds:YES];
+        [headerBtn.layer setCornerRadius:50];
         [headerBtn addTarget:self action:@selector(uploadPhoto:) forControlEvents:UIControlEventTouchUpInside];
         self.headerBtn = headerBtn;
+        NSArray *array = @[self.headerBtn.imageView.image];
+        _photosArr = array;
         return cell;
 
     }else if (indexPath.row == 1){
@@ -106,6 +119,7 @@
             make.height.equalTo(@35);
         }];
         self.nickNameTextFiled = textfield;
+        self.nickNameTextFiled.text = [NSString stringWithFormat:@"%@",[userDefaults objectForKey:USER_NICKNAME]];
         return cell;
 
     }else if (indexPath.row == 2){
@@ -145,6 +159,13 @@
         girlBtn.tag = 2;
         [boyBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
         [girlBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+        if ([[userDefaults objectForKey:USER_SEX] isEqual:@1]) {
+            [self btnClick:boyBtn];
+        }else if ([[userDefaults objectForKey:USER_SEX] isEqual:@2]){
+            [self btnClick:girlBtn];
+        }else{
+            
+        }
 
         return cell;
     }else{

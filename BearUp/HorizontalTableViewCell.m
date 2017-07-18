@@ -19,7 +19,7 @@ static NSString *SUBCATEGORY = @"subcateoryCell";
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         UIImageView *topImageView = [UIImageView new];
-        topImageView.image = [UIImage imageNamed:@"发现页—排行版_03.jpg"];
+        topImageView.image = [UIImage imageNamed:@"未加载好图片长"];
         topImageView.backgroundColor = [UIColor grayColor];
         [self.contentView addSubview:topImageView];
         [topImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -82,7 +82,7 @@ static NSString *SUBCATEGORY = @"subcateoryCell";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     SubCategoryCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:SUBCATEGORY forIndexPath:indexPath];
     if (self.subCategoryArray.count) {
-        [cell.subImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.subCategoryArray[indexPath.row][@"photo"]]]];
+        [cell.subImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.subCategoryArray[indexPath.row][@"photo"]]] placeholderImage:[UIImage imageNamed:@"未加载好图片正"]];
         cell.subTitleLabel.text = self.subCategoryArray[indexPath.row][@"title"];
     }
     return cell;

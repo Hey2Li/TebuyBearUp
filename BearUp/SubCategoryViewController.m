@@ -11,6 +11,7 @@
 #import "VideoTableViewCell.h"
 #import "ZFVideoModel.h"
 #import "ZFVideoResolution.h"
+#import "BUMineViewController.h"
 
 
 @interface SubCategoryViewController ()<UITableViewDelegate, UITableViewDataSource,UIGestureRecognizerDelegate,ZFPlayerDelegate, ZFPlayerControlViewDelagate>
@@ -68,10 +69,10 @@
         [backBtn setImage:[UIImage imageNamed:@"返回白"] forState:UIControlStateNormal];
         [_navigtionBar addSubview:backBtn];
         [backBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(_navigtionBar.mas_left).offset(15);
+            make.left.equalTo(_navigtionBar.mas_left).offset(5);
             make.height.equalTo(@50);
             make.width.equalTo(@30);
-            make.centerY.equalTo(_navigtionBar);
+            make.centerY.equalTo(_navigtionBar).offset(10);
         }];
         [backBtn addTarget:self action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
         
@@ -81,7 +82,8 @@
         titleLabel.textColor = [UIColor whiteColor];
         [_navigtionBar addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.center.equalTo(_navigtionBar);
+            make.centerY.equalTo(backBtn.mas_centerY);
+            make.centerX.equalTo(_navigtionBar.mas_centerX);
             make.height.equalTo(@25);
             make.width.equalTo(@200);
         }];
@@ -142,7 +144,7 @@
             self.naviTitle.text = [NSString stringWithFormat:@"%@",self.dataDic[@"name"]];
             [self.categoryBackgroundImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.dataDic[@"photo"]]]];
             [self.categoryHederBtn sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.dataDic[@"photo"]]] forState:UIControlStateNormal];
-            self.focusPeopleLabel.text = [NSString stringWithFormat:@"已关注人数：%@",self.dataDic[@"hot"]];
+            self.focusPeopleLabel.text = [NSString stringWithFormat:@"已关注人数：%@",self.dataDic[@"atten_num"]];
             self.categoryDetailLabel.text = [NSString stringWithFormat:@"%@",self.dataDic[@"introduct"]];
             //最受欢迎
             self.welcomeDataArray = [NSMutableArray arrayWithArray:data[@"responseData"][@"comment"]];
@@ -177,7 +179,14 @@
 }
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    for (UIViewController *controller in self.navigationController.viewControllers) {
+        if ([controller isKindOfClass:[BUMineViewController class]]) {
+            [self.navigationController setNavigationBarHidden:YES animated:YES];
+        }else{
+            [self.navigationController setNavigationBarHidden:NO animated:YES];
+        }
+    }
+    
 }
 - (void)initWithView{
     UITableView *tableView  =[[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) style:UITableViewStyleGrouped];

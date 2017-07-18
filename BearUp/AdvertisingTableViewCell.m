@@ -17,7 +17,7 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         UIImageView *advertisingImageView = [UIImageView new];
-        advertisingImageView.backgroundColor = [UIColor redColor];
+        advertisingImageView.image = [UIImage imageNamed:@"未加载好图片长"];
         [self.contentView addSubview:advertisingImageView];
         [advertisingImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.contentView.mas_left).offset(5);

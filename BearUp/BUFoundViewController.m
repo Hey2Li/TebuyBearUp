@@ -245,7 +245,7 @@ static NSString *FOUNDCELL = @"foundCell";
         HorizontalTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:HORCELL];
         
         [cell.categoryNameBtn setTitle:[NSString stringWithFormat:@"%@",self.hotCategoryArray[indexPath.row][@"name"]] forState:UIControlStateNormal];
-        [cell.backgroundImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.hotCategoryArray[indexPath.row][@"photo"]]]];
+        [cell.backgroundImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.hotCategoryArray[indexPath.row][@"photo"]]] placeholderImage:[UIImage imageNamed:@"未加载好图片长"]];
         cell.subCategoryArray = [NSMutableArray arrayWithArray:self.hotCategoryArray[indexPath.row][@"arr"]];
         
         NSArray *subArray = self.hotCategoryArray[indexPath.row][@"arr"];

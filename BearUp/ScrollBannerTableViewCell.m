@@ -23,7 +23,7 @@
     return self;
 }
 - (void)initWithCell{
-    SDCycleScrollView *scrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 200) delegate:self placeholderImage:[UIImage imageNamed:@"index_banner"]];
+    SDCycleScrollView *scrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 200) delegate:self placeholderImage:[UIImage imageNamed:@"未加载好图片长"]];
     scrollView.pageControlAliment = SDCycleScrollViewPageContolAlimentRight;
     scrollView.currentPageDotColor = DRGBCOLOR;
     scrollView.pageDotColor = [UIColor whiteColor];

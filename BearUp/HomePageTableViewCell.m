@@ -73,9 +73,10 @@
     
     self.hotImageView = [UIImageView new];
     [grayView addSubview:self.hotImageView];
+    self.hotImageView.contentMode = UIViewContentModeCenter;
     self.hotImageView.image = [UIImage imageNamed:@"火"];
     [self.hotImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.hotNumLabel.mas_bottom);
+        make.centerY.equalTo(self.hotNumLabel.mas_centerY);
         make.right.equalTo(self.hotNumLabel.mas_left).offset(-5);
         make.width.equalTo(@30);
         make.height.equalTo(@30);
@@ -85,7 +86,7 @@
 - (void)setModel:(HomeModel *)model{
     _model = model;
     self.titleLabel.text = [NSString stringWithFormat:@"%@",model.title];
-    [self.contentImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",model.photo]]];
+    [self.contentImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",model.photo]] placeholderImage:[UIImage imageNamed:@"未加载好图片长"]];
     self.hotNumLabel.text = [NSString stringWithFormat:@"%@",model.hits];
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

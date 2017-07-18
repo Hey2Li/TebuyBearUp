@@ -32,6 +32,14 @@
     }
     return _sysMsgArray;
 }
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
+}
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -144,7 +152,7 @@
     [view addSubview:label];
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(view);
-        make.width.equalTo(@70);
+        make.width.equalTo(@100);
         make.height.equalTo(@16);
     }];
     if (tableView == self.MineMsgTableView) {

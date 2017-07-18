@@ -55,6 +55,7 @@
 
         SVProgressShowStuteText(@"退出成功", YES);
         [[NSNotificationCenter defaultCenter] postNotificationName:@"userquit" object:nil];
+        [self.navigationController popViewControllerAnimated:YES];
     }else{
         SVProgressShowStuteText(@"请先登录", NO);
     }
@@ -102,6 +103,9 @@
                                             ]];
         NSDate *dateFrom = [NSDate date];
         [[WKWebsiteDataStore defaultDataStore]removeDataOfTypes:type modifiedSince:dateFrom completionHandler:^{
+            [[SDImageCache sharedImageCache] clearDisk];
+            SVProgressShowStuteText(@"清理成功！", YES);
+            [self.tableView reloadData];
             NSLog(@"清理WKWebView缓存");
             
         }];
@@ -110,6 +114,9 @@
         NSString *cookiesFolderPath = [libraryPath stringByAppendingString:@"/Cookies"];
         [[NSFileManager defaultManager]removeItemAtPath:cookiesFolderPath error:nil];
         NSLog(@"%fkb",[self folderSizeAtPath:cookiesFolderPath]);
+        [[SDImageCache sharedImageCache] clearDisk];
+        SVProgressShowStuteText(@"清理成功！", YES);
+        [self.tableView reloadData];
     }
 }
 -(float)folderSizeAtPath:(NSString *)path{
@@ -214,7 +221,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     switch (indexPath.row) {
         case 0:
-            
+            SVProgressShowStuteText(@"暂未开放", NO);
             break;
         case 1:
             
@@ -223,7 +230,7 @@
             
             break;
         case 3:
-            
+            [self cleanCache];
             break;
         case 4:
             

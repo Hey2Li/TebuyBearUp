@@ -128,6 +128,7 @@
                     [self.commentDataArray addObject:model];
                 }
                 [self.tableView reloadData];
+                [self.tableView.mj_footer endRefreshing];
             }else{
                 [self.tableView.mj_footer endRefreshing];
                 _pageNum--;

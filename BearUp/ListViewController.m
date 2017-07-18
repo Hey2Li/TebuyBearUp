@@ -61,7 +61,7 @@
         make.height.equalTo(@50);
     }];
     self.view.backgroundColor = [UIColor whiteColor];
-    UISegmentedControl *control = [[UISegmentedControl alloc]initWithItems:@[@"文创周榜",@"视频总榜",@"总榜"]];
+    UISegmentedControl *control = [[UISegmentedControl alloc]initWithItems:@[@"总榜",@"文创周榜",@"视频总榜"]];
     [control addTarget:self action:@selector(controlChange:) forControlEvents:UIControlEventValueChanged];
     control.tintColor = [UIColor whiteColor];
     [topView addSubview:control];
@@ -158,7 +158,7 @@
         [self.navigationController pushViewController:vc animated:YES];
     }else{
         VideoDetailViewController *vc = [VideoDetailViewController new];
-        vc.vid = [NSNumber numberWithInteger:[self.dataArray[indexPath.section][@"id"]integerValue]];
+        vc.vid = [NSNumber numberWithInteger:[self.dataArray[indexPath.section][@"nid"]integerValue]];
         [self.navigationController pushViewController:vc animated:YES];
     }
    
