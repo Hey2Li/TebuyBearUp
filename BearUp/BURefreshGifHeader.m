@@ -35,7 +35,8 @@
     refreshingImages = [self praseGIFDataToImageArray:[NSData dataWithContentsOfFile:pathRefreshing]];    
     // 设置正在刷新状态的动画图片
     [self setImages:refreshingImages forState:MJRefreshStateRefreshing];
-
+    self.lastUpdatedTimeLabel.hidden = YES;
+    self.stateLabel.hidden = YES;
 }
 -(NSMutableArray *)praseGIFDataToImageArray:(NSData *)data;{
     NSMutableArray *frames = [[NSMutableArray alloc] init];

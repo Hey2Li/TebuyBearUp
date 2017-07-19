@@ -546,4 +546,59 @@
  @param complete block
  */
 + (void)myMoreMessageWithPage:(NSNumber *)page Limit:(NSNumber *)limit User_token:(NSString *)user_token User_id:(NSString *)user_id User_uuid:(NSString *)user_uuid Complete:(completeBlock)complete;
+
+/**
+ 发现首页广告api/explore/index
+ 
+ @param aid 广告ID
+ @param complete block
+ */
++ (void)foundIndexADWithAid:(NSNumber *)aid Complete:(completeBlock)complete;
+
+
+/**
+ 点赞文章
+
+ @param ID 文章ID
+ @param user_uuid UUID
+ @param user_id ID
+ @param user_token token
+ @param complete block
+ */
++ (void)agreeNewsWithId:(NSNumber *)ID User_uuid:(NSString *)user_uuid User_id:(NSString *)user_id User_token:(NSString *)user_token Complete:(completeBlock)complete;
+
+
+/**
+ 点赞视频
+
+ @param ID 视频ID
+ @param user_uuid UUDi
+ @param user_id ID
+ @param user_token token
+ @param complete block
+ */
++ (void)agreeVideosWithId:(NSNumber *)ID User_uuid:(NSString *)user_uuid User_id:(NSString *)user_id User_token:(NSString *)user_token Complete:(completeBlock)complete;
+
+/**
+ 点赞视频评论api/video/agreeconment
+ 
+ @param ID 评论ID
+ @param user_uuid UUID
+ @param user_id ID
+ @param user_token token
+ @param complete block
+ */
++ (void)agreeVideoCommentWithId:(NSNumber *)ID User_uuid:(NSString *)user_uuid User_id:(NSString *)user_id User_token:(NSString *)user_token Complete:(completeBlock)complete;
+
+/**
+ 点赞文章评论api/news/agreeconment
+ 
+ @param ID 评论ID
+ @param user_uuid UUID
+ @param user_id ID
+ @param user_token token
+ @param complete block
+ */
++ (void)agreeNewCommentWithId:(NSNumber *)ID User_uuid:(NSString *)user_uuid User_id:(NSString *)user_id User_token:(NSString *)user_token Complete:(completeBlock)complete;
+
 @end

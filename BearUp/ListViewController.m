@@ -145,7 +145,9 @@
             [self.dataArray removeAllObjects];
             self.dataArray = [NSMutableArray arrayWithArray:data[@"responseData"]];
             [self.myTableView reloadData];
-            [self.myTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+            if (self.dataArray.count > 0) {
+                 [self.myTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+            }
         }else{
            // [self.view makeToast:message];
         }

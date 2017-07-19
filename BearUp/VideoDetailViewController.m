@@ -61,8 +61,10 @@
     }
     return _bottomView;
 }
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
     // pop回来时候是否自动播放
     if (self.navigationController.viewControllers.count == 2 && self.playerView && self.isPlaying) {
         self.isPlaying = NO;
@@ -73,6 +75,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
     // push出下一级页面时候暂停
     if (self.navigationController.viewControllers.count == 3 && self.playerView && !self.playerView.isPauseByUser)
     {
@@ -266,6 +269,8 @@
         tableView.estimatedRowHeight = 250.0f;
         VideoDetailTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"videoDetailCell"];
         if (self.videoDataDic.allKeys.count > 0) {
+            cell.selectionStyle = NO;
+            cell.praiseBtn.tag = [[NSString stringWithFormat:@"%@",self.videoDataDic[@"id"]] integerValue];
             cell.videoTitle.text = [NSString stringWithFormat:@"%@",self.videoDataDic[@"title"]];
             cell.videoDetails.text = [NSString stringWithFormat:@"%@",self.videoDataDic[@"introduct"]];
             [cell.hotBtn setTitle:[NSString stringWithFormat:@"%@",self.videoDataDic[@"hits"]] forState:UIControlStateNormal];

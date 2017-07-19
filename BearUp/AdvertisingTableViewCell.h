@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface AdvertisingTableViewCell : UITableViewCell
-
+@property (nonatomic, strong) UIImageView *adImageView;
+@property (nonatomic, strong) UIButton *closeBtn;
+@property (nonatomic, copy) void (^adCloseBlock)(UIButton *btn);
 @end

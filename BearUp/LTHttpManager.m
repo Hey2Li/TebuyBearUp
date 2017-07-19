@@ -215,7 +215,7 @@
         UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"BearUp" bundle:nil];
         LoginViewController *lvc = [storyBoard instantiateViewControllerWithIdentifier:@"loginViewController"];
         UINavigationController *navi = [[UINavigationController alloc]initWithRootViewController:lvc];
-        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:navi animated:YES completion:nil];
+        [[[Tool alloc]topViewController] presentViewController:navi animated:YES completion:nil];
     }
 }
 
@@ -539,7 +539,7 @@
          UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"BearUp" bundle:nil];
         LoginViewController *lvc = [storyBoard instantiateViewControllerWithIdentifier:@"loginViewController"];
         UINavigationController *navi = [[UINavigationController alloc]initWithRootViewController:lvc];
-        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:navi animated:YES completion:nil];
+        [[[Tool alloc]topViewController] presentViewController:navi animated:YES completion:nil];
     }
 }
 
@@ -811,7 +811,6 @@
  */
 + (void)myMessageWithLimit:(NSNumber *)limit User_token:(NSString *)user_token User_id:(NSString *)user_id User_uuid:(NSString *)user_uuid Complete:(completeBlock)complete{
     LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
-
     NSMutableDictionary *paramters = [NSMutableDictionary dictionaryWithObjectsAndKeys:limit,@"limit", user_token,@"user_token",user_id,@"user_id",user_uuid,@"user_uuid",nil];
     [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/user/mymsgs",BaseURL] parameters:paramters complete:complete];
@@ -832,5 +831,100 @@
     NSMutableDictionary *paramters = [NSMutableDictionary dictionaryWithObjectsAndKeys:page,@"page",limit,@"limit", user_token,@"user_token",user_id,@"user_id",user_uuid,@"user_uuid",nil];
     [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/user/moremsgs",BaseURL] parameters:paramters complete:complete];
+}
+
+/**
+ 发现首页广告api/explore/index
+ 
+ @param aid 广告ID
+ @param complete block
+ */
++ (void)foundIndexADWithAid:(NSNumber *)aid Complete:(completeBlock)complete{
+    LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
+    
+    NSMutableDictionary *paramters = [NSMutableDictionary dictionaryWithObjectsAndKeys:aid,@"aid",nil];
+    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
+    [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/explore/index",BaseURL] parameters:paramters complete:complete];
+}
+
+/**
+ 点赞文章
+ 
+ @param ID 文章ID
+ @param user_uuid UUID
+ @param user_id ID
+ @param user_token token
+ @param complete block
+ */
++ (void)agreeNewsWithId:(NSNumber *)ID User_uuid:(NSString *)user_uuid User_id:(NSString *)user_id User_token:(NSString *)user_token Complete:(completeBlock)complete{
+    if (USER_ID) {
+        LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
+        NSMutableDictionary *paramters = [NSMutableDictionary dictionaryWithObjectsAndKeys:ID,@"id", user_token,@"user_token",user_id,@"user_id",user_uuid,@"user_uuid",nil];
+        [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
+        [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/new/agreenews",BaseURL] parameters:paramters complete:complete];
+    }else{
+        SVProgressShowStuteText(@"需要登录才能点赞哦~", NO);
+    }
+}
+
+
+/**
+ 点赞视频
+ 
+ @param ID 视频ID
+ @param user_uuid UUDi
+ @param user_id ID
+ @param user_token token
+ @param complete block
+ */
++ (void)agreeVideosWithId:(NSNumber *)ID User_uuid:(NSString *)user_uuid User_id:(NSString *)user_id User_token:(NSString *)user_token Complete:(completeBlock)complete{
+    if (USER_ID) {
+        LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
+        NSMutableDictionary *paramters = [NSMutableDictionary dictionaryWithObjectsAndKeys:ID,@"id", user_token,@"user_token",user_id,@"user_id",user_uuid,@"user_uuid",nil];
+        [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
+        [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/video/agreevideo",BaseURL] parameters:paramters complete:complete];
+    }else{
+        SVProgressShowStuteText(@"需要登录才能点赞哦~", NO);
+    }
+}
+
+/**
+ 点赞视频评论api/video/agreeconment
+ 
+ @param ID 评论ID
+ @param user_uuid UUID
+ @param user_id ID
+ @param user_token token
+ @param complete block
+ */
++ (void)agreeVideoCommentWithId:(NSNumber *)ID User_uuid:(NSString *)user_uuid User_id:(NSString *)user_id User_token:(NSString *)user_token Complete:(completeBlock)complete{
+    if (USER_ID) {
+        LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
+        NSMutableDictionary *paramters = [NSMutableDictionary dictionaryWithObjectsAndKeys:ID,@"id", user_token,@"user_token",user_id,@"user_id",user_uuid,@"user_uuid",nil];
+        [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
+        [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/video/agreeconment",BaseURL] parameters:paramters complete:complete];
+    }else{
+        SVProgressShowStuteText(@"需要登录才能点赞哦~", NO);
+    }
+}
+
+/**
+ 点赞文章评论api/news/agreeconment
+ 
+ @param ID 评论ID
+ @param user_uuid UUID
+ @param user_id ID
+ @param user_token token
+ @param complete block
+ */
++ (void)agreeNewCommentWithId:(NSNumber *)ID User_uuid:(NSString *)user_uuid User_id:(NSString *)user_id User_token:(NSString *)user_token Complete:(completeBlock)complete{
+    if (USER_ID) {
+        LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
+        NSMutableDictionary *paramters = [NSMutableDictionary dictionaryWithObjectsAndKeys:ID,@"id", user_token,@"user_token",user_id,@"user_id",user_uuid,@"user_uuid",nil];
+        [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
+        [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/news/agreeconment",BaseURL] parameters:paramters complete:complete];
+    }else{
+        SVProgressShowStuteText(@"需要登录才能点赞哦~", NO);
+    }
 }
 @end

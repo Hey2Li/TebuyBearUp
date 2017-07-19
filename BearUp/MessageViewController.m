@@ -194,7 +194,8 @@
         cell.backgroundColor = [UIColor whiteColor];
         [cell.headerImageView sd_setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:@"用户默认头像"]];
         cell.contentLabel.text = self.sysMsgArray[indexPath.section][@"title"];
-        cell.userName.text = self.sysMsgArray[indexPath.section][@"nickname"];
+//        cell.userName.text = self.sysMsgArray[indexPath.section][@"nickname"];
+        cell.userName.text = @"熊起";
         return cell;
     }else{
         MineMsgTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"minemsgcell"];

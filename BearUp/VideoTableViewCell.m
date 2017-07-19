@@ -172,10 +172,21 @@
     }
 }
 - (void)praiseClick:(UIButton *)sender{
-    sender.selected = !sender.selected;
-    NSInteger num = [sender.titleLabel.text integerValue];
-    num++;
-    [sender setTitle:[NSString stringWithFormat:@"%ld",(long)num] forState:UIControlStateSelected];
+    if (self.model.ID) {
+        [LTHttpManager agreeVideosWithId:self.model.ID User_uuid:GETUUID User_id:USER_ID User_token:USER_TOKEN Complete:^(LTHttpResult result, NSString *message, id data) {
+            if (LTHttpResultSuccess == result) {
+                sender.selected = !sender.selected;
+                [sender setTitle:[NSString stringWithFormat:@"%@",data[@"responseData"]] forState:UIControlStateSelected];
+                [sender setImage:[UIImage imageNamed:@"点赞红"] forState:UIControlStateSelected];
+                sender.userInteractionEnabled = NO;
+                SVProgressShowStuteText(@"点赞成功", YES);
+            }else{
+                SVProgressShowStuteText(@"点赞失败", NO);
+            }
+        }];
+    }else{
+        SVProgressShowStuteText(@"点赞失败", NO);
+    }
 }
 - (void)shareClick:(UIButton *)sender{
     if (self.shareBlock) {

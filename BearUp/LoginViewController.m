@@ -88,7 +88,7 @@
         make.left.equalTo(line1.mas_left);
         make.right.equalTo(line1.mas_right);
         make.height.equalTo(@1);
-        make.top.equalTo(line1.mas_bottom).offset(50);
+        make.top.equalTo(line1.mas_bottom).offset(60);
     }];
     
     UIImageView *passwordImageView = [UIImageView new];
@@ -132,13 +132,13 @@
     [loginBtn setTitle:@"登录" forState:UIControlStateNormal];
     [loginBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [loginBtn setBackgroundColor:UIColorFromRGB(0xff4466)];
-    [loginBtn.layer setCornerRadius:18];
+    [loginBtn.layer setCornerRadius:17];
     [loginBtn.layer setMasksToBounds:YES];
     [self.view addSubview:loginBtn];
     [loginBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view.mas_centerX);
-        make.height.equalTo(@36);
-        make.width.equalTo(@(SCREEN_WIDTH/3*2));
+        make.height.equalTo(@34);
+        make.width.equalTo(@(SCREEN_WIDTH/3*2 + 20));
         make.top.equalTo(line2.mas_bottom).offset(30);
     }];
     
@@ -146,7 +146,7 @@
     [registerBtn setTitle:@"注册" forState:UIControlStateNormal];
     [registerBtn setTitleColor:UIColorFromRGB(0xff4466) forState:UIControlStateNormal];
     [registerBtn setBackgroundColor:[UIColor whiteColor]];
-    [registerBtn.layer setCornerRadius:18];
+    [registerBtn.layer setCornerRadius:17];
     [registerBtn.layer setMasksToBounds:YES];
     [registerBtn.layer setBorderWidth:1];
     [registerBtn.layer setBorderColor:UIColorFromRGB(0xff4466).CGColor];
@@ -155,7 +155,7 @@
         make.centerX.equalTo(loginBtn.mas_centerX);
         make.height.equalTo(loginBtn.mas_height);
         make.width.equalTo(loginBtn.mas_width);
-        make.top.equalTo(loginBtn.mas_bottom).offset(5);
+        make.top.equalTo(loginBtn.mas_bottom).offset(10);
     }];
 
     UILabel *otherLabel = [UILabel new];
@@ -174,7 +174,7 @@
     }else{
         [otherLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self.view.mas_centerX);
-            make.top.equalTo(registerBtn.mas_bottom).offset(120);
+            make.top.equalTo(registerBtn.mas_bottom).offset(100);
             make.width.equalTo(@120);
             make.height.equalTo(@30);
         }];

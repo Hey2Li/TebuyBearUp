@@ -23,7 +23,7 @@
 #define HederHeight ceil(SCREEN_HEIGHT/3) + 70
 @interface BUMineViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UITableView *myTableView;
-@property (nonatomic, strong) UIView *headerView;
+@property (nonatomic, strong) UIImageView *headerView;
 @property (nonatomic, strong) UIButton *tempBtn;
 @property (nonatomic, strong) UILabel *line;
 @property (nonatomic, assign) NSInteger selectIndex;
@@ -48,6 +48,8 @@
 @property (nonatomic, assign) int loadIndex;
 @property (nonatomic, strong) UIImageView *notLoginImageView;
 @property (nonatomic, strong) UIImageView *headerImageBK;
+@property (nonatomic, strong) UIButton *settingBtn;
+@property (nonatomic, strong) UIButton *messageBtn;
 @end
 
 @implementation BUMineViewController
@@ -82,10 +84,12 @@
     }
     return _collectionDic;
 }
-- (UIView *)headerView{
+- (UIImageView *)headerView{
     if (!_headerView ) {
-        _headerView = [UIView new];
-        UIView *headerView = [[UIView alloc]init];
+        _headerView = [UIImageView new];
+        _headerView.userInteractionEnabled = YES;
+        UIImageView *headerView = [[UIImageView alloc]init];
+        headerView.userInteractionEnabled = YES;
         [self.view addSubview:headerView];
         [headerView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.view);
@@ -104,6 +108,7 @@
             make.top.equalTo(headerView.mas_top).offset(25);
         }];
         [messageBtn addTarget:self action:@selector(messageClick) forControlEvents:UIControlEventTouchUpInside];
+        self.messageBtn = messageBtn;
         
         UIButton *settingBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [settingBtn setImage:[UIImage imageNamed:@"登陆后设置"] forState:UIControlStateNormal];
@@ -115,6 +120,7 @@
             make.width.equalTo(messageBtn);
         }];
         [settingBtn addTarget:self action:@selector(settingClick) forControlEvents:UIControlEventTouchUpInside];
+        self.settingBtn = settingBtn;
         
         UIImageView *headerImageBK = [UIImageView new];
         headerImageBK.image = [UIImage imageNamed:@"男标示"];
@@ -134,10 +140,10 @@
         [headerImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(headerImageBK).offset(10);
             make.centerX.equalTo(headerImageBK).offset(-1);
-            make.width.equalTo(@80);
-            make.height.equalTo(@80);
+            make.width.equalTo(@82);
+            make.height.equalTo(@82);
         }];
-        [headerImageView.layer setCornerRadius:40];
+        [headerImageView.layer setCornerRadius:41];
         [headerImageView.layer setMasksToBounds:YES];
         self.headerImageView = headerImageView;
         
@@ -157,7 +163,8 @@
         UILabel *nameLabel = [UILabel new];
         nameLabel.font = [UIFont systemFontOfSize:20];
         nameLabel.textAlignment = NSTextAlignmentCenter;
-        nameLabel.text = @"快乐的小猴子";
+        nameLabel.text = @"";
+        nameLabel.textColor = UIColorFromRGB(0xffffff);
         [headerView addSubview:nameLabel];
         [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(headerBtn.mas_bottom).offset(5);
@@ -170,7 +177,7 @@
         UILabel *readerNumLabel = [UILabel new];
         readerNumLabel.textAlignment = NSTextAlignmentCenter;
         readerNumLabel.font = [UIFont systemFontOfSize:14];
-        readerNumLabel.textColor = UIColorFromRGB(0xaeaeae);
+        readerNumLabel.textColor = UIColorFromRGB(0xffffff);
         readerNumLabel.text = @"您最近阅读了X篇文章，加油啊！";
         [headerView addSubview:readerNumLabel];
         [readerNumLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -287,20 +294,6 @@
             _loadIndex = 1;
             [[NSUserDefaults standardUserDefaults]setObject:@"1" forKey:@"loadIndex"];
             [self.notLoginImageView removeFromSuperview];
-            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-            [self.headerImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[userDefaults objectForKey:USER_PHOTO] ]] placeholderImage:[UIImage imageNamed:@"用户默认头像"]];
-            self.userNameLabel.text = [NSString stringWithFormat:@"%@",[userDefaults objectForKey:USER_NICKNAME]];
-            self.readNumLabel.text = [NSString stringWithFormat:@"你最近阅读了%@篇文章，加油哦",[userDefaults objectForKey:USER_READNUM]];
-            if ([[userDefaults objectForKey:USER_SEX] isEqual:@1]) {
-                self.headerView.backgroundColor = RGBCOLOR(228, 235, 243);
-                self.headerImageBK.image = [UIImage imageNamed:@"男标示"];
-            }else if ([[userDefaults objectForKey:USER_SEX] isEqual:@2]){
-                self.headerView.backgroundColor = RGBCOLOR(255, 240, 243);
-                self.headerImageBK.image = [UIImage imageNamed:@"女生标示"];
-            }else{
-                self.headerView.backgroundColor = RGBCOLOR(255, 240, 243);
-                self.headerImageBK.image = [UIImage imageNamed:@"男标示"];
-            }
         }else{
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
             [self.headerImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[userDefaults objectForKey:USER_PHOTO] ]] placeholderImage:[UIImage imageNamed:@"用户默认头像"]];
@@ -309,12 +302,25 @@
             if ([[userDefaults objectForKey:USER_SEX] isEqual:@1]) {
                 self.headerView.backgroundColor = RGBCOLOR(228, 235, 243);
                 self.headerImageBK.image = [UIImage imageNamed:@"男标示"];
+                self.userNameLabel.textColor = UIColorFromRGB(0x000000);
+                self.readNumLabel.textColor = UIColorFromRGB(0x6b6b6b);
+                [self.settingBtn setImage:[UIImage imageNamed:@"登陆后设置"] forState:UIControlStateNormal];
+                [self.messageBtn setImage:[UIImage imageNamed:@"登陆后无消息状态"] forState:UIControlStateNormal];
             }else if ([[userDefaults objectForKey:USER_SEX] isEqual:@2]){
                 self.headerView.backgroundColor = RGBCOLOR(255, 240, 243);
                 self.headerImageBK.image = [UIImage imageNamed:@"女生标示"];
+                self.userNameLabel.textColor = UIColorFromRGB(0x000000);
+                self.readNumLabel.textColor = UIColorFromRGB(0x6b6b6b);
+                
+                [self.settingBtn setImage:[UIImage imageNamed:@"登陆后设置"] forState:UIControlStateNormal];
+                [self.messageBtn setImage:[UIImage imageNamed:@"登陆后无消息状态"] forState:UIControlStateNormal];
             }else{
-                self.headerView.backgroundColor = RGBCOLOR(255, 240, 243);
-                self.headerImageBK.image = [UIImage imageNamed:@"男标示"];
+                self.headerView.image = [UIImage imageNamed:@"未登录背景"];
+                self.headerImageBK.image = [UIImage imageNamed:@""];
+                self.userNameLabel.textColor = UIColorFromRGB(0xffffff);
+                self.readNumLabel.textColor = UIColorFromRGB(0xffffff);
+                [self.settingBtn setImage:[UIImage imageNamed:@"未登录设置"] forState:UIControlStateNormal];
+                [self.messageBtn setImage:[UIImage imageNamed:@"未登录消息状态"] forState:UIControlStateNormal];
             }
         }
         self.leftBtn.userInteractionEnabled = YES;
@@ -351,8 +357,12 @@
     self.readNumLabel.text = @"你最近阅读了0篇文章，加油哦";
     self.headerImageView.image = [UIImage imageNamed:@"用户默认头像"];
     [self.headerBtn addTarget:self action:@selector(gotoLogin:) forControlEvents:UIControlEventTouchUpInside];
-    self.headerView.backgroundColor = RGBCOLOR(237, 238, 239);
-    self.headerImageBK.image = [UIImage imageNamed:@"男标示"];
+    self.headerView.image = [UIImage imageNamed:@"未登录背景"];
+    self.headerImageBK.image = [UIImage imageNamed:@""];
+    self.userNameLabel.textColor = UIColorFromRGB(0xffffff);
+    self.readNumLabel.textColor = UIColorFromRGB(0xffffff);
+    [self.settingBtn setImage:[UIImage imageNamed:@"未登录设置"] forState:UIControlStateNormal];
+    [self.messageBtn setImage:[UIImage imageNamed:@"未登录消息状态"] forState:UIControlStateNormal];
 }
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
@@ -382,7 +392,7 @@
         UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"BearUp" bundle:nil];
         LoginViewController *lvc = [storyBoard instantiateViewControllerWithIdentifier:@"loginViewController"];
         UINavigationController *navi = [[UINavigationController alloc]initWithRootViewController:lvc];
-        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:navi animated:YES completion:nil];
+        [self presentViewController:navi animated:YES completion:nil];
     }
 }
 - (void)headerLoadData{
@@ -411,7 +421,33 @@
                 [[NSUserDefaults standardUserDefaults]setObject:infoDic[@"sex"] forKey:USER_SEX];
                 [[NSUserDefaults standardUserDefaults]synchronize];
                 
-                
+                NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+                [self.headerImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[userDefaults objectForKey:USER_PHOTO] ]] placeholderImage:[UIImage imageNamed:@"用户默认头像"]];
+                self.userNameLabel.text = [NSString stringWithFormat:@"%@",[userDefaults objectForKey:USER_NICKNAME]];
+                self.readNumLabel.text = [NSString stringWithFormat:@"你最近阅读了%@篇文章，加油哦",[userDefaults objectForKey:USER_READNUM]];
+                if ([[userDefaults objectForKey:USER_SEX] isEqual:@1]) {
+                    self.headerView.backgroundColor = RGBCOLOR(228, 235, 243);
+                    self.headerImageBK.image = [UIImage imageNamed:@"男标示"];
+                    self.userNameLabel.textColor = UIColorFromRGB(0x000000);
+                    self.readNumLabel.textColor = UIColorFromRGB(0x6b6b6b);
+                    [self.settingBtn setImage:[UIImage imageNamed:@"登陆后设置"] forState:UIControlStateNormal];
+                    [self.messageBtn setImage:[UIImage imageNamed:@"登陆后无消息状态"] forState:UIControlStateNormal];
+                }else if ([[userDefaults objectForKey:USER_SEX] isEqual:@2]){
+                    self.headerView.backgroundColor = RGBCOLOR(255, 240, 243);
+                    self.headerImageBK.image = [UIImage imageNamed:@"女生标示"];
+                    self.userNameLabel.textColor = UIColorFromRGB(0x000000);
+                    self.readNumLabel.textColor = UIColorFromRGB(0x6b6b6b);
+                    [self.settingBtn setImage:[UIImage imageNamed:@"登陆后设置"] forState:UIControlStateNormal];
+                    [self.messageBtn setImage:[UIImage imageNamed:@"登陆后无消息状态"] forState:UIControlStateNormal];
+                }else{
+                    self.headerView.image = [UIImage imageNamed:@"未登录背景"];
+                    self.headerImageBK.image = [UIImage imageNamed:@""];
+                    self.userNameLabel.textColor = UIColorFromRGB(0xffffff);
+                    self.readNumLabel.textColor = UIColorFromRGB(0xffffff);
+                    [self.settingBtn setImage:[UIImage imageNamed:@"未登录设置"] forState:UIControlStateNormal];
+                    [self.messageBtn setImage:[UIImage imageNamed:@"未登录消息状态"] forState:UIControlStateNormal];
+                }
+
             
                 [self.focusArray removeAllObjects];
                 NSArray *array = data[@"responseData"][@"rows"];
@@ -491,7 +527,6 @@
                     }];
                     
                     self.collectionHeaderTitleArray = [NSMutableArray arrayWithArray:titleArrays];
-                    NSLog(@"%@,%@",titleArrays,self.collectionHeaderTitleArray);
                     [self.collectionDic removeAllObjects];
                     NSMutableArray *muArr = [NSMutableArray array];
                     [muArr removeAllObjects];
@@ -504,7 +539,7 @@
                         [self.collectionDic setObject:muArr.mutableCopy forKey:self.collectionHeaderTitleArray[i]];
                     }
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        if (titleArrays.count <= 1 && ![titleArrays[0] isEqualToString:@" "]) {
+                        if (titleArrays.count <= 1 && [titleArrays[0] isEqualToString:@""]) {
                             UIImageView *imageView  =[UIImageView new];
                             imageView.image = [UIImage imageNamed:@"没有收藏"];
                             imageView.contentMode = UIViewContentModeCenter;

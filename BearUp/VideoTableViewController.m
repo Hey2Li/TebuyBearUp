@@ -15,6 +15,8 @@
 #import "VideoDetailViewController.h"
 #import <UShareUI/UShareUI.h>
 #import "VideoModel.h"
+#import "BURefreshGifHeader.h"
+
 
 @interface VideoTableViewController ()<ZFPlayerControlViewDelagate, ZFPlayerDelegate>
 @property (nonatomic, strong) NSArray *titleArray;
@@ -70,7 +72,7 @@ static NSString *videoCell = @"playerCell";
 }
 //下拉刷新
 - (void)headerLoadData{
-    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+    self.tableView.mj_header = [BURefreshGifHeader headerWithRefreshingBlock:^{
         WeakSelf
         if (self.index == 0) {
             [LTHttpManager videoListWithLimit:@10 Value:@"" Complete:^(LTHttpResult result, NSString *message, id data) {

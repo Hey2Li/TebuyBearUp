@@ -27,4 +27,5 @@
 @property (nonatomic, copy) NSString *time;
 @property (nonatomic, copy) NSNumber *uid;
 @property (nonatomic, copy) NSNumber *vid;
+@property (nonatomic, copy) NSNumber *com_type;
 @end

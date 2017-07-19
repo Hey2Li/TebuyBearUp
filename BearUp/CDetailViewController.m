@@ -34,6 +34,12 @@ static NSString * const picMethodName = @"openBigPicture:";
 static NSString * const videoMethodName = @"openVideoPlayer:";
 static NSString *commentCell = @"commentCell";
 
+- (NSMutableArray *)commentDataArray{
+    if (!_commentDataArray) {
+        _commentDataArray = [NSMutableArray array];
+    }
+    return _commentDataArray;
+}
 - (BottomCommentView *)bottomView{
     if (!_bottomView) {
         _bottomView = [[BottomCommentView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
@@ -68,11 +74,13 @@ static NSString *commentCell = @"commentCell";
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.tabBarController.tabBar setHidden:YES];
-    
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
+
 }
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [self.tabBarController.tabBar setHidden:NO];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
 - (void)viewDidLoad {

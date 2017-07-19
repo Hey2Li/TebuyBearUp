@@ -20,10 +20,18 @@ static NSString *HORCELL = @"HorizontalCell";
 @property (nonatomic, strong) UITableView *myTableView;
 @property (nonatomic, strong) NSMutableArray *hotCategoryArray;
 @property (nonatomic, strong) NSMutableArray *hotRankArray;
+@property (nonatomic, strong) NSDictionary *adDic;
+@property (nonatomic, strong) NSMutableDictionary  *allDataDic;
 @end
 static NSString *FOUNDCELL = @"foundCell";
 @implementation BUFoundViewController
 
+- (NSMutableDictionary *)allDataDic{
+    if (!_allDataDic) {
+        _allDataDic = [NSMutableDictionary dictionary];
+    }
+    return _allDataDic;
+}
 - (NSMutableArray *)hotRankArray{
     if (!_hotRankArray) {
         _hotRankArray = [NSMutableArray array];
@@ -44,13 +52,24 @@ static NSString *FOUNDCELL = @"foundCell";
     [self loadData];
 }
 - (void)loadData{
-    [LTHttpManager foundIndexComplete:^(LTHttpResult result, NSString *message, id data) {
+//    [LTHttpManager foundIndexComplete:^(LTHttpResult result, NSString *message, id data) {
+//        if (LTHttpResultSuccess == result) {
+//            self.hotRankArray = [NSMutableArray arrayWithArray:data[@"responseData"][@"toparr"]];
+//            self.hotCategoryArray = [NSMutableArray arrayWithArray:data[@"responseData"][@"columns"]];
+//            [self.myTableView reloadData];
+//        }else{
+//           // [self.view makeToast:message];
+//        }
+//    }];
+    [LTHttpManager foundIndexADWithAid:@1 Complete:^(LTHttpResult result, NSString *message, id data) {
         if (LTHttpResultSuccess == result) {
+            self.allDataDic = [NSMutableDictionary dictionaryWithDictionary:data[@"responseData"]];
+            self.adDic = self.allDataDic[@"advert"];
             self.hotRankArray = [NSMutableArray arrayWithArray:data[@"responseData"][@"toparr"]];
             self.hotCategoryArray = [NSMutableArray arrayWithArray:data[@"responseData"][@"columns"]];
             [self.myTableView reloadData];
         }else{
-           // [self.view makeToast:message];
+            
         }
     }];
 }
@@ -81,10 +100,16 @@ static NSString *FOUNDCELL = @"foundCell";
 
 #pragma mark tableViewDelegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 3;
+    return [self.allDataDic allKeys].count;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (section == 0 || section == 1) {
+    if (section == 0) {
+        if ([self.adDic allKeys].count > 2) {
+            return 1;
+        }else{
+            return 0;
+        }
+    }else if (section == 1){
         return 1;
     }else{
         return self.hotCategoryArray.count;
@@ -221,6 +246,18 @@ static NSString *FOUNDCELL = @"foundCell";
         if (!cell) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"adverCell"];
         }
+        [cell.adImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.adDic[@"photo"]]] placeholderImage:[UIImage imageNamed:@"未加载好图片长"]];
+        cell.adCloseBlock = ^(UIButton *btn) {
+//            [self.allDataDic removeObjectForKey:@"advert"];
+            self.adDic = @{};
+//            [self.myTableView beginUpdates];
+//            [self.myTableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section]withRowAnimation:UITableViewRowAnimationNone];
+//            [self.myTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
+//            [self.myTableView endUpdates];
+//            // 刷新第0个section
+//            [self.myTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+            [_myTableView reloadData];
+        };
         return  cell;
     }else if (indexPath.section == 1){
         ScrollBannerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"scrollcell"];
@@ -275,6 +312,7 @@ static NSString *FOUNDCELL = @"foundCell";
 
     }
 }
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

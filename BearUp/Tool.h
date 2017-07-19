@@ -20,4 +20,5 @@ NSAttributedString *returnNumAttr(NSString *str,NSInteger fontSize);
 + (NSString *)MD5:(NSString *)str;
 + (BOOL)judgePhoneNumber:(NSString *)phoneNum;
 + (BOOL)checkPassword:(NSString *) password;
+- (UIViewController *)topViewController;
 @end

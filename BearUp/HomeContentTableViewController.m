@@ -129,8 +129,6 @@ static NSString *videoCell = @"playerCell";
             }];
         }
     }];
-    header.lastUpdatedTimeLabel.hidden = YES;
-    header.stateLabel.hidden = YES;
     [header beginRefreshing];
     
     self.tableView.mj_header = header;
