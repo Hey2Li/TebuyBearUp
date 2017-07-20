@@ -176,6 +176,7 @@
         NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:ID,@"id",
                                           value,@"value",
                                           USER_ID,@"user_id",
+                                          GETUUID,@"user_uuid",
                                           USER_TOKEN,@"user_token",
                                           nil];
         [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
@@ -251,11 +252,23 @@
  */
 + (void)videoDetailWithId:(NSNumber *)ID Complete:(completeBlock)complete{
     LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
-    NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:ID,@"id",
-                                    nil];
-    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
-    [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/video/show",BaseURL] parameters:paramters complete:complete];
-
+  
+    if (![USER_ID isEqual:[NSNull null]]) {
+        NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:ID,@"id",
+                                          USER_ID,@"user_id",
+                                          GETUUID,@"user_uuid",
+                                        USER_TOKEN,@"user_token",
+                                          nil];
+        [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
+        [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/video/show",BaseURL] parameters:paramters complete:complete];
+        
+    }else{
+        NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:ID,@"id",
+                                          nil];
+        [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
+        [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/video/show",BaseURL] parameters:paramters complete:complete];
+        
+    }
 }
 
 

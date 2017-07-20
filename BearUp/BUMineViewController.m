@@ -306,6 +306,7 @@
                 self.readNumLabel.textColor = UIColorFromRGB(0x6b6b6b);
                 [self.settingBtn setImage:[UIImage imageNamed:@"登陆后设置"] forState:UIControlStateNormal];
                 [self.messageBtn setImage:[UIImage imageNamed:@"登陆后无消息状态"] forState:UIControlStateNormal];
+                self.headerView.image = [UIImage imageNamed:@""];
             }else if ([[userDefaults objectForKey:USER_SEX] isEqual:@2]){
                 self.headerView.backgroundColor = RGBCOLOR(255, 240, 243);
                 self.headerImageBK.image = [UIImage imageNamed:@"女生标示"];
@@ -314,6 +315,7 @@
                 
                 [self.settingBtn setImage:[UIImage imageNamed:@"登陆后设置"] forState:UIControlStateNormal];
                 [self.messageBtn setImage:[UIImage imageNamed:@"登陆后无消息状态"] forState:UIControlStateNormal];
+                self.headerView.image = [UIImage imageNamed:@""];
             }else{
                 self.headerView.image = [UIImage imageNamed:@"未登录背景"];
                 self.headerImageBK.image = [UIImage imageNamed:@""];
@@ -432,6 +434,7 @@
                     self.readNumLabel.textColor = UIColorFromRGB(0x6b6b6b);
                     [self.settingBtn setImage:[UIImage imageNamed:@"登陆后设置"] forState:UIControlStateNormal];
                     [self.messageBtn setImage:[UIImage imageNamed:@"登陆后无消息状态"] forState:UIControlStateNormal];
+                    self.headerView.image = [UIImage imageNamed:@""];
                 }else if ([[userDefaults objectForKey:USER_SEX] isEqual:@2]){
                     self.headerView.backgroundColor = RGBCOLOR(255, 240, 243);
                     self.headerImageBK.image = [UIImage imageNamed:@"女生标示"];
@@ -439,6 +442,7 @@
                     self.readNumLabel.textColor = UIColorFromRGB(0x6b6b6b);
                     [self.settingBtn setImage:[UIImage imageNamed:@"登陆后设置"] forState:UIControlStateNormal];
                     [self.messageBtn setImage:[UIImage imageNamed:@"登陆后无消息状态"] forState:UIControlStateNormal];
+                    self.headerView.image = [UIImage imageNamed:@""];
                 }else{
                     self.headerView.image = [UIImage imageNamed:@"未登录背景"];
                     self.headerImageBK.image = [UIImage imageNamed:@""];
@@ -446,6 +450,7 @@
                     self.readNumLabel.textColor = UIColorFromRGB(0xffffff);
                     [self.settingBtn setImage:[UIImage imageNamed:@"未登录设置"] forState:UIControlStateNormal];
                     [self.messageBtn setImage:[UIImage imageNamed:@"未登录消息状态"] forState:UIControlStateNormal];
+                    self.headerView.image = [UIImage imageNamed:@"未登录背景"];
                 }
 
             
@@ -465,7 +470,12 @@
                         make.width.equalTo(self.leftTableView);
                         make.height.equalTo(self.leftTableView);
                     }];
+                    imageView.tag = 11110;
                 }else{
+                    for (UIImageView *image in self.leftTableView.subviews) {
+                        if (image.tag == 11110) {
+                            [image removeFromSuperview];
+                        }                        }
                     [self.leftTableView reloadData];
                 }
                 [self.leftTableView.mj_header endRefreshing];
@@ -494,7 +504,12 @@
                         make.width.equalTo(self.centerTableView);
                         make.height.equalTo(self.centerTableView);
                     }];
+                    imageView.tag = 11110;
                 }else{
+                    for (UIImageView *image in self.centerTableView.subviews) {
+                        if (image.tag == 11110) {
+                            [image removeFromSuperview];
+                        }                        }
                     [self.centerTableView reloadData];
                 }
                 [self.centerTableView.mj_header endRefreshing];
@@ -549,7 +564,12 @@
                                 make.width.equalTo(self.rightTableView);
                                 make.height.equalTo(self.rightTableView);
                             }];
+                            imageView.tag = 11110;
                         }else{
+                            for (UIImageView *image in self.rightTableView.subviews) {
+                                if (image.tag == 11110) {
+                                    [image removeFromSuperview];
+                                }                        }
                             [self.rightTableView reloadData];
                         }
                         [self.rightTableView.mj_header endRefreshing];

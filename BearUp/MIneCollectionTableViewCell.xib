@@ -12,21 +12,21 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="71" id="KGk-i7-Jjw" customClass="MIneCollectionTableViewCell">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="71"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="87" id="KGk-i7-Jjw" customClass="MIneCollectionTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="87"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="70.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="86.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fa1-Xu-xFf">
-                        <rect key="frame" x="65" y="18" width="237" height="34.5"/>
+                        <rect key="frame" x="65" y="18" width="237" height="17"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="0.4939831495" green="0.49811440709999999" blue="0.5019184351" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rux-3Y-k8Y">
-                        <rect key="frame" x="5" y="10.5" width="50" height="50"/>
+                        <rect key="frame" x="5" y="1.5" width="50" height="50"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="50" id="0Lp-Eg-f5t"/>
                             <constraint firstAttribute="width" constant="50" id="hN5-9h-FKy"/>
@@ -40,13 +40,14 @@
                     <constraint firstAttribute="bottomMargin" secondItem="Fa1-Xu-xFf" secondAttribute="bottom" constant="10" id="hhQ-7C-YUH"/>
                     <constraint firstItem="Fa1-Xu-xFf" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="10" id="nQc-eE-8rZ"/>
                     <constraint firstItem="Fa1-Xu-xFf" firstAttribute="leading" secondItem="rux-3Y-k8Y" secondAttribute="trailing" constant="10" id="tez-cU-BTI"/>
+                    <constraint firstAttribute="bottom" secondItem="rux-3Y-k8Y" secondAttribute="bottom" constant="10" id="uYd-Xx-XNI"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="articleDetail" destination="Fa1-Xu-xFf" id="dAT-Et-Cnz"/>
                 <outlet property="articleImageView" destination="rux-3Y-k8Y" id="d2q-3j-ZYY"/>
             </connections>
-            <point key="canvasLocation" x="34" y="109.5"/>
+            <point key="canvasLocation" x="34" y="117.5"/>
         </tableViewCell>
     </objects>
 </document>

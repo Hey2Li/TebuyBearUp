@@ -75,6 +75,7 @@
     
     UIButton *collectBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [collectBtn setImage:[UIImage imageNamed:@"收藏灰"] forState:UIControlStateNormal];
+    [collectBtn setImage:[UIImage imageNamed:@"收藏红"] forState:UIControlStateSelected];
     [collectBtn addTarget:self action:@selector(collectWithBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [bottomView addSubview:collectBtn];
     [collectBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -83,6 +84,7 @@
         make.height.equalTo(@26);
         make.width.equalTo(@26);
     }];
+    self.collectionBtn = collectBtn;
     
     UIButton *shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [shareBtn setImage:[UIImage imageNamed:@"分享灰"] forState:UIControlStateNormal];

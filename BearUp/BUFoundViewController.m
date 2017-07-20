@@ -146,7 +146,7 @@ static NSString *FOUNDCELL = @"foundCell";
         return 0;
     }else if (section == 1){
         UIView *sectionHeaderView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 50)];
-//        sectionHeaderView.backgroundColor = [UIColor whiteColor];
+        sectionHeaderView.backgroundColor = [UIColor whiteColor];
         UILabel *label = [UILabel new];
         label.textAlignment = NSTextAlignmentCenter;
         label.text = @"热门排行";
@@ -188,7 +188,7 @@ static NSString *FOUNDCELL = @"foundCell";
         return sectionHeaderView;
     }else{
         UIView *sectionHeaderView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 50)];
-//        sectionHeaderView.backgroundColor = [UIColor whiteColor];
+        sectionHeaderView.backgroundColor = [UIColor whiteColor];
         UILabel *label = [UILabel new];
         
         label.textAlignment = NSTextAlignmentCenter;

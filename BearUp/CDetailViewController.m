@@ -27,6 +27,7 @@
 @property (nonatomic, strong) NSMutableArray *commentDataArray;
 @property (nonatomic, assign) int pageNum;
 @property (nonatomic, strong) DataInfo *infoData;
+@property (nonatomic, strong) NSNumber *isCollection;
 @end
 
 @implementation CDetailViewController
@@ -104,6 +105,10 @@ static NSString *commentCell = @"commentCell";
         if (LTHttpResultSuccess == result) {
             //
             DataInfo *model = [DataInfo mj_objectWithKeyValues:[data objectForKey:@"responseData"][@"info"]];
+            _isCollection = data[@"responseData"][@"info"][@"iscoll"];
+            if ([_isCollection isEqual:@2]) {
+                self.bottomView.collectionBtn.selected = YES;
+            }
             _infoData = model;
             [weakSelf loadingHtmlNews:model];
             NSArray *array = data[@"responseData"][@"comment"];
@@ -420,14 +425,27 @@ static NSString *commentCell = @"commentCell";
     }
 }
 - (void)collectWithBtnClick:(UIButton *)btn{
-    [LTHttpManager collectionNewsWithNewID:@([self.cid integerValue] ) UUID:GETUUID User_id:USER_ID Token:USER_TOKEN Complete:^(LTHttpResult result, NSString *message, id data) {
-        if (LTHttpResultSuccess == result) {
-            SVProgressShowStuteText(@"收藏成功", YES);
-            [btn setImage:[UIImage imageNamed:@"收藏红"] forState:UIControlStateSelected];
-        }else{
-            
-        }
-    }];
+    if (!btn.selected) {
+        [LTHttpManager collectionNewsWithNewID:@([self.cid integerValue] ) UUID:GETUUID User_id:USER_ID Token:USER_TOKEN Complete:^(LTHttpResult result, NSString *message, id data) {
+            if (LTHttpResultSuccess == result) {
+                SVProgressShowStuteText(@"收藏成功", YES);
+                btn.selected = YES;
+                [btn setImage:[UIImage imageNamed:@"收藏红"] forState:UIControlStateSelected];
+            }else{
+                
+            }
+        }];
+    }else{
+        [LTHttpManager collectionNewsWithNewID:@([self.cid integerValue] ) UUID:GETUUID User_id:USER_ID Token:USER_TOKEN Complete:^(LTHttpResult result, NSString *message, id data) {
+            if (LTHttpResultSuccess == result) {
+                SVProgressShowStuteText(@"取消收藏成功", YES);
+                btn.selected = NO;
+                [btn setImage:[UIImage imageNamed:@"收藏灰"] forState:UIControlStateSelected];
+            }else{
+                
+            }
+        }];
+    }
 }
 - (void)shareWithBtnClick:(UIButton *)btn{
     [UMSocialShareUIConfig shareInstance].sharePageGroupViewConfig.sharePageGroupViewPostionType = UMSocialSharePageGroupViewPositionType_Bottom;

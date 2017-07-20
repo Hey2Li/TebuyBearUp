@@ -269,11 +269,27 @@
     [otherUserBtn addTarget:self action:@selector(visitorsToLogin:) forControlEvents:UIControlEventTouchUpInside];
     [forgetPasswordBtn addTarget:self action:@selector(findPassword:) forControlEvents:UIControlEventTouchUpInside];
     
+    UIButton *backBtn =[UIButton buttonWithType:UIButtonTypeCustom];
+    [backBtn addTarget:self action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
+    [backBtn setImage:[UIImage  imageNamed:@"返回"] forState:UIControlStateNormal];
+    [self.view addSubview:backBtn];
+    [backBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view.mas_left).offset(5);
+        make.height.equalTo(@50);
+        make.width.equalTo(@30);
+        make.top.equalTo(self.view).offset(10);
+    }];
+
+    
     self.userNameTF = userNameTF;
     self.passwordTF = passwordTF;
     self.userNameTF.delegate = self;
     self.passwordTF.delegate = self;
     self.headerImageView = headerView;
+    
+}
+- (void)back:(UIButton *)btn{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 #pragma mark UITextFieldDelegate
 

@@ -207,6 +207,7 @@
 }
 - (UIView *)tableViewHeaderView{
     UIView *tableViewHeaderView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT/2)];
+    tableViewHeaderView.backgroundColor = [UIColor whiteColor];
     UIImageView *backgroundImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT/2 - 50)];
     backgroundImageView.image = [UIImage imageNamed:@"图像背景"];
     [tableViewHeaderView addSubview:backgroundImageView];
