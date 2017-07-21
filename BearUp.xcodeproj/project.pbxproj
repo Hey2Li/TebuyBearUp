@@ -68,6 +68,9 @@
 		1C54540E1F03572000E9E74A /* CategoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1C54540C1F03572000E9E74A /* CategoryTableViewCell.xib */; };
 		1C5625071EFCA9D1000F8808 /* VideoDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C5625051EFCA9D1000F8808 /* VideoDetailTableViewCell.m */; };
 		1C5625081EFCA9D1000F8808 /* VideoDetailTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1C5625061EFCA9D1000F8808 /* VideoDetailTableViewCell.xib */; };
+		1C5B58611F21967F00378EF4 /* LaunchScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C5B58601F21967F00378EF4 /* LaunchScrollViewController.m */; };
+		1C5B58651F21A32F00378EF4 /* WebContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C5B58631F21A32F00378EF4 /* WebContentViewController.m */; };
+		1C5B58661F21A32F00378EF4 /* WebContentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1C5B58641F21A32F00378EF4 /* WebContentViewController.xib */; };
 		1C6573DF1F132D1D008C8484 /* MyStateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C6573DD1F132D1D008C8484 /* MyStateTableViewCell.m */; };
 		1C6573E01F132D1D008C8484 /* MyStateTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1C6573DE1F132D1D008C8484 /* MyStateTableViewCell.xib */; };
 		1C6573E41F13514E008C8484 /* MIneCollectionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C6573E21F13514E008C8484 /* MIneCollectionTableViewCell.m */; };
@@ -237,6 +240,11 @@
 		1C5625041EFCA9D1000F8808 /* VideoDetailTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoDetailTableViewCell.h; sourceTree = "<group>"; };
 		1C5625051EFCA9D1000F8808 /* VideoDetailTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoDetailTableViewCell.m; sourceTree = "<group>"; };
 		1C5625061EFCA9D1000F8808 /* VideoDetailTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VideoDetailTableViewCell.xib; sourceTree = "<group>"; };
+		1C5B585F1F21967F00378EF4 /* LaunchScrollViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchScrollViewController.h; sourceTree = "<group>"; };
+		1C5B58601F21967F00378EF4 /* LaunchScrollViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchScrollViewController.m; sourceTree = "<group>"; };
+		1C5B58621F21A32F00378EF4 /* WebContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebContentViewController.h; sourceTree = "<group>"; };
+		1C5B58631F21A32F00378EF4 /* WebContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebContentViewController.m; sourceTree = "<group>"; };
+		1C5B58641F21A32F00378EF4 /* WebContentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebContentViewController.xib; sourceTree = "<group>"; };
 		1C6573DC1F132D1D008C8484 /* MyStateTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyStateTableViewCell.h; sourceTree = "<group>"; };
 		1C6573DD1F132D1D008C8484 /* MyStateTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyStateTableViewCell.m; sourceTree = "<group>"; };
 		1C6573DE1F132D1D008C8484 /* MyStateTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyStateTableViewCell.xib; sourceTree = "<group>"; };
@@ -490,6 +498,8 @@
 				1C724D031EE7FA2600528FDC /* RegisterViewController.m */,
 				1C724D051EE9365900528FDC /* FindPasswordViewController.h */,
 				1C724D061EE9365900528FDC /* FindPasswordViewController.m */,
+				1C5B585F1F21967F00378EF4 /* LaunchScrollViewController.h */,
+				1C5B58601F21967F00378EF4 /* LaunchScrollViewController.m */,
 			);
 			name = Login;
 			sourceTree = "<group>";
@@ -515,6 +525,9 @@
 				1C1EDC221EC1635F0099D115 /* UIView+Toast.m */,
 				1C1EDC1E1EC15BF50099D115 /* Tool.h */,
 				1C1EDC1F1EC15BF50099D115 /* Tool.m */,
+				1C5B58621F21A32F00378EF4 /* WebContentViewController.h */,
+				1C5B58631F21A32F00378EF4 /* WebContentViewController.m */,
+				1C5B58641F21A32F00378EF4 /* WebContentViewController.xib */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -988,6 +1001,7 @@
 				1C1EDC521EC2EA960099D115 /* UMSocialSDKPromptResources.bundle in Resources */,
 				1C1EDE141ECADD250099D115 /* newDetail.css in Resources */,
 				1C5625081EFCA9D1000F8808 /* VideoDetailTableViewCell.xib in Resources */,
+				1C5B58661F21A32F00378EF4 /* WebContentViewController.xib in Resources */,
 				1C54540E1F03572000E9E74A /* CategoryTableViewCell.xib in Resources */,
 				1C6573E51F13514E008C8484 /* MIneCollectionTableViewCell.xib in Resources */,
 				1C1EDE481ED7B5B80099D115 /* CommentsTableViewCell.xib in Resources */,
@@ -1078,6 +1092,7 @@
 				1C1EDC2C1EC1B0250099D115 /* HomeContentTableViewController.m in Sources */,
 				1C5625071EFCA9D1000F8808 /* VideoDetailTableViewCell.m in Sources */,
 				1C724D041EE7FA2600528FDC /* RegisterViewController.m in Sources */,
+				1C5B58611F21967F00378EF4 /* LaunchScrollViewController.m in Sources */,
 				1C75E1C31EEF7E5A00BC59B5 /* ZFPlayerView.m in Sources */,
 				1C8F9F861F146E13005088E8 /* MyCollectionModel.m in Sources */,
 				1C75E1B51EEF7E5A00BC59B5 /* ASValuePopUpView.m in Sources */,
@@ -1134,6 +1149,7 @@
 				1C75E1B71EEF7E5A00BC59B5 /* UIAlertController+ZFPlayerRotation.m in Sources */,
 				1C75E1BC1EEF7E5A00BC59B5 /* UIViewController+ZFPlayerRotation.m in Sources */,
 				1C1EDBC91EBC43BE0099D115 /* main.m in Sources */,
+				1C5B58651F21A32F00378EF4 /* WebContentViewController.m in Sources */,
 				1C75E1C21EEF7E5A00BC59B5 /* ZFPlayerModel.m in Sources */,
 				1CF49EF41F0B8AA00041D11F /* CommentModel.m in Sources */,
 				1C9E8E541F1C549B007B2181 /* BURefreshGifHeader.m in Sources */,

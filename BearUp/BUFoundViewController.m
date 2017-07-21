@@ -14,6 +14,7 @@
 #import "ScrollBannerTableViewCell.h"
 #import "AdvertisingTableViewCell.h"
 #import "SubCategoryViewController.h"
+#import "WebContentViewController.h"
 
 static NSString *HORCELL = @"HorizontalCell";
 @interface BUFoundViewController ()<UITableViewDelegate, UITableViewDataSource>
@@ -309,7 +310,10 @@ static NSString *FOUNDCELL = @"foundCell";
         SubCategoryViewController *vc = [SubCategoryViewController new];
         vc.cid = [NSNumber numberWithInteger:[self.hotCategoryArray[indexPath.row][@"id"] integerValue]];
         [self.navigationController pushViewController:vc animated:YES];
-
+    }else if (indexPath.section == 0 && [self.adDic allKeys].count > 0){
+        WebContentViewController *vc = [[WebContentViewController alloc]init];
+        vc.UrlString = self.adDic[@"url"];
+        [self.navigationController pushViewController:vc animated:YES];
     }
 }
 

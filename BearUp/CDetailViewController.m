@@ -419,7 +419,7 @@ static NSString *commentCell = @"commentCell";
 - (void)lookForCommentWithBtnClick:(UIButton *)btn{
     //看评论 
     if (self.commentDataArray.count > 0) {
-         [self.myTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+         [self.myTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
     }else{
         SVProgressShowStuteText(@"暂无评论", NO);
     }

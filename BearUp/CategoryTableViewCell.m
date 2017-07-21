@@ -43,6 +43,7 @@
         self.focusCategoryClick(btn);
     }
 }
+
 - (void)setModel:(FocusModel *)model{
     _model = model;
     [self.leftImageView sd_setImageWithURL:[NSURL URLWithString:model.photo] placeholderImage:[UIImage imageNamed:@"未加载好图片正"]];

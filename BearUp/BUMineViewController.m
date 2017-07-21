@@ -677,7 +677,7 @@
         UITableView *rightTableView = [UITableView new];
         rightTableView.delegate = self;
         rightTableView.dataSource = self;
-        //    rightTableView.separatorStyle = NO;
+        rightTableView.separatorStyle = NO;
         rightTableView.frame = CGRectMake(SCREEN_WIDTH * 2, 0, SCREEN_WIDTH, SCREEN_HEIGHT - HederHeight - 188);
         [scrollView addSubview:rightTableView];
         self.rightTableView = rightTableView;
@@ -791,6 +791,44 @@
 
 
 #pragma mark - TableViewDelegate
+
+-(void)viewDidLayoutSubviews {
+    
+    if ([self.rightTableView respondsToSelector:@selector(setSeparatorInset:)]) {
+        [self.rightTableView setSeparatorInset:UIEdgeInsetsZero];
+        
+    }
+    if ([self.rightTableView respondsToSelector:@selector(setLayoutMargins:)])  {
+        [self.rightTableView setLayoutMargins:UIEdgeInsetsZero];
+    }
+    
+    if ([self.centerTableView respondsToSelector:@selector(setSeparatorInset:)]) {
+        [self.centerTableView setSeparatorInset:UIEdgeInsetsZero];
+        
+    }
+    if ([self.centerTableView respondsToSelector:@selector(setLayoutMargins:)])  {
+        [self.centerTableView setLayoutMargins:UIEdgeInsetsZero];
+    }
+
+    if ([self.leftTableView respondsToSelector:@selector(setSeparatorInset:)]) {
+        [self.leftTableView setSeparatorInset:UIEdgeInsetsZero];
+        
+    }
+    if ([self.leftTableView respondsToSelector:@selector(setLayoutMargins:)])  {
+        [self.leftTableView setLayoutMargins:UIEdgeInsetsZero];
+    }
+
+}
+
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPat{
+    if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
+        [cell setLayoutMargins:UIEdgeInsetsZero];
+    }
+    if ([cell respondsToSelector:@selector(setSeparatorInset:)]){
+        [cell setSeparatorInset:UIEdgeInsetsZero];
+    }
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     if (tableView == self.leftTableView) {
         return 1;
@@ -802,6 +840,7 @@
         return 0;
     }
 }
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (tableView == self.leftTableView) {
         return self.focusArray.count;
@@ -816,6 +855,7 @@
 }
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     if (tableView == self.rightTableView) {
+        [[UITableViewHeaderFooterView appearance] setTintColor:[UIColor whiteColor]];
         return self.collectionHeaderTitleArray[section];
     }else{
         return 0;
@@ -847,9 +887,13 @@
             cell.model = self.focusArray[indexPath.row];
         }
         cell.focusBtn.selected = YES;
-        cell.focusBtn.userInteractionEnabled = NO;
         cell.focusBtn.backgroundColor = [UIColor whiteColor];
         [cell.focusBtn.layer setBorderColor:UIColorFromRGB(0xaeaeae).CGColor];
+        cell.focusCategoryClick = ^(UIButton *btn) {
+            if (btn.selected) {
+                [self initBottomView:self.focusArray[indexPath.row] And:indexPath.row];
+            }
+        };
         return cell;
     }else if (tableView == _rightTableView){
         MIneCollectionTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier:@"mineCollectionCell"];
@@ -893,7 +937,89 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+- (void)initBottomView:(FocusModel *)model And:(NSInteger)row{
+    UIView *maskView = [UIView new];
+    maskView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.4];
+    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+    [keyWindow addSubview:maskView];
+    [maskView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(keyWindow);
+        make.right.equalTo(keyWindow);
+        make.top.equalTo(keyWindow);
+        make.bottom.equalTo(keyWindow);
+    }];
+    
+    UIView *showView = [UIView new];
+    showView.backgroundColor  = [UIColor whiteColor];
+    [maskView addSubview:showView];
+    [showView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(maskView);
+        make.right.equalTo(maskView);
+        make.bottom.equalTo(maskView);
+        make.height.equalTo(@(SCREEN_WIDTH * 0.56));
+    }];
+    
+    UIImageView *focusImageView = [UIImageView new];
+    focusImageView.backgroundColor  =[UIColor redColor];
+    [focusImageView.layer setMasksToBounds:YES];
+    [focusImageView.layer setCornerRadius:8];
+    [showView addSubview:focusImageView];
+    [focusImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(showView.mas_centerX);
+        make.height.equalTo(@80);
+        make.width.equalTo(focusImageView.mas_height);
+        make.top.equalTo(showView.mas_top).offset(10);
+    }];
+    
+    UIButton *noFocus = [UIButton buttonWithType:UIButtonTypeCustom];
+    [noFocus setTitle:@"不在关注" forState:UIControlStateNormal];
+    [noFocus setTitleColor:UIColorFromRGB(0xff4466) forState:UIControlStateNormal];
+    [noFocus setBackgroundColor:UIColorFromRGB(0xeeeeee)];
+    [showView addSubview:noFocus];
+    [noFocus mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(showView.mas_left).offset(20);
+        make.right.equalTo(showView.mas_right).offset(-20);
+        make.height.equalTo(@35);
+        make.top.equalTo(focusImageView.mas_bottom).offset(20);
+    }];
+    noFocus.tag = row;
+    
+    UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
+    [cancelBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+    [cancelBtn setBackgroundColor:UIColorFromRGB(0xeeeeee)];
+    [showView addSubview:cancelBtn];
+    [cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(showView.mas_left).offset(20);
+        make.right.equalTo(showView.mas_right).offset(-20);
+        make.height.equalTo(@35);
+        make.top.equalTo(noFocus.mas_bottom).offset(15);
+    }];
+    [noFocus.layer setMasksToBounds:YES];
+    [noFocus.layer setCornerRadius:5];
+    [cancelBtn.layer setMasksToBounds:YES];
+    [cancelBtn.layer setCornerRadius:5];
+    [focusImageView sd_setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:@"未加载好图片正"]];
+    [noFocus addTarget:self action:@selector(cancelFocus:) forControlEvents:UIControlEventTouchUpInside];
+    [cancelBtn addTarget:self action:@selector(cancelView:) forControlEvents:UIControlEventTouchUpInside];
+     [focusImageView sd_setImageWithURL:[NSURL URLWithString:model.photo] placeholderImage:[UIImage imageNamed:@"未加载好图片正"]];
+}
+- (void)cancelView:(UIButton *)btn{
+    [btn.superview.superview removeFromSuperview];
+}
+- (void)cancelFocus:(UIButton *)btn{
+    FocusModel *model = self.focusArray[btn.tag];
+    [LTHttpManager focusCategoryWithCid:model.cid Complete:^(LTHttpResult result, NSString *message, id data) {
+        if (LTHttpResultSuccess == result) {
+            SVProgressShowStuteText(@"取消成功", YES);
+            [self.focusArray removeObjectAtIndex:btn.tag];
+            [self.leftTableView reloadData];
+            [btn.superview.superview removeFromSuperview];
+        }else{
+            SVProgressShowStuteText(@"取消失败", YES);
+        }
+    }];
+}
 /*
 #pragma mark - Navigation
 

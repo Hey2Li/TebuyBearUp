@@ -11,6 +11,7 @@
 #import "LoginViewController.h"
 #import <UMSocialCore/UMSocialCore.h>
 #import <KeyboardManager.h>
+#import "LaunchScrollViewController.h"
 
 
 #define USHARE_DEMO_APPKEY @"5861e5daf5ade41326001eab"
@@ -24,10 +25,19 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"BearUp" bundle:nil];
     UIViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"loginViewController"];
-    BaseTabBarViewController *tabVC = [BaseTabBarViewController new];
-//    self.window.rootViewController = [[UINavigationController alloc]initWithRootViewController:vc];
-    self.window.rootViewController = tabVC;
-    [self.window makeKeyAndVisible];
+    
+      NSUserDefaults *userDefaults  =[NSUserDefaults standardUserDefaults];
+    if (![[userDefaults objectForKey:@"isFirstLogin"] isEqualToString:@"1"]) {
+        LaunchScrollViewController *launchVC = [[LaunchScrollViewController alloc]init];
+        self.window.rootViewController = launchVC;
+        [self.window makeKeyAndVisible];
+        [userDefaults setObject:@"1" forKey:@"isFirstLogin"];
+    }else{
+        BaseTabBarViewController *tabVC = [BaseTabBarViewController new];
+        //    self.window.rootViewController = [[UINavigationController alloc]initWithRootViewController:vc];
+        self.window.rootViewController = tabVC;
+        [self.window makeKeyAndVisible];
+    }
     
     IQKeyboardManager *manager = [IQKeyboardManager sharedManager];
     manager.enable = YES;
