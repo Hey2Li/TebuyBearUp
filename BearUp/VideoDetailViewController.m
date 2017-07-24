@@ -17,9 +17,6 @@
 #import "CommentModel.h"
 
 @interface VideoDetailViewController ()<ZFPlayerDelegate, UITableViewDelegate, UITableViewDataSource,BottomCommentDelegate>
-{
-    NSInteger _index;
-}
 @property (nonatomic, strong) UIView *playerFatherView;
 @property (nonatomic, strong) ZFPlayerView *playerView;
 @property (nonatomic, assign) BOOL isPlaying;
@@ -31,10 +28,17 @@
 @property (nonatomic, strong) NSMutableDictionary *videoDataDic;
 @property (nonatomic, assign) int pageNum;
 @property (nonatomic, strong) NSNumber *isCollection;
+@property (nonatomic, strong) NSMutableArray *danmuArray;
 @end
 
 @implementation VideoDetailViewController
 
+- (NSMutableArray *)danmuArray{
+    if (!_danmuArray) {
+        _danmuArray = [NSMutableArray array];
+    }
+    return _danmuArray;
+}
 - (NSMutableDictionary *)videoDataDic{
     if (!_videoDataDic) {
         _videoDataDic = [NSMutableDictionary dictionary];
@@ -76,7 +80,6 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [self.navigationController setNavigationBarHidden:YES animated:animated];
     // push出下一级页面时候暂停
     if (self.navigationController.viewControllers.count == 3 && self.playerView && !self.playerView.isPauseByUser)
     {
@@ -95,9 +98,6 @@
     [self initWithView];
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"视频详情";
-    [self initBarrageRenderer];
-    [self autoSendBarrage];
-    [_render start];
     [self loadData];
     _pageNum = 1;
     [self footerLoadData];
@@ -112,10 +112,15 @@
             }
             NSArray *array = data[@"responseData"][@"comment"];
             [self.commentDataArray removeAllObjects];
+            [self.danmuArray removeAllObjects];
             for (NSDictionary *dic in array) {
                 CommentModel *model = [CommentModel mj_objectWithKeyValues:dic];
                 [self.commentDataArray addObject:model];
+                [self.danmuArray addObject:model];
             }
+            [self initBarrageRenderer];
+            [self autoSendBarrage];
+            [_render start];
             self.playerModel.videoURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@",self.videoDataDic[@"url"]]];
             [self.playerView resetToPlayNewVideo:self.playerModel];
             [self.tableView reloadData];
@@ -134,6 +139,7 @@
                 for (NSDictionary *dic in array) {
                     CommentModel *model = [CommentModel mj_objectWithKeyValues:dic];
                     [self.commentDataArray addObject:model];
+                    [self.danmuArray addObject:model];
                 }
                 [self.tableView reloadData];
                 [self.tableView.mj_footer endRefreshing];
@@ -144,13 +150,7 @@
         }];
     }];
 }
-- (void)initBarrageRenderer{
-    _render = [[BarrageRenderer alloc]init];
-    [self.view addSubview:_render.view];
-    _render.canvasMargin = UIEdgeInsetsMake(300, 0, 44, 0);
-    _render.view.userInteractionEnabled = YES;
-    _render.masked = NO;
-}
+
 - (void)initWithView{
     self.playerFatherView = [[UIView alloc] init];
     [self.view addSubview:self.playerFatherView];
@@ -300,29 +300,45 @@
         [btn setImage:[UIImage imageNamed:@"弹幕灰"] forState:UIControlStateNormal];
     }
 }
+- (void)autoSendBarrage
+{
+    NSInteger spriteNumber = [_render spritesNumberWithName:nil];
+    if (spriteNumber <= 10) { // 用来演示如何限制屏幕上的弹幕量
+        for (int i = 0; i < self.danmuArray.count; i++) {
+              [_render receive:[self walkTextSpriteDescriptorWithDirection:BarrageWalkDirectionR2L side:BarrageWalkSideLeft andi:i]];
+        }
+    }
+}
+- (void)initBarrageRenderer{
+    _render = [[BarrageRenderer alloc]init];
+    [self.view addSubview:_render.view];
+    _render.canvasMargin = UIEdgeInsetsMake(300, 0, 44, 0);
+    _render.view.userInteractionEnabled = YES;
+    _render.masked = NO;
+}
 /// 生成精灵描述 - 过场文字弹幕
-- (BarrageDescriptor *)walkTextSpriteDescriptorWithDirection:(BarrageWalkDirection)direction side:(BarrageWalkSide)side
+- (BarrageDescriptor *)walkTextSpriteDescriptorWithDirection:(BarrageWalkDirection)direction side:(BarrageWalkSide)side andi:(int)i
 {
     BarrageDescriptor * descriptor = [[BarrageDescriptor alloc]init];
     descriptor.spriteName = NSStringFromClass([BarrageWalkTextSprite class]);
-    descriptor.params[@"text"] = [NSString stringWithFormat:@"过场文字弹幕:%ld",(long)_index++];
-    descriptor.params[@"textColor"] = [UIColor blueColor];
+    if (self.danmuArray.count > 0) {
+        CommentModel *model = (CommentModel *)self.danmuArray[i];
+        descriptor.params[@"text"] = model.content;
+    }
+    descriptor.params[@"textColor"] = [UIColor orangeColor];
+//    descriptor.params[@"backgroundColor"] = [UIColor redColor];
+
     descriptor.params[@"speed"] = @(100 * (double)random()/RAND_MAX+50);
     descriptor.params[@"direction"] = @(direction);
     descriptor.params[@"side"] = @(side);
     descriptor.params[@"clickAction"] = ^{
-        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"弹幕被点击" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:nil];
-        [alertView show];
+//        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"弹幕被点击" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:nil];
+//        [alertView show];
     };
     return descriptor;
 }
-- (void)autoSendBarrage
-{
-    NSInteger spriteNumber = [_render spritesNumberWithName:nil];
-    if (spriteNumber <= 100) { // 用来演示如何限制屏幕上的弹幕量
-        [_render receive:[self walkTextSpriteDescriptorWithDirection:BarrageWalkDirectionR2L side:BarrageWalkSideLeft]];
-    }
-}
+
+
 - (void)lookForCommentWithBtnClick:(UIButton *)btn{
     //看评论
     if (self.commentDataArray.count > 0) {

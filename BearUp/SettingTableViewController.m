@@ -8,6 +8,8 @@
 
 #import "SettingTableViewController.h"
 #import <WebKit/WebKit.h>
+#import "LaunchScrollViewController.h"
+#import "WebContentViewController.h"
 
 @interface SettingTableViewController ()<WKNavigationDelegate,WKUIDelegate,WKScriptMessageHandler>
 
@@ -156,7 +158,7 @@
 }
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    [self.navigationController setNavigationBarHidden:YES animated:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
     [self.tabBarController.tabBar setHidden:NO];
 }
 - (void)didReceiveMemoryWarning {
@@ -224,16 +226,24 @@
             SVProgressShowStuteText(@"暂未开放", NO);
             break;
         case 1:
-            
+        {
+            LaunchScrollViewController *vc = [LaunchScrollViewController new];
+            vc.type = @"1";
+            [self presentViewController:vc animated:YES completion:nil];
+        }
             break;
         case 2:
-            
+        {
+            WebContentViewController *vc =[[WebContentViewController alloc]init];
+            vc.UrlString = @"http://shimo.im/doc/8DM33EnsQAUXR0is/";
+            [self.navigationController pushViewController:vc animated:YES];
+        }
             break;
         case 3:
             [self cleanCache];
             break;
         case 4:
-            
+            SVProgressShowStuteText(@"暂未开放", YES);
             break;
         case 5:
             

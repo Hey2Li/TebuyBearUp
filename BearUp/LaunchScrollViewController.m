@@ -72,8 +72,12 @@
     self.pageControl.hidden = YES;
 }
 - (void)loginBtnClick:(UIButton *)btn{
-    BaseTabBarViewController *tabVC = [BaseTabBarViewController new];
-    [self presentViewController:tabVC animated:YES completion:nil];
+    if ([self.type isEqualToString:@"1"]) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }else{
+        BaseTabBarViewController *tabVC = [BaseTabBarViewController new];
+        [self presentViewController:tabVC animated:YES completion:nil];
+    }
 }
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
     CGFloat index = scrollView.contentOffset.x/SCREEN_WIDTH;

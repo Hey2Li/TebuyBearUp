@@ -7,6 +7,7 @@
 //
 
 #import "RegisterViewController.h"
+#import "WebContentViewController.h"
 
 @interface RegisterViewController ()<UIAlertViewDelegate, UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *phoneTF;
@@ -151,7 +152,9 @@
 
 }
 - (IBAction)readUserAgreement:(id)sender {
-    //
+    WebContentViewController *vc =[[WebContentViewController alloc]init];
+    vc.UrlString = @"https://shimo.im/doc/8DM33EnsQAUXR0is/";
+    [self.navigationController pushViewController:vc animated:YES];
 }
 - (IBAction)hidePasswordBtn:(UIButton *)sender {
     sender.selected = !sender.selected;

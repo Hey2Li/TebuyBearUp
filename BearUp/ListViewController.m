@@ -57,7 +57,7 @@
     [topView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view.mas_left);
         make.right.equalTo(self.view.mas_right);
-        make.top.equalTo(self.view.mas_top);
+        make.top.equalTo(self.view.mas_top).offset(-1);
         make.height.equalTo(@50);
     }];
     self.view.backgroundColor = [UIColor whiteColor];
