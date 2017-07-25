@@ -29,6 +29,7 @@
 @property (nonatomic, strong) DataInfo *infoData;
 @property (nonatomic, strong) NSNumber *isCollection;
 @property (nonatomic, strong) NSMutableArray *danmuArray;
+@property (nonatomic, strong) NSString *shareUrl;
 @end
 
 @implementation CDetailViewController
@@ -107,12 +108,13 @@ static NSString *commentCell = @"commentCell";
             //
             DataInfo *model = [DataInfo mj_objectWithKeyValues:[data objectForKey:@"responseData"][@"info"]];
             _isCollection = data[@"responseData"][@"info"][@"iscoll"];
+            _shareUrl = data[@"responseData"][@"info"][@"share_url"];
             if ([_isCollection isEqual:@2]) {
                 self.bottomView.collectionBtn.selected = YES;
             }
             _infoData = model;
             [weakSelf loadingHtmlNews:model];
-            NSArray *array = data[@"responseData"][@"comment"];
+            NSArray *array = data[@"responseData"][@"comment"][@"data"];
             [self.commentDataArray removeAllObjects];
             [self.danmuArray removeAllObjects];
             for (NSDictionary *dic in array) {
@@ -136,7 +138,7 @@ static NSString *commentCell = @"commentCell";
         WeakSelf
         [LTHttpManager getMoreNewsCommentWithID:@([self.cid integerValue]) Page:@(_pageNum) Complete:^(LTHttpResult result, NSString *message, id data) {
             if (LTHttpResultSuccess == result) {
-                NSArray *array = data[@"responseData"][@"comment"];
+                NSArray *array = data[@"responseData"][@"data"];
                 for (NSDictionary *dic in array) {
                     CommentModel *model = [CommentModel mj_objectWithKeyValues:dic];
                     [weakSelf.commentDataArray addObject:model];
@@ -471,6 +473,31 @@ static NSString *commentCell = @"commentCell";
         [self shareWebPageToPlatformType:platformType];
     }];
 }
+- (void)commentTextFieldShouldReturn:(UITextField *)textfiled{
+    [LTHttpManager commentNewsWithId:@(textfiled.tag) Content:textfiled.text Complete:^(LTHttpResult result, NSString *message, id data) {
+        if (LTHttpResultSuccess == result) {
+            SVProgressShowStuteText(@"评论成功", YES);
+            [textfiled resignFirstResponder];
+            textfiled.text = nil;
+            [LTHttpManager getMoreNewsCommentWithID:@([self.cid integerValue]) Page:@1 Complete:^(LTHttpResult result, NSString *message, id data) {
+                if (LTHttpResultSuccess == result) {
+                    NSArray *array = data[@"responseData"][@"data"];
+                    [self.commentDataArray removeAllObjects];
+                    for (NSDictionary *dic in array) {
+                        CommentModel *model = [CommentModel mj_objectWithKeyValues:dic];
+                        [self.commentDataArray addObject:model];
+                    }
+                        [self.myTableView reloadData];
+                    [self lookForCommentWithBtnClick:nil];
+                }else{
+                    
+                }
+            }];
+        }else{
+            SVProgressShowStuteText(@"评论失败", NO);
+        }
+    }];
+}
 //网页分享
 - (void)shareWebPageToPlatformType:(UMSocialPlatformType)platformType
 {
@@ -482,7 +509,9 @@ static NSString *commentCell = @"commentCell";
     
     UMShareWebpageObject *shareObject = [UMShareWebpageObject shareObjectWithTitle:_infoData.title descr:_infoData.title thumImage:_infoData.img];
     //设置网页地址
-    shareObject.webpageUrl = @"http://mobile.umeng.com/social";
+    if (_shareUrl.length > 5) {
+        shareObject.webpageUrl =_shareUrl;
+    }
     
     //分享消息对象设置分享内容对象
     messageObject.shareObject = shareObject;

@@ -15,7 +15,7 @@
 - (void)lookForCommentWithBtnClick:(UIButton *)btn;
 - (void)collectWithBtnClick:(UIButton *)btn;
 - (void)shareWithBtnClick:(UIButton *)btn;
-
+- (void)commentTextFieldShouldReturn:(UITextField *)textfiled;
 @end
 
 @interface BottomCommentView : UIView

@@ -187,7 +187,7 @@
     }
     switch (indexPath.row) {
         case 0:
-            cell.textLabel.text = @"意见反馈";
+            cell.textLabel.text = @"联系我们";
             break;
         case 1:
             cell.textLabel.text = @"关于我们";
@@ -223,7 +223,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     switch (indexPath.row) {
         case 0:
-            SVProgressShowStuteText(@"暂未开放", NO);
+//            SVProgressShowStuteText(@"暂未开放", NO);
+        {
+            NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"telprompt://%@",@"025-88018310-810"];
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+        }
             break;
         case 1:
         {

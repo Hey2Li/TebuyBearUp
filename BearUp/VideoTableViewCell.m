@@ -160,6 +160,7 @@
     self.titleLabel = videoTitleLabel;
 }
 - (void)setModel:(VideoModel *)model {
+    _model = model;
     [self.picView sd_setImageWithURL:[NSURL URLWithString:model.photo] placeholderImage:[UIImage imageNamed:@"loading_bgView"]];
     [self.hotBtn setTitle:[NSString stringWithFormat:@"%@",model.hits] forState:UIControlStateNormal];
     [self.commentBtn setTitle:[NSString stringWithFormat:@"%@",model.comment] forState:UIControlStateNormal];

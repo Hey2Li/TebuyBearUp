@@ -29,6 +29,7 @@
 @property (nonatomic, assign) int pageNum;
 @property (nonatomic, strong) NSNumber *isCollection;
 @property (nonatomic, strong) NSMutableArray *danmuArray;
+@property (nonatomic, strong) NSString *shareUrl;
 @end
 
 @implementation VideoDetailViewController
@@ -107,10 +108,12 @@
         if (LTHttpResultSuccess == result) {
             self.videoDataDic = [NSMutableDictionary dictionaryWithDictionary:data[@"responseData"][@"info"]];
             _isCollection = data[@"responseData"][@"info"][@"iscoll"];
+            _shareUrl = data[@"responseData"][@"info"][@"share_url"];
+
             if ([_isCollection isEqual:@2]) {
                 self.bottomView.collectionBtn.selected = YES;
             }
-            NSArray *array = data[@"responseData"][@"comment"];
+            NSArray *array = data[@"responseData"][@"comment"][@"data"];
             [self.commentDataArray removeAllObjects];
             [self.danmuArray removeAllObjects];
             for (NSDictionary *dic in array) {
@@ -135,7 +138,7 @@
         _pageNum++;
         [LTHttpManager getMoreVideoCommentWithId:self.vid Page:@(_pageNum) Complete:^(LTHttpResult result, NSString *message, id data) {
             if (LTHttpResultSuccess == result) {
-                NSArray *array = data[@"responseData"][@"comment"];
+                NSArray *array = data[@"responseData"][@"data"];
                 for (NSDictionary *dic in array) {
                     CommentModel *model = [CommentModel mj_objectWithKeyValues:dic];
                     [self.commentDataArray addObject:model];
@@ -291,6 +294,31 @@
     }
 }
 #pragma mark - bottomComment delegate
+- (void)commentTextFieldShouldReturn:(UITextField *)textfiled{
+    [LTHttpManager commentNewsWithId:@(textfiled.tag) Content:textfiled.text Complete:^(LTHttpResult result, NSString *message, id data) {
+        if (LTHttpResultSuccess == result) {
+            SVProgressShowStuteText(@"评论成功", YES);
+            [textfiled resignFirstResponder];
+            textfiled.text = nil;
+            [LTHttpManager getMoreNewsCommentWithID:self.vid Page:@1 Complete:^(LTHttpResult result, NSString *message, id data) {
+                if (LTHttpResultSuccess == result) {
+                    NSArray *array = data[@"responseData"][@"data"];
+                    [self.commentDataArray removeAllObjects];
+                    for (NSDictionary *dic in array) {
+                        CommentModel *model = [CommentModel mj_objectWithKeyValues:dic];
+                        [self.commentDataArray addObject:model];
+                    }
+                    [self.tableView reloadData];
+                    [self lookForCommentWithBtnClick:nil];
+                }else{
+                    
+                }
+            }];
+        }else{
+            SVProgressShowStuteText(@"评论失败", NO);
+        }
+    }];
+}
 - (void)danmuWithBtnClick:(UIButton *)btn{
     if (!btn.selected) {
         [_render start];
@@ -388,7 +416,9 @@
     
     UMShareVideoObject *shareObject = [UMShareVideoObject shareObjectWithTitle:self.videoDataDic[@"title"] descr:self.videoDataDic[@"introduct"] thumImage:self.videoDataDic[@"photo"]];
     //设置视频网页播放地址
-    shareObject.videoUrl = @"http://video.sina.com.cn/p/sports/cba/v/2013-10-22/144463050817.html";
+    if (_shareUrl.length > 5) {
+        shareObject.videoUrl =_shareUrl;
+    }
     
     //分享消息对象设置分享内容对象
     messageObject.shareObject = shareObject;
