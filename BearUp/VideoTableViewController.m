@@ -227,8 +227,9 @@ static NSString *videoCell = @"playerCell";
     VideoModel *model = self.dataSource[_indexPath];
     UMShareVideoObject *shareObject = [UMShareVideoObject shareObjectWithTitle:model.title descr:model.introduct thumImage:model.photo];
     //设置视频网页播放地址
-    shareObject.videoUrl = @"http://video.sina.com.cn/p/sports/cba/v/2013-10-22/144463050817.html";
-    
+    if (model.share_url.length > 5) {
+        shareObject.videoUrl = model.share_url;
+    }
     //分享消息对象设置分享内容对象
     messageObject.shareObject = shareObject;
     

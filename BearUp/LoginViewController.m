@@ -336,7 +336,7 @@
                   [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"read_num"] forKey:USER_READNUM];
                   [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"sex"] forKey:USER_SEX];
                    [[NSUserDefaults standardUserDefaults] synchronize];
-                  
+                  [[NSNotificationCenter defaultCenter] postNotificationName:@"userlogin" object:nil];
                   [self presentViewController:[BaseTabBarViewController new] animated:YES completion:nil];
               }else{
                   SVProgressShowStuteText(@"登录失败", YES);
@@ -425,8 +425,9 @@
                     [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"read_num"] forKey:USER_READNUM];
                     [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"sex"] forKey:USER_SEX];
                     [[NSUserDefaults standardUserDefaults] synchronize];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"userlogin" object:nil];
                     SVProgressShowStuteText(@"登录成功", YES);
-                    [self dismissViewControllerAnimated:YES completion:nil];
+                    [self presentViewController:[BaseTabBarViewController new] animated:YES completion:nil];
                 }else{
                     SVProgressShowStuteText(@"登录失败", NO);
                 }
@@ -465,8 +466,9 @@
                     [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"read_num"] forKey:USER_READNUM];
                     [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"sex"] forKey:USER_SEX];
                     [[NSUserDefaults standardUserDefaults] synchronize];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"userlogin" object:nil];
                     SVProgressShowStuteText(@"登录成功", YES);
-                    [self dismissViewControllerAnimated:YES completion:nil];
+                    [self presentViewController:[BaseTabBarViewController new] animated:YES completion:nil];
                 }else{
                     SVProgressShowStuteText(@"登录失败", YES);
                 }
@@ -506,8 +508,9 @@
                     [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"read_num"] forKey:USER_READNUM];
                     [[NSUserDefaults standardUserDefaults]setObject:data[@"responseData"][@"sex"] forKey:USER_SEX];
                     [[NSUserDefaults standardUserDefaults] synchronize];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"userlogin" object:nil];
                     SVProgressShowStuteText(@"登录成功", YES);
-                    [self dismissViewControllerAnimated:YES completion:nil];
+                    [self presentViewController:[BaseTabBarViewController new] animated:YES completion:nil];
                 }else{
                     SVProgressShowStuteText(@"登录失败", NO);
                 }

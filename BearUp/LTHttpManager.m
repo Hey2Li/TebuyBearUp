@@ -233,11 +233,24 @@
  */
 + (void)videoListWithLimit:(NSNumber *)limit Value:(NSString *)value Complete:(completeBlock)complete{
     LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
-    NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:limit,@"limit",
-                                      value,@"value",
-                                      nil];
-    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
-    [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/video/index",BaseURL] parameters:paramters complete:complete];
+     if (USER_ID) {
+         NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:limit,@"limit",
+                                           value,@"value",
+                                           GETUUID,@"user_uuid",
+                                           USER_ID,@"user_id",
+                                           USER_TOKEN,@"user_token",
+                                           nil];
+         [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
+         [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/video/index",BaseURL] parameters:paramters complete:complete];
+
+     }else{
+         NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:limit,@"limit",
+                                           value,@"value",
+                                           nil];
+         [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
+         [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/video/index",BaseURL] parameters:paramters complete:complete];
+
+     }
 }
 
 
@@ -626,9 +639,23 @@
  */
 + (void)getMoreVideoWithLimit:(NSNumber *)limit Page:(NSNumber *)page Cid:(NSNumber *)cid Complete:(completeBlock)complete{
     LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
-    NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: limit,@"limit",page,@"page",cid,@"cid",nil];
-    [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
-    [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/video/getvideo",BaseURL] parameters:paramters complete:complete];
+    if (USER_ID) {
+        NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:limit,@"limit",page,@"page",cid,@"cid",
+                                          GETUUID,@"user_uuid",
+                                          USER_ID,@"user_id",
+                                          USER_TOKEN,@"user_token",
+                                          nil];
+        [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
+        [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/video/getvideo",BaseURL] parameters:paramters complete:complete];
+        
+    }else{
+        NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:limit,@"limit",page,@"page",cid,@"cid",
+                                          nil];
+        [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
+        [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/video/getvideo",BaseURL] parameters:paramters complete:complete];
+        
+    }
+
 }
 /**
  收藏文章请求地址：api/news/collecnews

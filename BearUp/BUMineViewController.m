@@ -286,54 +286,7 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:animated];
-    
-    if (USER_ID) {
-        if (![[[NSUserDefaults standardUserDefaults]objectForKey:@"loadIndex"] isEqualToString:@"1"] || _loadIndex != 1) {
-            [self headerLoadData];
-            [self footerLoadData];
-            _loadIndex = 1;
-            [[NSUserDefaults standardUserDefaults]setObject:@"1" forKey:@"loadIndex"];
-            [self.notLoginImageView removeFromSuperview];
-        }else{
-            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-            [self.headerImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[userDefaults objectForKey:USER_PHOTO] ]] placeholderImage:[UIImage imageNamed:@"用户默认头像"]];
-            self.userNameLabel.text = [NSString stringWithFormat:@"%@",[userDefaults objectForKey:USER_NICKNAME]];
-            self.readNumLabel.text = [NSString stringWithFormat:@"你最近阅读了%@篇文章，加油哦",[userDefaults objectForKey:USER_READNUM]];
-            if ([[userDefaults objectForKey:USER_SEX] isEqual:@1]) {
-                self.headerView.backgroundColor = RGBCOLOR(228, 235, 243);
-                self.headerImageBK.image = [UIImage imageNamed:@"男标示"];
-                self.userNameLabel.textColor = UIColorFromRGB(0x000000);
-                self.readNumLabel.textColor = UIColorFromRGB(0x6b6b6b);
-                [self.settingBtn setImage:[UIImage imageNamed:@"登陆后设置"] forState:UIControlStateNormal];
-                [self.messageBtn setImage:[UIImage imageNamed:@"登陆后无消息状态"] forState:UIControlStateNormal];
-                self.headerView.image = [UIImage imageNamed:@""];
-            }else if ([[userDefaults objectForKey:USER_SEX] isEqual:@2]){
-                self.headerView.backgroundColor = RGBCOLOR(255, 240, 243);
-                self.headerImageBK.image = [UIImage imageNamed:@"女生标示"];
-                self.userNameLabel.textColor = UIColorFromRGB(0x000000);
-                self.readNumLabel.textColor = UIColorFromRGB(0x6b6b6b);
-                
-                [self.settingBtn setImage:[UIImage imageNamed:@"登陆后设置"] forState:UIControlStateNormal];
-                [self.messageBtn setImage:[UIImage imageNamed:@"登陆后无消息状态"] forState:UIControlStateNormal];
-                self.headerView.image = [UIImage imageNamed:@""];
-            }else{
-                self.headerView.image = [UIImage imageNamed:@"未登录背景"];
-                self.headerImageBK.image = [UIImage imageNamed:@""];
-                self.userNameLabel.textColor = UIColorFromRGB(0xffffff);
-                self.readNumLabel.textColor = UIColorFromRGB(0xffffff);
-                [self.settingBtn setImage:[UIImage imageNamed:@"未登录设置"] forState:UIControlStateNormal];
-                [self.messageBtn setImage:[UIImage imageNamed:@"未登录消息状态"] forState:UIControlStateNormal];
-            }
-        }
-        self.leftBtn.userInteractionEnabled = YES;
-        self.centerBtn.userInteractionEnabled = YES;
-        self.rightBtn.userInteractionEnabled = YES;
-        self.scrollView.scrollEnabled = YES;
-        [self.notLoginImageView removeFromSuperview];
-        [self.scrollView sendSubviewToBack:self.notLoginImageView];
-    }else{
-        [self notLogin];
-    }
+    [self userLogin];
 }
 - (void)notLogin{
     self.notLoginImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"未登录提示图"]];
@@ -386,6 +339,56 @@
     [self initWithView];
     self.view.backgroundColor = [UIColor whiteColor];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(notLogin) name:@"userquit" object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(userLogin) name:@"userlogin" object:nil];
+}
+- (void)userLogin{
+    if (USER_ID) {
+        if (![[[NSUserDefaults standardUserDefaults]objectForKey:@"loadIndex"] isEqualToString:@"1"] || _loadIndex != 1) {
+            [self headerLoadData];
+            [self footerLoadData];
+            _loadIndex = 1;
+            [[NSUserDefaults standardUserDefaults]setObject:@"1" forKey:@"loadIndex"];
+            [self.notLoginImageView removeFromSuperview];
+        }else{
+            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+            [self.headerImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[userDefaults objectForKey:USER_PHOTO] ]] placeholderImage:[UIImage imageNamed:@"用户默认头像"]];
+            self.userNameLabel.text = [NSString stringWithFormat:@"%@",[userDefaults objectForKey:USER_NICKNAME]];
+            self.readNumLabel.text = [NSString stringWithFormat:@"你最近阅读了%@篇文章，加油哦",[userDefaults objectForKey:USER_READNUM]];
+            if ([[userDefaults objectForKey:USER_SEX] isEqual:@1]) {
+                self.headerView.backgroundColor = RGBCOLOR(228, 235, 243);
+                self.headerImageBK.image = [UIImage imageNamed:@"男标示"];
+                self.userNameLabel.textColor = UIColorFromRGB(0x000000);
+                self.readNumLabel.textColor = UIColorFromRGB(0x6b6b6b);
+                [self.settingBtn setImage:[UIImage imageNamed:@"登陆后设置"] forState:UIControlStateNormal];
+                [self.messageBtn setImage:[UIImage imageNamed:@"登陆后无消息状态"] forState:UIControlStateNormal];
+                self.headerView.image = [UIImage imageNamed:@""];
+            }else if ([[userDefaults objectForKey:USER_SEX] isEqual:@2]){
+                self.headerView.backgroundColor = RGBCOLOR(255, 240, 243);
+                self.headerImageBK.image = [UIImage imageNamed:@"女生标示"];
+                self.userNameLabel.textColor = UIColorFromRGB(0x000000);
+                self.readNumLabel.textColor = UIColorFromRGB(0x6b6b6b);
+                
+                [self.settingBtn setImage:[UIImage imageNamed:@"登陆后设置"] forState:UIControlStateNormal];
+                [self.messageBtn setImage:[UIImage imageNamed:@"登陆后无消息状态"] forState:UIControlStateNormal];
+                self.headerView.image = [UIImage imageNamed:@""];
+            }else{
+                self.headerView.image = [UIImage imageNamed:@"未登录背景"];
+                self.headerImageBK.image = [UIImage imageNamed:@""];
+                self.userNameLabel.textColor = UIColorFromRGB(0xffffff);
+                self.readNumLabel.textColor = UIColorFromRGB(0xffffff);
+                [self.settingBtn setImage:[UIImage imageNamed:@"未登录设置"] forState:UIControlStateNormal];
+                [self.messageBtn setImage:[UIImage imageNamed:@"未登录消息状态"] forState:UIControlStateNormal];
+            }
+        }
+        self.leftBtn.userInteractionEnabled = YES;
+        self.centerBtn.userInteractionEnabled = YES;
+        self.rightBtn.userInteractionEnabled = YES;
+        self.scrollView.scrollEnabled = YES;
+        [self.notLoginImageView removeFromSuperview];
+        [self.scrollView sendSubviewToBack:self.notLoginImageView];
+    }else{
+        [self notLogin];
+    }
 }
 - (void)gotoLogin:(UIButton *)btn{
     if (USER_ID) {

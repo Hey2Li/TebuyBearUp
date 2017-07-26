@@ -22,4 +22,6 @@
 @property (nonatomic, copy) NSString *url;
 @property (nonatomic, copy) NSNumber *agree;
 @property (nonatomic, copy) NSString *title;
+@property (nonatomic, copy) NSString *share_url;
+@property (nonatomic, copy) NSNumber *is_agree;
 @end

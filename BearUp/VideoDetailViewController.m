@@ -283,6 +283,15 @@
             cell.videoDetails.text = [NSString stringWithFormat:@"%@",self.videoDataDic[@"introduct"]];
             [cell.hotBtn setTitle:[NSString stringWithFormat:@"%@",self.videoDataDic[@"hits"]] forState:UIControlStateNormal];
             [cell.praiseBtn setTitle:[NSString stringWithFormat:@"%@",self.videoDataDic[@"agree"]] forState:UIControlStateNormal];
+            if ([self.videoDataDic[@"is_agree"] isEqual:@1]) {
+                cell.praiseBtn.selected = YES;
+                [cell.praiseBtn setImage:[UIImage imageNamed:@"点赞红"] forState:UIControlStateSelected];
+                cell.praiseBtn.userInteractionEnabled = NO;
+            }else{
+                cell.praiseBtn.selected = NO;
+                [cell.praiseBtn setImage:[UIImage imageNamed:@"点赞灰"] forState:UIControlStateSelected];
+                cell.praiseBtn.userInteractionEnabled = YES;
+            }
             [cell.commendBtn setTitle:[NSString stringWithFormat:@"%@",self.videoDataDic[@"comment"]] forState:UIControlStateNormal];
         }
         return cell;

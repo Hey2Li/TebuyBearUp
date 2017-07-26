@@ -166,6 +166,15 @@
     [self.commentBtn setTitle:[NSString stringWithFormat:@"%@",model.comment] forState:UIControlStateNormal];
     [self.praiseBtn setTitle:[NSString stringWithFormat:@"%@",model.agree] forState:UIControlStateNormal];
     self.titleLabel.text = [NSString stringWithFormat:@"%@",model.title];
+    if ([model.is_agree isEqual:@1]) {
+        self.praiseBtn.selected = YES;
+        [self.praiseBtn setImage:[UIImage imageNamed:@"点赞红"] forState:UIControlStateSelected];
+        self.praiseBtn.userInteractionEnabled = NO;
+    }else{
+        self.praiseBtn.selected = NO;
+        [self.praiseBtn setImage:[UIImage imageNamed:@"点赞灰"] forState:UIControlStateSelected];
+        self.praiseBtn.userInteractionEnabled = YES;
+    }
 }
 - (void)play:(UIButton *)sender{
     if (self.playBlock) {
@@ -176,7 +185,7 @@
     if (self.model.ID) {
         [LTHttpManager agreeVideosWithId:self.model.ID User_uuid:GETUUID User_id:USER_ID User_token:USER_TOKEN Complete:^(LTHttpResult result, NSString *message, id data) {
             if (LTHttpResultSuccess == result) {
-                sender.selected = !sender.selected;
+                sender.selected = YES;
                 [sender setTitle:[NSString stringWithFormat:@"%@",data[@"responseData"]] forState:UIControlStateSelected];
                 [sender setImage:[UIImage imageNamed:@"点赞红"] forState:UIControlStateSelected];
                 sender.userInteractionEnabled = NO;
