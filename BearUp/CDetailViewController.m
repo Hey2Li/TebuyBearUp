@@ -507,7 +507,7 @@ static NSString *commentCell = @"commentCell";
     
     //创建网页内容对象
     
-    UMShareWebpageObject *shareObject = [UMShareWebpageObject shareObjectWithTitle:_infoData.title descr:_infoData.title thumImage:_infoData.img];
+    UMShareWebpageObject *shareObject = [UMShareWebpageObject shareObjectWithTitle:_infoData.title descr:_infoData.title thumImage:[UIImage imageNamed:@"微博点击"]];
     //设置网页地址
     if (_shareUrl.length > 5) {
         shareObject.webpageUrl =_shareUrl;
@@ -539,10 +539,23 @@ static NSString *commentCell = @"commentCell";
 }
 #pragma mark - TableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return self.commentDataArray.count;
+    if (self.commentDataArray.count > 0) {
+        return self.commentDataArray.count;
+    }else{
+        return 1;
+    }
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 44;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (self.commentDataArray.count > 0) {
+        self.myTableView.estimatedRowHeight = 135.0f;
+        self.myTableView.rowHeight = UITableViewAutomaticDimension;
+        return self.myTableView.rowHeight;
+    }else{
+        return 200;
+    }
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UILabel *label = [UILabel new];
@@ -554,9 +567,23 @@ static NSString *commentCell = @"commentCell";
     return label;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    CommentsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:commentCell];
-    cell.model = self.commentDataArray[indexPath.row];
-    return cell;
+    if (self.commentDataArray.count > 0) {
+        CommentsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:commentCell];
+        cell.model = self.commentDataArray[indexPath.row];
+        return cell;
+    }else{
+        UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        UIImageView *imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"没有评论"]];
+        imageView.contentMode = UIViewContentModeCenter;
+        [cell.contentView addSubview:imageView];
+        [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(cell.contentView);
+            make.right.equalTo(cell.contentView);
+            make.top.equalTo(cell.contentView);
+            make.bottom.equalTo(cell.contentView);
+        }];
+        return cell;
+    }
 }
 #pragma mark - WKWebViewDelegate
 - (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation{

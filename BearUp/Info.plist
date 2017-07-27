@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>熊起趣闻</string>
+	<string>熊起全球趣闻</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -21,13 +21,21 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleURLName</key>
+			<string>com.tw-mall.BearUp</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>bearup</string>
+			</array>
+		</dict>
+		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
 			<string>weixin</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>wxdc1e388c3822c80b</string>
+				<string>wx693c9ec593ccfef7</string>
 			</array>
 		</dict>
 		<dict>
@@ -37,7 +45,7 @@
 			<string>weibo</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>wb225454543</string>
+				<string>wb1174699001</string>
 			</array>
 		</dict>
 		<dict>
@@ -47,7 +55,7 @@
 			<string>qq</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>tencent1105821097</string>
+				<string>tencent1106192815</string>
 			</array>
 		</dict>
 		<dict>
@@ -55,7 +63,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>QQ41E97DA9</string>
+				<string>QQ41EF29AF</string>
 			</array>
 		</dict>
 	</array>

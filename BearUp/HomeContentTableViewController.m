@@ -93,9 +93,9 @@ static NSString *videoCell = @"playerCell";
         WeakSelf
         //首页推荐
         if (self.index == 0) {
-            [LTHttpManager homeTitleWithLimit:@100 Value:@"id,name" Page:@"1" Nlimit:@"1" Complete:^(LTHttpResult result, NSString *message, id data) {
+            [LTHttpManager homeTitleWithLimit:@100 Value:@"id,name" Page:@"1" Nlimit:@"10" Complete:^(LTHttpResult result, NSString *message, id data) {
                 if (result == LTHttpResultSuccess) {
-                    NSArray *array = data[@"responseData"][@"top"];
+                    NSArray *array = data[@"responseData"][@"is_top"];
                     self.scrollViewArray = array;
                     NSArray *arrays = data[@"responseData"][@"rows"][@"data"];
                     [self.dataArray removeAllObjects];
@@ -267,16 +267,21 @@ static NSString *videoCell = @"playerCell";
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    CDetailViewController *vc = [CDetailViewController new];
-//    indexPath.section == 4 ? : [self.navigationController pushViewController:vc animated:YES];
-//    vc.cid = [NSString stringWithFormat:@"%@",self.dataArray[indexPath.section][@"id"]];
     if (self.index == 0) {
         HomeModel *model = self.dataArray[indexPath.section-1];
-        vc.cid = model.nid;
-        [self.navigationController pushViewController:vc animated:YES];
+        if ([model.type isEqual:@1]) {
+            CDetailViewController *vc = [CDetailViewController new];
+            vc.cid = model.nid;
+            [self.navigationController pushViewController:vc animated:YES];
+        }else if ([model.type isEqual:@2]){
+            VideoDetailViewController *vc = [VideoDetailViewController new];
+            vc.vid = [NSNumber numberWithInteger:[model.nid integerValue]];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
     }else{
+        CDetailViewController *vc = [CDetailViewController new];
         HomeModel *model = self.dataArray[indexPath.section];
-        vc.cid = model.nid;
+        vc.cid = model.cid;
         [self.navigationController pushViewController:vc animated:YES];
     }
    }

@@ -73,12 +73,12 @@
 }
 - (void)loadData{
     WeakSelf
-    [LTHttpManager homeTitleWithLimit:@2 Value:@"id,name" Page:@"1" Nlimit:@"1" Complete:^(LTHttpResult result, NSString *message, id data) {
+    [LTHttpManager homeTitleWithLimit:@100 Value:@"id,name" Page:@"1" Nlimit:@"1" Complete:^(LTHttpResult result, NSString *message, id data) {
         if (result == LTHttpResultSuccess) {
             NSArray *array = data[@"responseData"][@"column"];
             [weakSelf.titleArray removeAllObjects];
+            [self.titleArray addObject:@{@"id":@"0",@"name":@"热门"}];
             for (NSDictionary *dic in array) {
-//                NSString *name = dic[@"name"];
                 [weakSelf.titleArray addObject:dic];
             }
             [_pagerController reloadData];

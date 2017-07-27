@@ -249,7 +249,7 @@
     if (section == 0) {
         return 1;
     }else{
-        return self.commentDataArray.count;
+        return self.commentDataArray.count > 0 ? self.commentDataArray.count : 1;
     }
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -257,6 +257,19 @@
         return 44;
     }else{
         return CGFLOAT_MIN;
+    }
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.section == 0) {
+        return 250;
+    }else{
+        if (self.commentDataArray.count > 0) {
+            self.tableView.estimatedRowHeight = 125.0f;
+            self.tableView.rowHeight = UITableViewAutomaticDimension;
+            return self.tableView.rowHeight;
+        }else{
+            return 200;
+        }
     }
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -296,15 +309,29 @@
         }
         return cell;
     }else{
-        tableView.estimatedRowHeight = 130.5f;
-        CommentsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"commentCell"];
-        cell.model = self.commentDataArray[indexPath.row];
-        return cell;
-    }
+        if (self.commentDataArray.count > 0) {
+            tableView.estimatedRowHeight = 130.5f;
+            CommentsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"commentCell"];
+            cell.model = self.commentDataArray[indexPath.row];
+            return cell;
+        }else{
+            UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+            UIImageView *imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"没有评论"]];
+            imageView.contentMode = UIViewContentModeCenter;
+            [cell.contentView addSubview:imageView];
+            [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.equalTo(cell.contentView);
+                make.right.equalTo(cell.contentView);
+                make.top.equalTo(cell.contentView);
+                make.bottom.equalTo(cell.contentView);
+            }];
+            return cell;
+        }
+}
 }
 #pragma mark - bottomComment delegate
 - (void)commentTextFieldShouldReturn:(UITextField *)textfiled{
-    [LTHttpManager commentNewsWithId:@(textfiled.tag) Content:textfiled.text Complete:^(LTHttpResult result, NSString *message, id data) {
+    [LTHttpManager commentNewsWithId:self.vid Content:textfiled.text Complete:^(LTHttpResult result, NSString *message, id data) {
         if (LTHttpResultSuccess == result) {
             SVProgressShowStuteText(@"评论成功", YES);
             [textfiled resignFirstResponder];
@@ -379,7 +406,7 @@
 - (void)lookForCommentWithBtnClick:(UIButton *)btn{
     //看评论
     if (self.commentDataArray.count > 0) {
-        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1] atScrollPosition:UITableViewScrollPositionTop animated:YES];
     }else{
         SVProgressShowStuteText(@"暂无评论", NO);
     }
@@ -423,7 +450,13 @@
     //创建分享消息对象
     UMSocialMessageObject *messageObject = [UMSocialMessageObject messageObject];
     
-    UMShareVideoObject *shareObject = [UMShareVideoObject shareObjectWithTitle:self.videoDataDic[@"title"] descr:self.videoDataDic[@"introduct"] thumImage:self.videoDataDic[@"photo"]];
+    
+    UMShareVideoObject *shareObject;
+    if (platformType == 0) {
+        shareObject = [UMShareVideoObject shareObjectWithTitle:self.videoDataDic[@"title"] descr:self.videoDataDic[@"introduct"] thumImage:[UIImage imageNamed:@"微博点击"]];
+    }else{
+        shareObject = [UMShareVideoObject shareObjectWithTitle:self.videoDataDic[@"title"] descr:self.videoDataDic[@"introduct"] thumImage:self.videoDataDic[@"photo"]];
+    }
     //设置视频网页播放地址
     if (_shareUrl.length > 5) {
         shareObject.videoUrl =_shareUrl;

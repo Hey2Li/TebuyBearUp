@@ -63,6 +63,15 @@
     self.commentLabel.text = [NSString stringWithFormat:@"%@",model.content];
     self.dateLabel.text = [NSString stringWithFormat:@"%@",model.time];
     [self.headerImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",model.photo]] placeholderImage:[UIImage imageNamed:@"用户默认头像"]];
+    if ([model.is_agree isEqual:@1]) {
+        self.praiseBtn.selected = YES;
+        [self.praiseBtn setImage:[UIImage imageNamed:@"点赞红"] forState:UIControlStateSelected];
+        self.praiseBtn.userInteractionEnabled = NO;
+    }else{
+        self.praiseBtn.selected = NO;
+        [self.praiseBtn setImage:[UIImage imageNamed:@"点赞灰"] forState:UIControlStateNormal];
+        self.praiseBtn.userInteractionEnabled = YES;
+    }
     [self.praiseBtn setTitle:[NSString stringWithFormat:@"%@",model.agree] forState:UIControlStateNormal];
     self.userName.text = [NSString stringWithFormat:@"%@",model.nickname];
 }

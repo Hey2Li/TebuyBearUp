@@ -225,7 +225,13 @@ static NSString *videoCell = @"playerCell";
     //创建分享消息对象
     UMSocialMessageObject *messageObject = [UMSocialMessageObject messageObject];
     VideoModel *model = self.dataSource[_indexPath];
-    UMShareVideoObject *shareObject = [UMShareVideoObject shareObjectWithTitle:model.title descr:model.introduct thumImage:model.photo];
+    UMShareVideoObject *shareObject;
+    if (platformType == 0) {
+        shareObject = [UMShareVideoObject shareObjectWithTitle:model.title descr:model.introduct thumImage:[UIImage imageNamed:@"微博点击"]];
+    }else{
+        shareObject =[UMShareVideoObject shareObjectWithTitle:model.title descr:model.introduct thumImage:model.photo];
+    }
+
     //设置视频网页播放地址
     if (model.share_url.length > 5) {
         shareObject.videoUrl = model.share_url;

@@ -28,4 +28,5 @@
 @property (nonatomic, copy) NSNumber *uid;
 @property (nonatomic, copy) NSNumber *vid;
 @property (nonatomic, copy) NSNumber *com_type;
+@property (nonatomic, copy) NSNumber *is_agree;
 @end
