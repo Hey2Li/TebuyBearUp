@@ -60,6 +60,7 @@
     [self.headerImageVIew sd_setImageWithURL:[NSURL URLWithString:model.photo] placeholderImage:[UIImage imageNamed:@"游客登录默认"]];
     self.timeLabel.text = model.time;
     self.articleTitleLabel.text = model.title;
+    self.userNameLabel.text = model.nickname;
     if (_myStateCellStyle == MyStateCellStyleComment) {
         self.commentLabel.text = model.content;
     }

@@ -31,4 +31,5 @@
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, strong) NSNumber *type;
 @property (nonatomic, strong) NSNumber *uid;
+@property (nonatomic, copy) NSString *nickname;
 @end

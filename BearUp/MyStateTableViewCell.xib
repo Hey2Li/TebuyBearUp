@@ -65,7 +65,7 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VXm-Gw-DVC">
                         <rect key="frame" x="13" y="99" width="270" height="138.5"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="大算得上啥就开始是是是是是是是是是是是是是是生不逢时大家好噶几点开始饭卡的书法家和撒旦继父回家奥迪康师傅黄金卡和第三方就看哈的数据库返回键卡都是发到 " lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EBa-ph-M0S">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EBa-ph-M0S">
                                 <rect key="frame" x="10" y="10" width="250" height="118.5"/>
                                 <color key="backgroundColor" red="0.91748207810000004" green="0.9216606021" blue="0.92540091280000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -107,6 +107,7 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="articleTitleLabel" destination="EBa-ph-M0S" id="dvx-CS-afL"/>
                 <outlet property="commentLabel" destination="9ZS-31-G8v" id="ug4-Re-Sb6"/>
                 <outlet property="commentLabelHeight" destination="z73-gF-YkJ" id="k9N-kW-xDF"/>
                 <outlet property="headerImageVIew" destination="BvS-ut-Q7E" id="CQn-0r-IHk"/>
