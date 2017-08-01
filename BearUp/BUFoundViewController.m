@@ -291,7 +291,7 @@ static NSString *FOUNDCELL = @"foundCell";
         cell.HorCollectionCellClick = ^(NSIndexPath *index){
             if ([subArray[index.row][@"type"] isEqual:@1]) {
                 CDetailViewController *vc = [CDetailViewController new];
-                vc.cid = subArray[index.row][@"cid"];
+                vc.cid = subArray[index.row][@"id"];
                 [weakSelf.navigationController pushViewController:vc animated:YES];
             }else if ([subArray[index.row][@"type"] isEqual:@2]){
                 VideoDetailViewController *vc = [VideoDetailViewController new];

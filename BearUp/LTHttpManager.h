@@ -61,12 +61,12 @@
  功能描述：首页头部栏目
 
  @param limit 查询数量 要返回几个栏目
- @param value 查询字段 格式如：id,name
+ @param cid 分类ID
  @param page 数据分页
  @param nlimit 推荐内容查询数量
  @param complete block
  */
-+ (void)homeTitleWithLimit:(NSNumber *)limit Value:(NSString *)value  Page:(NSString *)page Nlimit:(NSString *)nlimit Complete:(completeBlock)complete;
++ (void)homeTitleWithLimit:(NSNumber *)limit Cid:(NSNumber *)cid  Page:(NSString *)page Nlimit:(NSString *)nlimit Complete:(completeBlock)complete;
 
 
 /**
@@ -76,10 +76,10 @@
 
 
  @param limit 要返回几个栏目
- @param value 格式如：id,name
+ @param cid 分类ID
  @param complete block
  */
-+ (void)newsListWithLimit:(NSNumber *)limit Value:(NSString *)value Complete:(completeBlock)complete;
++ (void)newsListWithLimit:(NSNumber *)limit Cid:(NSNumber *)cid Complete:(completeBlock)complete;
 
 
 /**
@@ -134,10 +134,10 @@
 
 
  @param limit 查询数量
- @param value 查询字段
+ @param cid 分类ID
  @param complete complete
  */
-+ (void)videoListWithLimit:(NSNumber *)limit Value:(NSString *)value Complete:(completeBlock)complete;
++ (void)videoListWithLimit:(NSNumber *)limit Cid:(NSNumber *)cid Complete:(completeBlock)complete;
 
 
 /**

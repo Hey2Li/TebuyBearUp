@@ -40,7 +40,7 @@
 }
 - (void)loadData{
     WeakSelf
-    [LTHttpManager videoListWithLimit:@100 Value:@"id,name" Complete:^(LTHttpResult result, NSString *message, id data) {
+    [LTHttpManager videoListWithLimit:@100 Cid:@0 Complete:^(LTHttpResult result, NSString *message, id data) {
         if (result == LTHttpResultSuccess) {
             NSArray *array = data[@"responseData"][@"columns"];
             [weakSelf.titleArray removeAllObjects];

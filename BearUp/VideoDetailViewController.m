@@ -81,6 +81,12 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+      [_render stop];
+    [self.tabBarController.tabBar setHidden:NO];
+
+}
+- (void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
     // push出下一级页面时候暂停
     if (self.navigationController.viewControllers.count == 3 && self.playerView && !self.playerView.isPauseByUser)
     {
@@ -90,9 +96,6 @@
     }else{
         [self.playerView resetPlayer];
     }
-    [_render stop];
-    [self.tabBarController.tabBar setHidden:NO];
-
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -261,7 +264,9 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 0) {
-        return 250;
+        self.tableView.estimatedRowHeight = 250.0f;
+        self.tableView.rowHeight = UITableViewAutomaticDimension;
+        return self.tableView.rowHeight;
     }else{
         if (self.commentDataArray.count > 0) {
             self.tableView.estimatedRowHeight = 125.0f;

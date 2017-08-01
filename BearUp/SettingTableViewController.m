@@ -247,7 +247,9 @@
             [self cleanCache];
             break;
         case 4:
-            SVProgressShowStuteText(@"暂未开放", YES);
+        {
+            [[UIApplication sharedApplication]openURL:[NSURL URLWithString:@"http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=1263403777&pageNumber=0&sortOrdering=2&type=Purple+Software&mt=8"]];
+        }
             break;
         case 5:
             

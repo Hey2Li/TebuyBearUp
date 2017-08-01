@@ -1313,7 +1313,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = BearUp/BearUp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEVELOPMENT_TEAM = 2S69QY28US;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1333,10 +1333,11 @@
 					"$(PROJECT_DIR)/BearUp/UMSocial/UMSocialSDKPlugin",
 				);
 				OTHER_LIBTOOLFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.tw-mall.BearUpTest";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.tw-mall.BearUp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "31d8208d-1b24-44d5-af79-3a05cd7eab89";
-				PROVISIONING_PROFILE_SPECIFIER = BearUpTest;
+				PROVISIONING_PROFILE = "b2503d9e-647d-4dce-a05d-72602a9e696c";
+				PROVISIONING_PROFILE_SPECIFIER = "BearUp发布";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};
 			name = Debug;
@@ -1349,7 +1350,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = BearUp/BearUp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEVELOPMENT_TEAM = 2S69QY28US;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1369,10 +1370,11 @@
 					"$(PROJECT_DIR)/BearUp/UMSocial/UMSocialSDKPlugin",
 				);
 				OTHER_LIBTOOLFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.tw-mall.BearUpTest";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.tw-mall.BearUp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "31d8208d-1b24-44d5-af79-3a05cd7eab89";
-				PROVISIONING_PROFILE_SPECIFIER = BearUpTest;
+				PROVISIONING_PROFILE = "b2503d9e-647d-4dce-a05d-72602a9e696c";
+				PROVISIONING_PROFILE_SPECIFIER = "BearUp发布";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};
 			name = Release;

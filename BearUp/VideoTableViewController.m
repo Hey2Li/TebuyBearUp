@@ -75,7 +75,7 @@ static NSString *videoCell = @"playerCell";
     self.tableView.mj_header = [BURefreshGifHeader headerWithRefreshingBlock:^{
         WeakSelf
         if (self.index == 0) {
-            [LTHttpManager videoListWithLimit:@10 Value:@"" Complete:^(LTHttpResult result, NSString *message, id data) {
+            [LTHttpManager videoListWithLimit:@10 Cid:_categoryID Complete:^(LTHttpResult result, NSString *message, id data) {
                 if (LTHttpResultSuccess == result) {
                     self.dataSource = @[].mutableCopy;
                     NSArray *videoList = [data[@"responseData"][@"videos"] objectForKey:@"data"];
@@ -93,7 +93,7 @@ static NSString *videoCell = @"playerCell";
                 }
             }];
         }else{
-            [LTHttpManager videoListWithLimit:@10 Value:[NSString stringWithFormat:@"%@",self.categoryID] Complete:^(LTHttpResult result, NSString *message, id data) {
+            [LTHttpManager videoListWithLimit:@10 Cid:_categoryID Complete:^(LTHttpResult result, NSString *message, id data) {
                 if (LTHttpResultSuccess == result) {
                     self.dataSource = @[].mutableCopy;
                     NSArray *videoList = [data[@"responseData"][@"videos"] objectForKey:@"data"];
@@ -119,9 +119,9 @@ static NSString *videoCell = @"playerCell";
         WeakSelf
         _pageNum++;
         if (self.index == 0) {
-            [LTHttpManager getMoreVideoWithLimit:@10 Page:@(_pageNum) Cid:nil Complete:^(LTHttpResult result, NSString *message, id data) {
+            [LTHttpManager getMoreVideoWithLimit:@10 Page:@(_pageNum) Cid:_categoryID Complete:^(LTHttpResult result, NSString *message, id data) {
                 if (LTHttpResultSuccess == result) {
-                    NSArray *videoList = [data[@"responseData"][@"videos"] objectForKey:@"data"];
+                    NSArray *videoList = [data[@"responseData"] objectForKey:@"data"];
                     for (NSDictionary *dataDic in videoList) {
                         VideoModel *model = [VideoModel mj_objectWithKeyValues:dataDic];
                         [weakSelf.dataSource addObject:model];
@@ -136,7 +136,7 @@ static NSString *videoCell = @"playerCell";
         }else{
             [LTHttpManager getMoreVideoWithLimit:@10 Page:@(_pageNum) Cid:self.categoryID Complete:^(LTHttpResult result, NSString *message, id data) {
                 if (LTHttpResultSuccess == result) {
-                    NSArray *videoList = [data[@"responseData"][@"videos"] objectForKey:@"data"];
+                    NSArray *videoList = [data[@"responseData"]objectForKey:@"data"];
                     for (NSDictionary *dataDic in videoList) {
                         VideoModel *model = [VideoModel mj_objectWithKeyValues:dataDic];
                         [weakSelf.dataSource addObject:model];

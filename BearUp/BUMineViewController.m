@@ -123,14 +123,30 @@
         self.settingBtn = settingBtn;
         
         UIImageView *headerImageBK = [UIImageView new];
-        headerImageBK.image = [UIImage imageNamed:@"男标示"];
+        headerImageBK.image = [UIImage imageNamed:@""];
         [headerView addSubview:headerImageBK];
-        [headerImageBK mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(headerView).offset(-30);
-            make.centerX.equalTo(headerView);
-            make.width.equalTo(@110);
-            make.height.equalTo(@110);
-        }];
+        if (UI_IS_IPHONE5) {
+            [headerImageBK mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.centerY.equalTo(headerView).offset(-50);
+                make.centerX.equalTo(headerView);
+                make.width.equalTo(@110);
+                make.height.equalTo(@110);
+            }];
+        }else if (UI_IS_IPHONE4){
+            [headerImageBK mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.centerY.equalTo(headerView).offset(-60);
+                make.centerX.equalTo(headerView);
+                make.width.equalTo(@110);
+                make.height.equalTo(@110);
+            }];
+        }else{
+            [headerImageBK mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.centerY.equalTo(headerView).offset(-30);
+                make.centerX.equalTo(headerView);
+                make.width.equalTo(@110);
+                make.height.equalTo(@110);
+            }];
+        }
         self.headerImageBK = headerImageBK;
         
         UIImageView *headerImageView = [UIImageView new];
@@ -343,6 +359,7 @@
 }
 - (void)userLogin{
     if (USER_ID) {
+        NSLog(@"%@",USER_ID);
         if (![[[NSUserDefaults standardUserDefaults]objectForKey:@"loadIndex"] isEqualToString:@"1"] || _loadIndex != 1) {
             [self headerLoadData];
             [self footerLoadData];
@@ -453,7 +470,6 @@
                     self.readNumLabel.textColor = UIColorFromRGB(0xffffff);
                     [self.settingBtn setImage:[UIImage imageNamed:@"未登录设置"] forState:UIControlStateNormal];
                     [self.messageBtn setImage:[UIImage imageNamed:@"未登录消息状态"] forState:UIControlStateNormal];
-                    self.headerView.image = [UIImage imageNamed:@"未登录背景"];
                 }
 
             
@@ -547,9 +563,9 @@
                     self.collectionHeaderTitleArray = [NSMutableArray arrayWithArray:titleArrays];
                     [self.collectionDic removeAllObjects];
                     NSMutableArray *muArr = [NSMutableArray array];
-                    [muArr removeAllObjects];
                     for (int i = 0; i < self.collectionHeaderTitleArray.count; i++) {
                         NSArray *arr = collectionDics[self.collectionHeaderTitleArray[i]];
+                        [muArr removeAllObjects];
                         for (NSDictionary *dic in arr) {
                             MyCollectionModel *model = [MyCollectionModel mj_objectWithKeyValues:dic];
                             [muArr addObject:model];

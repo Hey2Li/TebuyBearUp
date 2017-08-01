@@ -245,7 +245,7 @@
 
     UIButton *otherUserBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [otherUserBtn setImage:[UIImage imageNamed:@"游客登录默认"] forState:UIControlStateNormal];
-    [otherUserBtn setTitle:@"游客" forState:UIControlStateNormal];
+    [otherUserBtn setTitle:@"随便看看" forState:UIControlStateNormal];
     [otherUserBtn setTitleColor:UIColorFromRGB(0x6b6b6b) forState:UIControlStateNormal];
     otherUserBtn.titleLabel.font = [UIFont systemFontOfSize:12];
     otherUserBtn.contentMode = UIViewContentModeCenter;

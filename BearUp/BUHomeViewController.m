@@ -73,7 +73,7 @@
 }
 - (void)loadData{
     WeakSelf
-    [LTHttpManager homeTitleWithLimit:@100 Value:@"id,name" Page:@"1" Nlimit:@"1" Complete:^(LTHttpResult result, NSString *message, id data) {
+    [LTHttpManager homeTitleWithLimit:@100 Cid:@0 Page:@"1" Nlimit:@"1" Complete:^(LTHttpResult result, NSString *message, id data) {
         if (result == LTHttpResultSuccess) {
             NSArray *array = data[@"responseData"][@"column"];
             [weakSelf.titleArray removeAllObjects];

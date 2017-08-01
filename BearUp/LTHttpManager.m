@@ -87,17 +87,14 @@
  功能描述：首页头部栏目
  
  @param limit 查询数量 要返回几个栏目
- @param value 查询字段 格式如：id,name 
+ @param cid 分类ID
  @param page 数据分页
  @param nlimit 推荐内容查询数量 初始显示数量
  @param complete block
  */
-+ (void)homeTitleWithLimit:(NSNumber *)limit Value:(NSString *)value  Page:(NSString *)page Nlimit:(NSString *)nlimit Complete:(completeBlock)complete{
++ (void)homeTitleWithLimit:(NSNumber *)limit Cid:(NSNumber *)cid Page:(NSString *)page Nlimit:(NSString *)nlimit Complete:(completeBlock)complete{
     LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
-    NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:limit,@"limit",
-                                      value,@"value",
-                                      page,@"page",
-                                      nlimit,@"nlimit",
+    NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys: limit,@"limit", cid,@"cid",page,@"page", nlimit,@"nlimit",
                                       nil];
     [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/index",BaseURL] parameters:paramters complete:complete];
@@ -111,13 +108,13 @@
  
  
  @param limit 要返回几个栏目
- @param value 格式如：id,name
+ @param cid 分类ID
  @param complete block
  */
-+ (void)newsListWithLimit:(NSNumber *)limit Value:(NSString *)value Complete:(completeBlock)complete{
++ (void)newsListWithLimit:(NSNumber *)limit Cid:(NSNumber *)cid Complete:(completeBlock)complete{
     LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
     NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:limit,@"limit",
-                                      value,@"value",
+                                      cid,@"cid",
                                       nil];
     [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
     [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/news/index",BaseURL] parameters:paramters complete:complete];
@@ -228,14 +225,14 @@
  
  
  @param limit 查询数量
- @param value 查询字段
+ @param cid 分类ID
  @param complete complete
  */
-+ (void)videoListWithLimit:(NSNumber *)limit Value:(NSString *)value Complete:(completeBlock)complete{
++ (void)videoListWithLimit:(NSNumber *)limit Cid:(NSNumber *)cid Complete:(completeBlock)complete{
     LTHTTPSessionManager *manager = [LTHTTPSessionManager new];
      if (USER_ID) {
          NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:limit,@"limit",
-                                           value,@"value",
+                                           cid,@"cid",
                                            GETUUID,@"user_uuid",
                                            USER_ID,@"user_id",
                                            USER_TOKEN,@"user_token",
@@ -245,7 +242,7 @@
 
      }else{
          NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:limit,@"limit",
-                                           value,@"value",
+                                           cid,@"cid",
                                            nil];
          [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
          [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/video/index",BaseURL] parameters:paramters complete:complete];
@@ -643,7 +640,7 @@
         NSMutableDictionary *paramters  =[NSMutableDictionary dictionaryWithObjectsAndKeys:limit,@"limit",page,@"page",cid,@"cid",
                                           GETUUID,@"user_uuid",
                                           USER_ID,@"user_id",
-                                          USER_TOKEN,@"user_token",
+                                        USER_TOKEN,@"user_token",
                                           nil];
         [paramters addEntriesFromDictionary:[Tool MD5Dictionary:paramters]];
         [manager POSTWithParameters:[NSString stringWithFormat:@"%@api/video/getvideo",BaseURL] parameters:paramters complete:complete];
