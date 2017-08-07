@@ -432,10 +432,10 @@
     if ([self.dataDic[@"type"] isEqual:@1]) {
         CDetailViewController *vc = [CDetailViewController new];
         if (_selectIndex == 1001) {
-            vc.cid = self.updateDataArray[indexPath.section][@"cid"];
+            vc.cid = self.updateDataArray[indexPath.section][@"id"];
             [self.navigationController pushViewController:vc animated:YES];
         }else if (_selectIndex == 1002){
-            vc.cid = self.welcomeDataArray[indexPath.section][@"cid"];
+            vc.cid = self.welcomeDataArray[indexPath.section][@"id"];
             [self.navigationController pushViewController:vc animated:YES];
         }else{
         }
