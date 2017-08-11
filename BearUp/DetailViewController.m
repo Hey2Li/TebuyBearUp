@@ -59,7 +59,7 @@
 - (NSMutableString *)handleImageInNews:(DataInfo *)data {
     NSMutableString *bodyStr = [data.content mutableCopy];
     
-    [data.img enumerateObjectsUsingBlock:^(ImageInfo *info, NSUInteger idx, BOOL * _Nonnull stop) {
+    [data.images enumerateObjectsUsingBlock:^(ImageInfo *info, NSUInteger idx, BOOL * _Nonnull stop) {
         NSRange range = [bodyStr rangeOfString:info.ref];
         NSArray *wh = [info.pixel componentsSeparatedByString:@"*"];
         CGFloat width = [[wh objectAtIndex:0] floatValue];
@@ -67,7 +67,7 @@
         
         //占位图
         NSString *loadingImg = [[NSBundle mainBundle] pathForResource:@"loading" ofType:@"png"];
-        NSString *imageStr = [NSString stringWithFormat:@"<p style = 'text-align:center'><img onclick = 'didTappedImage(%lu);' src = %@ id = '%@' width = '%.0f' height = '%.0f' hspace='0.0' vspace ='5' style ='width:80%%;height:80%%;' /></p>", (unsigned long)idx, loadingImg, info.src, width, height];
+        NSString *imageStr = [NSString stringWithFormat:@"<p style = 'text-align:center'><img onclick = 'didTappedImage(%lu);' src = %@ id = '%@' width = '%.0f' height = '%.0f' hspace='0.0' vspace ='5' style ='width:80%%;height:80%%;' /></p>", (unsigned long)idx, loadingImg, info.url, width, height];
         [bodyStr replaceOccurrencesOfString:info.ref withString:imageStr options:NSCaseInsensitiveSearch range:range];
         
     }];

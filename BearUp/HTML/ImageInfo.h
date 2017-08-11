@@ -13,5 +13,5 @@
 @property(nonatomic,copy)NSString *alt;
 @property(nonatomic,copy)NSString *pixel;
 @property(nonatomic,copy)NSString *ref;
-@property(nonatomic,copy)NSString *src;
+@property(nonatomic,copy)NSString *url;
 @end

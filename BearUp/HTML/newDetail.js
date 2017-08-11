@@ -22,7 +22,7 @@ window.onload = function(){
          function videoPlay(){
            window.webkit.messageHandlers.openVideoPlayer.postMessage({methodName:"openVideoPlayer:",videoSrc:myVideo.src});
             
-        }
+        }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
 
     }
 

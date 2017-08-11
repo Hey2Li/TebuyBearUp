@@ -11,7 +11,7 @@
 
 @interface DataInfo : NSObject
 @property (strong, nonatomic) NSString *content;
-@property (strong, nonatomic) NSMutableArray *img;
+@property (strong, nonatomic) NSMutableArray *images;
 @property (strong, nonatomic) NSString *source;
 @property (strong, nonatomic) NSString *ptime;
 @property (strong, nonatomic) NSString *title;
