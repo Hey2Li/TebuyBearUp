@@ -32,13 +32,16 @@
     _videoTab = [[BaseNaviViewController alloc]initWithRootViewController:[BUVideoViewController new]];
     _foundTab = [[BaseNaviViewController alloc]initWithRootViewController:[BUFoundViewController new]];
     _mineTab = [[BaseNaviViewController alloc]initWithRootViewController:[BUMineViewController new]];
-    self.viewControllers = @[_homeTab, _videoTab, _foundTab, _mineTab];
+//    self.viewControllers = @[_homeTab, _videoTab, _foundTab, _mineTab];
+    self.viewControllers = @[_foundTab, _homeTab, _videoTab, _mineTab];
     self.selectedIndex = 0;
     
-    NSArray *titleArray = @[@"首页", @"视频", @"发现", @"熊窝"];
-    NSArray *normalImgArray = @[@"首页灰",@"视频灰",@"发现灰",@"熊窝灰"];
-    NSArray *selectedImgArray = @[@"首页红",@"视频红",@"发现红",@"熊窝红"];
-    
+//    NSArray *titleArray = @[@"首页", @"视频", @"发现", @"熊窝"];
+//    NSArray *normalImgArray = @[@"首页灰",@"视频灰",@"发现灰",@"熊窝灰"];
+//    NSArray *selectedImgArray = @[@"首页红",@"视频红",@"发现红",@"熊窝红"];
+    NSArray *titleArray = @[@"热门",@"发现", @"视频",  @"熊窝"];
+    NSArray *normalImgArray = @[@"首页灰",@"发现灰",@"视频灰",@"熊窝灰"];
+    NSArray *selectedImgArray = @[@"首页红",@"发现红",@"视频红",@"熊窝红"];
     //设置分栏元素项
     for (int i = 0; i < titleArray.count; i++) {
         UIViewController *vc =  self.viewControllers[i];

@@ -171,6 +171,39 @@ static NSString *commentCell = @"commentCell";
     [self.myTableView registerNib:[UINib nibWithNibName:@"CommentsTableViewCell" bundle:nil] forCellReuseIdentifier:commentCell];
     self.myTableView.rowHeight = UITableViewAutomaticDimension;
     self.myTableView.estimatedRowHeight = 130.5f;
+    
+    UIButton *lookforCommentBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [lookforCommentBtn setTitle:@"看评论" forState:UIControlStateNormal];
+    lookforCommentBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+    [lookforCommentBtn setImage:[UIImage imageNamed:@"评论红"] forState:UIControlStateNormal];
+    [lookforCommentBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [lookforCommentBtn setBackgroundColor:DRGBCOLOR];
+    [self.view addSubview:lookforCommentBtn];
+    [self.view bringSubviewToFront:lookforCommentBtn];
+    [lookforCommentBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view.mas_left);
+        make.height.equalTo(@35);
+        make.width.equalTo(@80);
+        make.bottom.equalTo(self.view.mas_bottom).offset(-200);
+    }];
+    [lookforCommentBtn addTarget:self action:@selector(lookForCommentWithBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIButton *shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [shareBtn setTitle:@"去分享" forState:UIControlStateNormal];
+    shareBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+    [shareBtn setImage:[UIImage imageNamed:@"分享红"] forState:UIControlStateNormal];
+    [shareBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [shareBtn setBackgroundColor:DRGBCOLOR];
+    [self.view addSubview:shareBtn];
+    [self.view bringSubviewToFront:shareBtn];
+    [shareBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view.mas_left);
+        make.height.equalTo(@35);
+        make.width.equalTo(@80);
+        make.top.equalTo(lookforCommentBtn.mas_bottom).offset(10);
+    }];
+    [shareBtn addTarget:self action:@selector(shareWithBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+
 }
 - (void)initWKWebView{
     //创建一个WKWebView的配置对象
@@ -255,21 +288,6 @@ static NSString *commentCell = @"commentCell";
     
     //文章标题
     NSString *title = data.title;
-    //视频
-//    NSDictionary *videoDict = self.htmlDict[@"video"][0];
-//    NSString *videoUrl = videoDict[@"mp4_url"];
-//    NSString *alt = videoDict[@"alt"];
-//    NSString *videoRef = videoDict[@"ref"];
-//    NSString *videoHtml = [NSString stringWithFormat:@"<div>\
-//                           <video class=\"video0\" src=\"%@\" autoPlay=\"true\">\
-//                           </video>\
-//                           <div class=\"videoDescribe\">%@</div>\
-//                           </div>\
-//                           ",videoUrl,alt];
-//    
-//    if (videoRef) {
-//        body = [body stringByReplacingOccurrencesOfString:videoRef withString:videoHtml];
-//    }
     
     //来源
     NSString *sourceName = [NSString string];
@@ -282,44 +300,44 @@ static NSString *commentCell = @"commentCell";
     //发布时间
     NSString *sourceTime = data.ptime ? data.ptime : @"";
     //文章里面的图片
-    NSArray *imagArray = data.img;
+//    NSArray *imagArray = data.images;
     
-//            [data.img enumerateObjectsUsingBlock:^(ImageInfo *info, NSUInteger idx, BOOL * _Nonnull stop) {
-//                NSRange range = [body rangeOfString:info.ref];
-//                NSArray *wh = [info.pixel componentsSeparatedByString:@"*"];
-//                CGFloat width = [[wh objectAtIndex:0] floatValue];
-//                CGFloat height = [[wh objectAtIndex:1] floatValue];
-//    
-//                //占位图
-//                NSString *loadingImg = [[NSBundle mainBundle] pathForResource:@"loading" ofType:@"png"];
-//                NSString *imageStr = [NSString stringWithFormat:@"<p style = 'text-align:center'><img  src = %@ id = '%@'/></p>", info.src, info.src];
-//                NSLog(@"%@",imageStr);
-//                [body replaceOccurrencesOfString:info.ref withString:imageStr options:NSCaseInsensitiveSearch range:range];
-//                
-//            }];
-//    [self getImageFromDownloaderOrDiskByImageUrlArray:data.img];
+    [data.images enumerateObjectsUsingBlock:^(NSDictionary *info, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSRange range = [body rangeOfString:info[@"ref"]];
+        NSArray *wh = [info[@"pixel"] componentsSeparatedByString:@"*"];
+        CGFloat width = [[wh objectAtIndex:0] floatValue];
+        CGFloat height = [[wh objectAtIndex:1] floatValue];
 
-    for (ImageInfo *imageDict in imagArray) {
-        //图片在body中的占位标识，比如"<!--IMG#3-->"
-        NSString *imageRef = imageDict.ref;
-        //图片的url
-        NSString *imageSrc = imageDict.src;
-        //图片下面的文字说明
-        NSString *imageAlt = imageDict.alt;
+        //占位图
+        NSString *loadingImg = [[NSBundle mainBundle] pathForResource:@"loading" ofType:@"png"];
+        NSString *imageStr = [NSString stringWithFormat:@"<div style = 'text-align:center'><img src = %@ width = '%.0f' height = '%.0f' hspace='0.0' vspace ='5'  /></div>",info[@"url"], width, height];
+        NSLog(@"%@",imageStr);
+        [body replaceOccurrencesOfString:info[@"ref"] withString:imageStr options:NSCaseInsensitiveSearch range:range];
         
-        NSString *imageHtml  = [NSString string];
+    }];
+//    [self getImageFromDownloaderOrDiskByImageUrlArray:data.images];
 
-        //把对应的图片url转换成html里面显示图片的代码
-        if (imageAlt) {
-            
-            imageHtml = [NSString stringWithFormat:@"<div><img width=\"100%%\" src=\"%@\"><div class=\"picDescribe\">%@</div></div>",imageSrc,imageAlt];
-        }else{
-            imageHtml = [NSString stringWithFormat:@"<div><img width=\"100%%\" src=\"%@\"></div>",imageSrc];
-        }
-        
-        //这一步是显示图片的关键，主要就是把body里面的图片的占位标识给替换成上一步已经生成的html语法格式的图片代码，这样WKWebview加载html之后图片就可以被加载显示出来了
-//        body = [[body stringByReplacingOccurrencesOfString:imageRef withString:imageHtml] copy];
-    }
+//    for (ImageInfo *imageDict in data.images) {
+//        //图片在body中的占位标识，比如"<!--IMG#3-->"
+//        NSString *imageRef = imageDict.ref;
+//        //图片的url
+//        NSString *imageSrc = imageDict.url;
+//        //图片下面的文字说明
+//        NSString *imageAlt = imageDict.alt;
+//        
+//        NSString *imageHtml  = [NSString string];
+//
+//        //把对应的图片url转换成html里面显示图片的代码
+//        if (imageAlt) {
+//            
+//            imageHtml = [NSString stringWithFormat:@"<div><img width=\"100%%\" src=\"%@\"><div class=\"picDescribe\">%@</div></div>",imageSrc,imageAlt];
+//        }else{
+//            imageHtml = [NSString stringWithFormat:@"<div><img width=\"100%%\" src=\"%@\"></div>",imageSrc];
+//        }
+//        
+//        //这一步是显示图片的关键，主要就是把body里面的图片的占位标识给替换成上一步已经生成的html语法格式的图片代码，这样WKWebview加载html之后图片就可以被加载显示出来了
+////        body = [[body stringByReplacingOccurrencesOfString:imageRef withString:imageHtml] copy];
+//    }
     
     //css文件的全路径
     NSURL *cssPath = [[NSBundle mainBundle] URLForResource:@"newDetail" withExtension:@"css"];
@@ -360,9 +378,7 @@ static NSString *commentCell = @"commentCell";
     //使用现在这种写法之后，baseURL就指向了程序的资源路径，这样Html代码就和css以及js是一个路径的。不然WKWebview是无法加载的。当然baseURL也可以写一个网络路径，这样就可以用网络上的CSS了
     [self.wkWebView loadHTMLString:html baseURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] resourcePath]]];
 }
-//- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
-//    return nil;
-//}
+
 #pragma mark scrollview delegate (计算contentOffset的值，根据上下距离来决定bounces)
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     CGFloat top = scrollView.contentOffset.y;
@@ -674,7 +690,7 @@ static NSString *commentCell = @"commentCell";
     self.imagesArr = [NSMutableArray array];
     __weak typeof(self)weakSelf = self;
     for (ImageInfo *info in imageArray) {
-        NSURL *imageUrl = [NSURL URLWithString:info.src];
+        NSURL *imageUrl = [NSURL URLWithString:info.url];
         [self.imagesArr addObject:imageUrl];
         [imageManager diskImageExistsForURL:imageUrl completion:^(BOOL isInCache) {
             isInCache ? [weakSelf handleExistCache:imageUrl] : [weakSelf handleNotExistCache:imageUrl];

@@ -41,7 +41,7 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"首页";
+    self.title = @"发现";
     self.view.backgroundColor = [UIColor whiteColor];
 //    [self setupContentView];
 //    [self initWithTopBar];

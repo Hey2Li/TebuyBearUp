@@ -62,7 +62,7 @@ static NSString *videoCell = @"playerCell";
 }
 - (void)viewDidLoad {
     //防止pop返回页面下移
-    self.automaticallyAdjustsScrollViewInsets = NO;
+//    self.automaticallyAdjustsScrollViewInsets = NO;
     [super viewDidLoad];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.view.backgroundColor = [UIColor whiteColor];

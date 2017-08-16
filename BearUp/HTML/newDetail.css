@@ -1,5 +1,5 @@
 #mainBody{
-    font-size:44px;
+    font-size:58px;
     width:90%;
     font-family:Helvetica;
     margin-left:5%;
@@ -15,9 +15,10 @@
 /*.logLine { border-bottom:1px solid #ccc; padding:4px 2px; font-family:courier; font-size:11px; }*/
 /*</style>*/
 #mainTitle{
-    text-align:center;
-    font-size: 50px;
+    text-align:left;
+    font-size: 58px;
     bolder:dashed 10px;
+    font-weight:bold;
     margin-top:30px;
     color:#000000;
 }

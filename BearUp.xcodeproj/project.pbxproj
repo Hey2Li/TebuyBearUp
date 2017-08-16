@@ -107,6 +107,17 @@
 		1C9E8E541F1C549B007B2181 /* BURefreshGifHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C9E8E531F1C549B007B2181 /* BURefreshGifHeader.m */; };
 		1C9E8E5B1F1CB2AE007B2181 /* HotCategoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C9E8E5A1F1CB2AE007B2181 /* HotCategoryModel.m */; };
 		1C9E8E5D1F1E09F0007B2181 /* 下拉.gif in Resources */ = {isa = PBXBuildFile; fileRef = 1C9E8E5C1F1E09F0007B2181 /* 下拉.gif */; };
+		1CD294661F3DA26300F3493A /* UIView+Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD294651F3DA26300F3493A /* UIView+Frame.m */; };
+		1CD294791F3DA2B400F3493A /* SXWeatherBgEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD294691F3DA2B400F3493A /* SXWeatherBgEntity.m */; };
+		1CD2947A1F3DA2B400F3493A /* SXWeatherDetailEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD2946B1F3DA2B400F3493A /* SXWeatherDetailEntity.m */; };
+		1CD2947B1F3DA2B400F3493A /* SXWeatherDetailPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD2946D1F3DA2B400F3493A /* SXWeatherDetailPage.m */; };
+		1CD2947C1F3DA2B400F3493A /* SXWeatherDetailPage.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1CD2946E1F3DA2B400F3493A /* SXWeatherDetailPage.xib */; };
+		1CD2947D1F3DA2B400F3493A /* SXWeatherEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD294701F3DA2B400F3493A /* SXWeatherEntity.m */; };
+		1CD2947E1F3DA2B400F3493A /* SXWeatherItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD294721F3DA2B400F3493A /* SXWeatherItemView.m */; };
+		1CD2947F1F3DA2B400F3493A /* SXWeatherItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1CD294731F3DA2B400F3493A /* SXWeatherItemView.xib */; };
+		1CD294801F3DA2B400F3493A /* SXWeatherView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD294751F3DA2B400F3493A /* SXWeatherView.m */; };
+		1CD294811F3DA2B400F3493A /* SXWeatherView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1CD294761F3DA2B400F3493A /* SXWeatherView.xib */; };
+		1CD294821F3DA2B400F3493A /* SXWeatherViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD294781F3DA2B400F3493A /* SXWeatherViewModel.m */; };
 		1CEBC8711ED926EA00760301 /* BottomCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CEBC8701ED926EA00760301 /* BottomCommentView.m */; };
 		1CF49EEB1F0B27AC0041D11F /* HomeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CF49EEA1F0B27AC0041D11F /* HomeModel.m */; };
 		1CF49EF11F0B721A0041D11F /* VideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CF49EF01F0B721A0041D11F /* VideoModel.m */; };
@@ -314,6 +325,25 @@
 		1C9E8E5A1F1CB2AE007B2181 /* HotCategoryModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HotCategoryModel.m; sourceTree = "<group>"; };
 		1C9E8E5C1F1E09F0007B2181 /* 下拉.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "下拉.gif"; sourceTree = "<group>"; };
 		1CB40CE71F289143001F313F /* BearUp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BearUp.entitlements; sourceTree = "<group>"; };
+		1CD294641F3DA26300F3493A /* UIView+Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Frame.h"; sourceTree = "<group>"; };
+		1CD294651F3DA26300F3493A /* UIView+Frame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Frame.m"; sourceTree = "<group>"; };
+		1CD294681F3DA2B400F3493A /* SXWeatherBgEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SXWeatherBgEntity.h; sourceTree = "<group>"; };
+		1CD294691F3DA2B400F3493A /* SXWeatherBgEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SXWeatherBgEntity.m; sourceTree = "<group>"; };
+		1CD2946A1F3DA2B400F3493A /* SXWeatherDetailEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SXWeatherDetailEntity.h; sourceTree = "<group>"; };
+		1CD2946B1F3DA2B400F3493A /* SXWeatherDetailEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SXWeatherDetailEntity.m; sourceTree = "<group>"; };
+		1CD2946C1F3DA2B400F3493A /* SXWeatherDetailPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SXWeatherDetailPage.h; sourceTree = "<group>"; };
+		1CD2946D1F3DA2B400F3493A /* SXWeatherDetailPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SXWeatherDetailPage.m; sourceTree = "<group>"; };
+		1CD2946E1F3DA2B400F3493A /* SXWeatherDetailPage.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SXWeatherDetailPage.xib; sourceTree = "<group>"; };
+		1CD2946F1F3DA2B400F3493A /* SXWeatherEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SXWeatherEntity.h; sourceTree = "<group>"; };
+		1CD294701F3DA2B400F3493A /* SXWeatherEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SXWeatherEntity.m; sourceTree = "<group>"; };
+		1CD294711F3DA2B400F3493A /* SXWeatherItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SXWeatherItemView.h; sourceTree = "<group>"; };
+		1CD294721F3DA2B400F3493A /* SXWeatherItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SXWeatherItemView.m; sourceTree = "<group>"; };
+		1CD294731F3DA2B400F3493A /* SXWeatherItemView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SXWeatherItemView.xib; sourceTree = "<group>"; };
+		1CD294741F3DA2B400F3493A /* SXWeatherView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SXWeatherView.h; sourceTree = "<group>"; };
+		1CD294751F3DA2B400F3493A /* SXWeatherView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SXWeatherView.m; sourceTree = "<group>"; };
+		1CD294761F3DA2B400F3493A /* SXWeatherView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SXWeatherView.xib; sourceTree = "<group>"; };
+		1CD294771F3DA2B400F3493A /* SXWeatherViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SXWeatherViewModel.h; sourceTree = "<group>"; };
+		1CD294781F3DA2B400F3493A /* SXWeatherViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SXWeatherViewModel.m; sourceTree = "<group>"; };
 		1CEBC86F1ED926EA00760301 /* BottomCommentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BottomCommentView.h; sourceTree = "<group>"; };
 		1CEBC8701ED926EA00760301 /* BottomCommentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BottomCommentView.m; sourceTree = "<group>"; };
 		1CF49EE91F0B27AC0041D11F /* HomeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeModel.h; sourceTree = "<group>"; };
@@ -520,6 +550,7 @@
 		1C1EDC1A1EC039140099D115 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				1CD294671F3DA2B400F3493A /* Weather */,
 				1C75E1941EEF7E5A00BC59B5 /* ZFPlayer */,
 				1C1EDE191ECC217E0099D115 /* NSString+Extension.h */,
 				1C1EDE1A1ECC217E0099D115 /* NSString+Extension.m */,
@@ -530,6 +561,8 @@
 				1C5B58621F21A32F00378EF4 /* WebContentViewController.h */,
 				1C5B58631F21A32F00378EF4 /* WebContentViewController.m */,
 				1C5B58641F21A32F00378EF4 /* WebContentViewController.xib */,
+				1CD294641F3DA26300F3493A /* UIView+Frame.h */,
+				1CD294651F3DA26300F3493A /* UIView+Frame.m */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -869,6 +902,30 @@
 			path = Category;
 			sourceTree = "<group>";
 		};
+		1CD294671F3DA2B400F3493A /* Weather */ = {
+			isa = PBXGroup;
+			children = (
+				1CD294681F3DA2B400F3493A /* SXWeatherBgEntity.h */,
+				1CD294691F3DA2B400F3493A /* SXWeatherBgEntity.m */,
+				1CD2946A1F3DA2B400F3493A /* SXWeatherDetailEntity.h */,
+				1CD2946B1F3DA2B400F3493A /* SXWeatherDetailEntity.m */,
+				1CD2946C1F3DA2B400F3493A /* SXWeatherDetailPage.h */,
+				1CD2946D1F3DA2B400F3493A /* SXWeatherDetailPage.m */,
+				1CD2946E1F3DA2B400F3493A /* SXWeatherDetailPage.xib */,
+				1CD2946F1F3DA2B400F3493A /* SXWeatherEntity.h */,
+				1CD294701F3DA2B400F3493A /* SXWeatherEntity.m */,
+				1CD294711F3DA2B400F3493A /* SXWeatherItemView.h */,
+				1CD294721F3DA2B400F3493A /* SXWeatherItemView.m */,
+				1CD294731F3DA2B400F3493A /* SXWeatherItemView.xib */,
+				1CD294741F3DA2B400F3493A /* SXWeatherView.h */,
+				1CD294751F3DA2B400F3493A /* SXWeatherView.m */,
+				1CD294761F3DA2B400F3493A /* SXWeatherView.xib */,
+				1CD294771F3DA2B400F3493A /* SXWeatherViewModel.h */,
+				1CD294781F3DA2B400F3493A /* SXWeatherViewModel.m */,
+			);
+			path = Weather;
+			sourceTree = "<group>";
+		};
 		9D0A52BC4CFB11F8BA2EDED9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -1009,11 +1066,13 @@
 				1C1EDE141ECADD250099D115 /* newDetail.css in Resources */,
 				1C5625081EFCA9D1000F8808 /* VideoDetailTableViewCell.xib in Resources */,
 				1C5B58661F21A32F00378EF4 /* WebContentViewController.xib in Resources */,
+				1CD294811F3DA2B400F3493A /* SXWeatherView.xib in Resources */,
 				1C54540E1F03572000E9E74A /* CategoryTableViewCell.xib in Resources */,
 				1C6573E51F13514E008C8484 /* MIneCollectionTableViewCell.xib in Resources */,
 				1C1EDE481ED7B5B80099D115 /* CommentsTableViewCell.xib in Resources */,
 				1C1EDBD71EBC43BE0099D115 /* LaunchScreen.storyboard in Resources */,
 				1C75E1C01EEF7E5A00BC59B5 /* ZFPlayer.bundle in Resources */,
+				1CD2947F1F3DA2B400F3493A /* SXWeatherItemView.xib in Resources */,
 				1C9E8E4C1F1C4BEB007B2181 /* 松开.gif in Resources */,
 				1C1EDBD41EBC43BE0099D115 /* Assets.xcassets in Resources */,
 				1C6573E01F132D1D008C8484 /* MyStateTableViewCell.xib in Resources */,
@@ -1021,6 +1080,7 @@
 				1C09D2A61F1710FE00C3317B /* MineMsgTableViewCell.xib in Resources */,
 				1C1EDE151ECADD250099D115 /* newDetail.js in Resources */,
 				1C1EDC5B1EC3FDF20099D115 /* BearUp.storyboard in Resources */,
+				1CD2947C1F3DA2B400F3493A /* SXWeatherDetailPage.xib in Resources */,
 				1C9E8E5D1F1E09F0007B2181 /* 下拉.gif in Resources */,
 				1C1EDE3F1ED561430099D115 /* videoData.json in Resources */,
 			);
@@ -1100,12 +1160,14 @@
 				1C5625071EFCA9D1000F8808 /* VideoDetailTableViewCell.m in Sources */,
 				1C724D041EE7FA2600528FDC /* RegisterViewController.m in Sources */,
 				1C5B58611F21967F00378EF4 /* LaunchScrollViewController.m in Sources */,
+				1CD2947A1F3DA2B400F3493A /* SXWeatherDetailEntity.m in Sources */,
 				1C75E1C31EEF7E5A00BC59B5 /* ZFPlayerView.m in Sources */,
 				1C8F9F861F146E13005088E8 /* MyCollectionModel.m in Sources */,
 				1C75E1B51EEF7E5A00BC59B5 /* ASValuePopUpView.m in Sources */,
 				1C0580431F024B7400EAD755 /* AdvertisingTableViewCell.m in Sources */,
 				1C1EDC181EC00F650099D115 /* LTHttpManager.m in Sources */,
 				1C2A11B71EEF702A00B0BC45 /* VideoTableViewController.m in Sources */,
+				1CD294791F3DA2B400F3493A /* SXWeatherBgEntity.m in Sources */,
 				1C1EDC301EC1B7500099D115 /* BUTitleLabel.m in Sources */,
 				1C9590331EE52421001E0DF0 /* HorizontalTableViewCell.m in Sources */,
 				1C09D2A11F1641E800C3317B /* MessageViewController.m in Sources */,
@@ -1118,6 +1180,7 @@
 				1C9590361EE64879001E0DF0 /* ListViewController.m in Sources */,
 				1C8F9F891F147361005088E8 /* MyStateModel.m in Sources */,
 				1C1EDE431ED562E30099D115 /* ZFPVideoResolution.m in Sources */,
+				1CD2947E1F3DA2B400F3493A /* SXWeatherItemView.m in Sources */,
 				1C75E1BD1EEF7E5A00BC59B5 /* UIWindow+CurrentViewController.m in Sources */,
 				1C724D071EE9365900528FDC /* FindPasswordViewController.m in Sources */,
 				1C6573DF1F132D1D008C8484 /* MyStateTableViewCell.m in Sources */,
@@ -1128,7 +1191,9 @@
 				1C1EDC271EC191220099D115 /* LoginViewController.m in Sources */,
 				1C1EDBCF1EBC43BE0099D115 /* ViewController.m in Sources */,
 				1C1EDC101EBC46500099D115 /* BUMineViewController.m in Sources */,
+				1CD2947B1F3DA2B400F3493A /* SXWeatherDetailPage.m in Sources */,
 				1C1EDBCC1EBC43BE0099D115 /* AppDelegate.m in Sources */,
+				1CD294821F3DA2B400F3493A /* SXWeatherViewModel.m in Sources */,
 				1C9E8E5B1F1CB2AE007B2181 /* HotCategoryModel.m in Sources */,
 				1C9590391EE64891001E0DF0 /* CategoryViewController.m in Sources */,
 				1C75E1BF1EEF7E5A00BC59B5 /* ZFBrightnessView.m in Sources */,
@@ -1146,15 +1211,18 @@
 				1CF49EEB1F0B27AC0041D11F /* HomeModel.m in Sources */,
 				1CF49EF11F0B721A0041D11F /* VideoModel.m in Sources */,
 				1C1EDDC51EC9A8650099D115 /* DetailViewController.m in Sources */,
+				1CD294801F3DA2B400F3493A /* SXWeatherView.m in Sources */,
 				1C6573E41F13514E008C8484 /* MIneCollectionTableViewCell.m in Sources */,
 				1C1EDC071EBC46200099D115 /* BUHomeViewController.m in Sources */,
 				1C75E1C61EF0CB6F00BC59B5 /* VideoDetailViewController.m in Sources */,
 				1C1EDC231EC1635F0099D115 /* UIView+Toast.m in Sources */,
 				1C1EDC0D1EBC46430099D115 /* BUFoundViewController.m in Sources */,
+				1CD2947D1F3DA2B400F3493A /* SXWeatherEntity.m in Sources */,
 				1C1EDC001EBC45570099D115 /* BaseTabBarViewController.m in Sources */,
 				1C75E1C11EEF7E5A00BC59B5 /* ZFPlayerControlView.m in Sources */,
 				1C75E1B71EEF7E5A00BC59B5 /* UIAlertController+ZFPlayerRotation.m in Sources */,
 				1C75E1BC1EEF7E5A00BC59B5 /* UIViewController+ZFPlayerRotation.m in Sources */,
+				1CD294661F3DA26300F3493A /* UIView+Frame.m in Sources */,
 				1C1EDBC91EBC43BE0099D115 /* main.m in Sources */,
 				1C5B58651F21A32F00378EF4 /* WebContentViewController.m in Sources */,
 				1C75E1C21EEF7E5A00BC59B5 /* ZFPlayerModel.m in Sources */,
@@ -1313,7 +1381,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = BearUp/BearUp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 2S69QY28US;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1333,10 +1401,10 @@
 					"$(PROJECT_DIR)/BearUp/UMSocial/UMSocialSDKPlugin",
 				);
 				OTHER_LIBTOOLFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.tw-mall.BearUp";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.tw-mall.BearUpTest";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "b2503d9e-647d-4dce-a05d-72602a9e696c";
-				PROVISIONING_PROFILE_SPECIFIER = "BearUp发布";
+				PROVISIONING_PROFILE = "31d8208d-1b24-44d5-af79-3a05cd7eab89";
+				PROVISIONING_PROFILE_SPECIFIER = BearUpTest;
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};
@@ -1350,7 +1418,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = BearUp/BearUp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 2S69QY28US;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1370,10 +1438,10 @@
 					"$(PROJECT_DIR)/BearUp/UMSocial/UMSocialSDKPlugin",
 				);
 				OTHER_LIBTOOLFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.tw-mall.BearUp";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.tw-mall.BearUpTest";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "b2503d9e-647d-4dce-a05d-72602a9e696c";
-				PROVISIONING_PROFILE_SPECIFIER = "BearUp发布";
+				PROVISIONING_PROFILE = "31d8208d-1b24-44d5-af79-3a05cd7eab89";
+				PROVISIONING_PROFILE_SPECIFIER = BearUpTest;
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};

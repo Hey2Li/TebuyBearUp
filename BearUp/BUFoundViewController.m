@@ -16,6 +16,15 @@
 #import "SubCategoryViewController.h"
 #import "WebContentViewController.h"
 
+#import "SXWeatherView.h"
+#import "UIView+Frame.h"
+#import "SXWeatherViewModel.h"
+#import "SXWeatherDetailPage.h"
+#import <PYSearch.h>
+
+#import "HomeContentTableViewController.h"
+#import "VideoTableViewController.h"
+
 static NSString *HORCELL = @"HorizontalCell";
 @interface BUFoundViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UITableView *myTableView;
@@ -23,6 +32,14 @@ static NSString *HORCELL = @"HorizontalCell";
 @property (nonatomic, strong) NSMutableArray *hotRankArray;
 @property (nonatomic, strong) NSDictionary *adDic;
 @property (nonatomic, strong) NSMutableDictionary  *allDataDic;
+
+@property(nonatomic,strong)UIButton *rightItem;
+@property(nonatomic,assign,getter=isWeatherShow)BOOL weatherShow;
+@property(nonatomic,strong)SXWeatherView *weatherView;
+@property(nonatomic,strong)UIImageView *tran;
+@property(nonatomic,strong)SXWeatherViewModel *weatherViewModel;
+
+
 @end
 static NSString *FOUNDCELL = @"foundCell";
 @implementation BUFoundViewController
@@ -47,7 +64,7 @@ static NSString *FOUNDCELL = @"foundCell";
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"发现";
+    self.title = @"熊起";
     self.view.backgroundColor = [UIColor whiteColor];
     [self initWithView];
     [self loadData];
@@ -80,7 +97,13 @@ static NSString *FOUNDCELL = @"foundCell";
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
 }
-- (void)initWithView{
+- (void)initWithView{    
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"search_icon"] style:UIBarButtonItemStyleDone target:self action:@selector(leftBarButtonClick)];
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"top_navigation_square"] style:UIBarButtonItemStyleDone target:self action:@selector(rightItemClick)];
+    
+    [self sendWeatherRequest];
+    
     UITableView *tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) style:UITableViewStyleGrouped];
     [self.view addSubview:tableView];
     [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -98,7 +121,128 @@ static NSString *FOUNDCELL = @"foundCell";
     [tableView registerClass:[ScrollBannerTableViewCell class] forCellReuseIdentifier:@"scrollcell"];
     self.myTableView = tableView;
 }
+#pragma mark Weather
+- (void)sendWeatherRequest
+{
+    @weakify(self)
+    [[self.weatherViewModel.fetchWeatherInfoCommand execute:nil]subscribeNext:^(id x) {
+        @strongify(self)
+        [self addWeather];
+    } error:^(NSError *error) {
+        NSLog(@"failure %@",error.userInfo);
+    }];}
+- (void)addWeather{
+    SXWeatherView *weatherView = [SXWeatherView view];
+    weatherView.weatherModel = self.weatherViewModel.weatherModel;
+    self.weatherView = weatherView;
+    weatherView.alpha = 0.9;
+    UIWindow *win = [UIApplication sharedApplication].windows.firstObject;
+    [win addSubview:weatherView];
+    
+    UIImageView *tran = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"224"]];
+    self.tran = tran;
+    tran.width = 7;
+    tran.height = 7;
+    tran.y = 57;
+    tran.x = [UIScreen mainScreen].bounds.size.width - 33;
+    [win addSubview:tran];
+    
+    weatherView.frame = [UIScreen mainScreen].bounds;
+    weatherView.y = 64;
+    weatherView.height -= 64;
+    self.weatherView.hidden = YES;
+    self.tran.hidden = YES;
+    
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(pushWeatherDetail) name:@"pushWeatherDetail" object:nil];
+}
+- (void)pushWeatherDetail
+{
+    self.weatherShow = NO;
+    SXWeatherDetailPage *wdvc = [[SXWeatherDetailPage alloc]init];
+    wdvc.weatherModel = self.weatherViewModel.weatherModel;
+    [self.navigationController pushViewController:wdvc animated:YES];
+    [UIView animateWithDuration:0.1 animations:^{
+        self.weatherView.alpha = 0;
+    } completion:^(BOOL finished) {
+        self.weatherView.alpha = 0.9;
+        self.weatherView.hidden = YES;
+        self.tran.hidden = YES;
+    }];
+}
+- (SXWeatherViewModel *)weatherViewModel
+{
+    if (_weatherViewModel == nil) {
+        _weatherViewModel = [[SXWeatherViewModel alloc]init];
+    }
+    return _weatherViewModel;
+}
+- (void)rightItemClick{
+    
+    if (self.isWeatherShow) {
+        self.weatherView.hidden = YES;
+        self.tran.hidden = YES;
+        [UIView animateWithDuration:0.1 animations:^{
+            self.rightItem.transform = CGAffineTransformRotate(self.rightItem.transform, M_1_PI * 5);
+            
+        } completion:^(BOOL finished) {
+            [self.rightItem setImage:[UIImage imageNamed:@"top_navigation_square"] forState:UIControlStateNormal];
+        }];
+    }else{
+        
+        [self.rightItem setImage:[UIImage imageNamed:@"223"] forState:UIControlStateNormal];
+        self.weatherView.hidden = NO;
+        self.tran.hidden = NO;
+        [self.weatherView addAnimate];
+        [UIView animateWithDuration:0.2 animations:^{
+            self.rightItem.transform = CGAffineTransformRotate(self.rightItem.transform, -M_1_PI * 6);
+            
+        } completion:^(BOOL finished) {
+            
+            [UIView animateWithDuration:0.1 animations:^{
+                self.rightItem.transform = CGAffineTransformRotate(self.rightItem.transform, M_1_PI );
+            }];
+        }];
+    }
+    self.weatherShow = !self.isWeatherShow;
+}
+- (void)leftBarButtonClick{
+    NSArray *hotSeaches = @[@"原创",@"漫画", @"搞笑", @"热点", @"视频", @"美食", @"动物圈", @"娱乐圈"];
+    // 2. Create searchViewController
+    PYSearchViewController *searchViewController = [PYSearchViewController searchViewControllerWithHotSearches:hotSeaches searchBarPlaceholder:@"  " didSearchBlock:^(PYSearchViewController *searchViewController, UISearchBar *searchBar, NSString *searchText) {
+        // Call this Block when completion search automatically
+        // Such as: Push to a view controller
+        HomeContentTableViewController *vc = [[HomeContentTableViewController alloc]init];
+        vc.index =  0;
+        searchViewController.navigationController.navigationBar.backIndicatorImage =  [[UIImage imageNamed:@"返回白"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];        searchViewController.navigationController.navigationBar.backIndicatorTransitionMaskImage = [[UIImage imageNamed:@"返回白"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        //去掉左边的title
+        [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60) forBarMetrics:UIBarMetricsDefault];
+        [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+        //自定义一个NavigationBar
+        [searchViewController.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+        //消除阴影
+        searchViewController.navigationController.navigationBar.shadowImage = [UIImage new];
+        //PingFangSC
+        searchViewController.navigationController.navigationBar.titleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"PingFangSC-Light" size:18],NSFontAttributeName, nil];
+        [searchViewController.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navi"] forBarMetrics:UIBarMetricsDefault];
+        [searchViewController.navigationController pushViewController:vc animated:YES];
+    }];
 
+    // 3. present the searchViewController
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:searchViewController];
+    searchViewController.navigationController.navigationBar.backIndicatorImage =  [[UIImage imageNamed:@"返回白"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    searchViewController.navigationController.navigationBar.backIndicatorTransitionMaskImage = [[UIImage imageNamed:@"返回白"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    //去掉左边的title
+    [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60) forBarMetrics:UIBarMetricsDefault];
+    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    //自定义一个NavigationBar
+    [searchViewController.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    //消除阴影
+    searchViewController.navigationController.navigationBar.shadowImage = [UIImage new];
+    //PingFangSC
+    searchViewController.navigationController.navigationBar.titleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"PingFangSC-Light" size:18],NSFontAttributeName, nil];
+    [searchViewController.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navi"] forBarMetrics:UIBarMetricsDefault];
+    [self presentViewController:nav  animated:NO completion:nil];
+}
 #pragma mark tableViewDelegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return [self.allDataDic allKeys].count;
@@ -174,7 +318,7 @@ static NSString *FOUNDCELL = @"foundCell";
         UIButton *getAllBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [getAllBtn setTitle:@"全部排行" forState:UIControlStateNormal];
         [getAllBtn setTitleColor:UIColorFromRGB(0xaeaeae) forState:UIControlStateNormal];
-        getAllBtn.titleLabel.font = [UIFont systemFontOfSize:10];
+        getAllBtn.titleLabel.font = [UIFont systemFontOfSize:12];
         [getAllBtn.layer setBorderWidth:1.0f];
         [getAllBtn.layer setBorderColor:UIColorFromRGB(0xaeaeae).CGColor];
         [getAllBtn.layer setCornerRadius:9.0f];
@@ -182,8 +326,8 @@ static NSString *FOUNDCELL = @"foundCell";
         [getAllBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(sectionHeaderView.mas_right).offset(-5);
             make.bottom.equalTo(sectionHeaderView.mas_bottom).offset(-5);
-            make.height.equalTo(@18);
-            make.width.equalTo(@50);
+            make.height.equalTo(@25);
+            make.width.equalTo(@60);
         }];
         [getAllBtn addTarget:self action:@selector(pushAllList:) forControlEvents:UIControlEventTouchUpInside];
         return sectionHeaderView;
@@ -217,7 +361,7 @@ static NSString *FOUNDCELL = @"foundCell";
         UIButton *getAllBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [getAllBtn setTitle:@"全部分类" forState:UIControlStateNormal];
         [getAllBtn setTitleColor:UIColorFromRGB(0xaeaeae) forState:UIControlStateNormal];
-        getAllBtn.titleLabel.font = [UIFont systemFontOfSize:10];
+        getAllBtn.titleLabel.font = [UIFont systemFontOfSize:12];
         [getAllBtn.layer setBorderWidth:1.0f];
         [getAllBtn.layer setBorderColor:UIColorFromRGB(0xaeaeae).CGColor];
         [getAllBtn.layer setCornerRadius:9.0f];
@@ -225,8 +369,8 @@ static NSString *FOUNDCELL = @"foundCell";
         [getAllBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(sectionHeaderView.mas_right).offset(-5);
             make.bottom.equalTo(sectionHeaderView.mas_bottom).offset(-5);
-            make.height.equalTo(@18);
-            make.width.equalTo(@50);
+            make.height.equalTo(@25);
+            make.width.equalTo(@60);
         }];
         [getAllBtn addTarget:self action:@selector(pushAllCategory:) forControlEvents:UIControlEventTouchUpInside];
         return sectionHeaderView;
